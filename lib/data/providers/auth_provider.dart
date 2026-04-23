@@ -8,7 +8,6 @@ class AuthProvider extends GetConnect {
   void onInit() {
     httpClient.baseUrl = 'YOUR_BASE_URL';
 
-    // الحل الصحيح - استخدام RequestOptions
     httpClient.addRequestModifier<dynamic>((request) {
       String? token = _storage.read('token');
       if (token != null) {

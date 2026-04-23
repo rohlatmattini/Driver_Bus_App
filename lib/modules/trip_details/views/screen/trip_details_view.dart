@@ -128,7 +128,6 @@ class TripDetailsView extends StatelessWidget {
 
             SizedBox(height: 30.h),
 
-            // --- استخدام الودجت الجديدة ---
             TripSectionTitle(title: "tripStatus".tr),
             StatusDropdownSelector(
               value: controller.tripStatus,
@@ -149,7 +148,6 @@ class TripDetailsView extends StatelessWidget {
 
             SizedBox(height: 40.h),
 
-            // استخدام الزر العام الموحد
             CustomAppButton(
               text: "startTrip".tr,
               onPressed: () => controller.startTripAction(),

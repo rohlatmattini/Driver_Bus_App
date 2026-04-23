@@ -32,9 +32,9 @@ class CustomTextField extends StatelessWidget {
     return Theme(
       data: Theme.of(context).copyWith(
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: AppColor.primaryGreen, // لون المؤشر
-          selectionColor: AppColor.primaryGreen.withOpacity(0.3), // لون التظليل عند تحديد نص
-          selectionHandleColor: AppColor.primaryGreen, // لون "الدويرة" (المقابض)
+          cursorColor: AppColor.primaryGreen,
+          selectionColor: AppColor.primaryGreen.withOpacity(0.3),
+          selectionHandleColor: AppColor.primaryGreen,
         ),
       ),
       child: TextFormField(

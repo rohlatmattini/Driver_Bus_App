@@ -1,4 +1,3 @@
-// مثال لما يجب أن يكون عليه الـ Model
 class PassengerModel {
   final String id;
   final String name;

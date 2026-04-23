@@ -7,7 +7,7 @@ import '../../../../core/constants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:timeago/timeago.dart' as timeago; // إضافة Alias
+import 'package:timeago/timeago.dart' as timeago;
 import '../../../../core/constants/app_color.dart';
 import '../../../../data/models/notification_model.dart';
 
@@ -21,9 +21,6 @@ class NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = Get.isDarkMode;
 
-    // استخدام المكتبة هنا
-    // 'en_short' تعطي نتائج مثل (5m, 1h)
-    // 'ar' تعطي نتائج مثل (منذ 5 دقائق)
     String timeStr = timeago.format(
         notification.timestamp,
         locale: Get.locale?.languageCode == 'ar' ? 'ar' : 'en_short'
@@ -58,7 +55,7 @@ class NotificationCard extends StatelessWidget {
                       Text(notification.title,
                           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
                       Text(
-                          timeStr, // استخدام القيمة المحسوبة
+                          timeStr,
                           style: TextStyle(color: AppColor.grey, fontSize: 11.sp)
                       ),
                     ],

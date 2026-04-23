@@ -95,11 +95,7 @@ class TicketDetailsDialog extends StatelessWidget {
         Expanded(
           child: ElevatedButton(
             onPressed: () {
-              // 1. إغلاق الـ Dialog الحالي
               Get.back();
-
-              // 2. فتح صفحة السكانر مجدداً
-              // ملاحظة: استخدم OffNamed لضمان عدم تراكم الصفحات في الذاكرة
               Get.toNamed(AppRoutes.qrScanner);
             },
             style: ElevatedButton.styleFrom(

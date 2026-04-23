@@ -79,10 +79,10 @@ class SettingsView extends GetView<SettingsController> {
             Divider(color: AppColor.grey.withOpacity(0.2)),
 
             _buildSettingTile(
-              icon: Icons.report_problem_outlined, // أيقونة مناسبة للشكاوى
+              icon: Icons.report_problem_outlined,
               title: "sendComplaint".tr,
               trailing: Icon(Icons.arrow_forward_ios, size: 16.sp, color: AppColor.grey),
-              onTap: () => Get.toNamed(AppRoutes.complaints), // هذا السطر يفتح الصفحة
+              onTap: () => Get.toNamed(AppRoutes.complaints),
             ),
           ],
         ),

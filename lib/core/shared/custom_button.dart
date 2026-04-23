@@ -9,14 +9,14 @@ class CustomAppButton extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final bool isLoading;
-  final IconData? icon; // إضافة بارامتر الأيقونة
+  final IconData? icon;
 
   const CustomAppButton({
     super.key,
     required this.text,
     required this.onPressed,
     this.isLoading = false,
-    this.icon, // بارامتر اختياري
+    this.icon,
   });
 
   @override
@@ -33,7 +33,7 @@ class CustomAppButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(height: 20.h, width: 20.w, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-            : Row( // استخدمنا Row لترتيب الأيقونة مع النص
+            : Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (icon != null) ...[
