@@ -70,13 +70,12 @@
 
 // lib/modules/passenger/views/screen/passenger_list_view.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
-import 'package:driver_bus_app/modules/passenger/views/screen/qr_scanner_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/shared/custom_button.dart';
 import '../../../../routes/app_routes/app_routes.dart';
-import '../../../home/schedule/controllers/schedule_controller.dart';
 import '../../controllers/passenger_controller.dart';
 import '../widgets/passenger_card.dart';
 import '../widgets/passenger_search_bar.dart';
@@ -96,16 +95,19 @@ class PassengerListView extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () =>
-              Get.back(),
+          icon: Icon(Icons.arrow_back_ios),
+          onPressed: () => Get.back(),
         ),
-        title: Text("Passenger List".tr, style: TextStyle(
-            color: AppColor.black, fontWeight: FontWeight.bold)),
+        title: Text(
+          "Passenger List".tr,
+          style: TextStyle(color: AppColor.black, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         actions: [
-          IconButton(icon: Icon(Icons.more_horiz, color: AppColor.black),
-              onPressed: () {})
+          IconButton(
+            icon: Icon(Icons.more_horiz, color: AppColor.black),
+            onPressed: () {},
+          ),
         ],
       ),
       body: Column(
@@ -114,15 +116,15 @@ class PassengerListView extends StatelessWidget {
           PassengerSearchBar(controller: controller),
           const PassengerStatsRow(),
           Expanded(
-            child: Obx(() =>
-                ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  itemCount: controller.filteredPassengers.length,
-                  itemBuilder: (context, index) =>
-                      PassengerCard(
-                        passenger: controller.filteredPassengers[index],
-                      ),
-                )),
+            child: Obx(
+              () => ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                itemCount: controller.filteredPassengers.length,
+                itemBuilder: (context, index) => PassengerCard(
+                  passenger: controller.filteredPassengers[index],
+                ),
+              ),
+            ),
           ),
           _buildScanButton(),
         ],
@@ -139,4 +141,5 @@ class PassengerListView extends StatelessWidget {
         onPressed: () => Get.toNamed(AppRoutes.qrScanner),
       ),
     );
-  }}
+  }
+}

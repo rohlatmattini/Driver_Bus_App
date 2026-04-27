@@ -5,11 +5,12 @@ import 'package:driver_bus_app/routes/app_routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/shared/custom_button.dart';
 import '../../controllers/trip_details_controller.dart';
 import '../widgets/status_dropdown_selector.dart';
-import '../widgets/trip_map_preview.dart';
 import '../widgets/trip_info_stat_card.dart';
+import '../widgets/trip_map_preview.dart';
 import '../widgets/trip_section_title.dart';
 
 class TripDetailsView extends StatelessWidget {
@@ -29,11 +30,7 @@ class TripDetailsView extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: AppColor.cardColor,
             child: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                size: 18,
-                color: Colors.black,
-              ),
+              icon: const Icon(Icons.arrow_back_ios_new, size: 18),
               onPressed: () => Get.back(),
             ),
           ),
