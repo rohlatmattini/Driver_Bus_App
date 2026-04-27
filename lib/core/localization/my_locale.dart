@@ -1,6 +1,9 @@
 import 'package:get/get.dart';
 
 class AppTranslations extends Translations {
+  final int maxFiles = 15;
+  String? fileName;
+
   @override
   Map<String, Map<String, String>> get keys => {
     'en': {
@@ -42,12 +45,12 @@ class AppTranslations extends Translations {
       'schedule': 'Schedule',
       "Active Status": 'Active Status',
       'Online': 'Online',
-      'Offline':'Offline',
+      'Offline': 'Offline',
       'beOffline': 'Be Offline',
-      "Active Status: ":"Active Status: ",
-      "ORIGIN":"ORIGIN",
-      "Go Offline":"Go Offline",
-      "Go Online":"Go Online",
+      "Active Status: ": "Active Status: ",
+      "ORIGIN": "ORIGIN",
+      "Go Offline": "Go Offline",
+      "Go Online": "Go Online",
       'Upcoming': 'Upcoming',
       'completed': 'Completed',
       'cancelled': 'Cancelled',
@@ -58,9 +61,8 @@ class AppTranslations extends Translations {
       'noTrips': 'No trips available',
       "Trips": "Trips",
       "Messages": "Messages",
-      "Notifications":"Notifications",
+      "Notifications": "Notifications",
       "Profile": "Profile",
-
 
       // Profile Page Specific
       "Driver Profile": "Driver Profile",
@@ -73,18 +75,16 @@ class AppTranslations extends Translations {
       "Email Address": "Email Address",
       'totalTrips': 'trips',
 
-
-       //Passenger
-      "Passenger List":"Passenger List",
-      "Passengers":"Passengers",
-      "ROUTE":"ROUTE",
-      "DEPARTURE":"DEPARTURE",
-      "Search by name or seat...":"Search by name or seat...",
-      "PAID":"PAID",
-      "UNPAID":"UNPAID",
-      "TOTAL":"TOTAL",
-      "Scan Ticket":"Scan Ticket",
-
+      //Passenger
+      "Passenger List": "Passenger List",
+      "Passengers": "Passengers",
+      "ROUTE": "ROUTE",
+      "DEPARTURE": "DEPARTURE",
+      "Search by name or seat...": "Search by name or seat...",
+      "PAID": "PAID",
+      "UNPAID": "UNPAID",
+      "TOTAL": "TOTAL",
+      "Scan Ticket": "Scan Ticket",
 
       //ticket
       'ticketVerified': 'Ticket Verified',
@@ -96,7 +96,6 @@ class AppTranslations extends Translations {
       'details': 'Details',
       'scanPassengerTicket': 'Scan Passenger Ticket',
 
-
       // Notifications Screen
       'notifications': 'Notifications',
       'noNotifications': 'No notifications yet',
@@ -104,13 +103,13 @@ class AppTranslations extends Translations {
       'newMessage': 'New Message',
 
       //TripDetails
-      "tripDetails":"tripDetails",
-      "scheduledDeparture":"scheduledDeparture",
-      "passengers":"passengers",
-      "distance":"distance",
-      "busStatus":"Bus Status",
-      "startTrip":"start Trip",
-      "tripStatus":"Trip Status",
+      "tripDetails": "tripDetails",
+      "scheduledDeparture": "scheduledDeparture",
+      "passengers": "passengers",
+      "distance": "distance",
+      "busStatus": "Bus Status",
+      "startTrip": "start Trip",
+      "tripStatus": "Trip Status",
 
       //complaintPage
       'sendComplaint': 'Send Company Complaint',
@@ -120,21 +119,45 @@ class AppTranslations extends Translations {
       'pleaseWriteSomething': 'Please write something first',
       'complaintSentSuccess': 'Complaint sent successfully',
       'send': 'Send Now',
-
+      'Cancel': 'Cancel',
+      'Delete': 'Delete',
+      'Limit Reached': 'Limit Reached',
+      'Max $maxFiles files': 'Max $maxFiles files',
+      'Open Settings': 'Open Settings',
+      'Removed': 'Removed',
+      'Failed to attach file': 'Failed to attach file',
+      'Error': 'Error',
+      'Photo attached': 'Photo attached',
+      'File removed': 'File removed',
+      'Camera Permission Required': 'Camera Permission Required',
+      'Camera permission is required': 'Camera permission is required',
+      'Enable in Settings': 'Enable in Settings',
+      'Delete Attachment': 'Delete Attachment',
+      'Are you sure you want to delete $fileName?':
+          'Are you sure you want to delete $fileName?',
+      'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)':
+          'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)',
+      'Tap above to attach files': 'Tap above to attach files',
+      'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.':
+          'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.',
+      'Images attached': 'Images attached',
+      'Success': 'Success',
       "attachments": "attachments",
       "Attachments (Images / Documents)": "Attachments (Images / Documents",
       "Attach File or Image": "Attach File or Image",
       "No attachments yet": "No attachments yet",
-      "Choose from Gallery":"Choose from Gallery",
-      "Take Photo":"Take Photo",
-      "Files & Documents":"Files & Documents",
-
+      "Choose from Gallery": "Choose from Gallery",
+      "Take Photo": "Take Photo",
+      "Files & Documents": "Files & Documents",
+      'Files attached': 'Files attached',
+      'File Too Large': 'File Too Large',
+      'Max size: 10MB': 'Max size: 10MB',
       //Settings
-      "settings":"settings",
-      "language":"language",
-      "darkMode":"darkMode",
-      "العربية":'Arabic',
-      "English":"English",
+      "settings": "settings",
+      "language": "language",
+      "darkMode": "darkMode",
+      "العربية": 'Arabic',
+      "English": "English",
     },
     'ar': {
       // Common & Login
@@ -153,16 +176,18 @@ class AppTranslations extends Translations {
       'loginFailed': 'فشل تسجيل الدخول',
       "Welcome back,": "أهلاً بعودتك،",
       "Captain ": 'الكابتن ',
-     //forget&&resetPage
+      //forget&&resetPage
       'forgotPasswordTitle': 'نسيت كلمة المرور؟',
-      'forgotPasswordDesc': 'يرجى كتابة البريد الإلكتروني لتلقي رمز استعادة كلمة المرور الخاص بك.',
+      'forgotPasswordDesc':
+          'يرجى كتابة البريد الإلكتروني لتلقي رمز استعادة كلمة المرور الخاص بك.',
       'emailOrUser': 'البريد الإلكتروني ',
       'pleaseEnterEmail': 'الرجاء إدخال البريد الإلكتروني أولاً',
       'pleaseEnterValidEmail': 'الرجاء إدخال بريد إلكتروني صالح',
       'sendCode': 'إرسال الرمز',
       'resetCodeSent': 'تم إرسال رمز الاستعادة لبريدك بنجاح',
       'resetPassword': 'إعادة تعيين كلمة المرور',
-      'enterCodeSent': 'أدخل الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني',
+      'enterCodeSent':
+          'أدخل الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني',
       'newPassword': 'كلمة المرور الجديدة',
       'confirmPassword': 'تأكيد كلمة المرور',
       'passwordTooShort': 'كلمة المرور قصيرة جداً',
@@ -174,11 +199,11 @@ class AppTranslations extends Translations {
       'schedule': 'الجدول',
       "Active Status: ": 'الحالة ',
       'online': 'متصل',
-      'Online':'متصل',
-      'Offline':'غير متصل',
+      'Online': 'متصل',
+      'Offline': 'غير متصل',
       'beOffline': 'غير متصل',
-      "Go Offline":"غير متصل",
-      "Go Online":"متصل",
+      "Go Offline": "غير متصل",
+      "Go Online": "متصل",
       'upcoming': 'القادمة',
       'UPCOMING': 'القادمة',
       'completed': 'المكتملة',
@@ -187,14 +212,14 @@ class AppTranslations extends Translations {
       'CANCELLED': 'الملغاة',
       'ongoing': 'الحالية',
       'ONGOING': 'الحالية',
-      'ORIGIN':'الانطلاق',
+      'ORIGIN': 'الانطلاق',
       'DESTINATION': 'الوجهة',
       "View Map": 'عرض الخريطة',
       'bus': 'حافلة',
       'noTrips': 'لا توجد رحلات',
       "Trips": 'الرحلات',
       "Messages": 'الرسائل',
-      "Notifications":"الاشعارات",
+      "Notifications": "الاشعارات",
       "Profile": 'الملف الشخصي',
 
       // Profile Page Specific
@@ -207,18 +232,19 @@ class AppTranslations extends Translations {
       "Assigned Vehicle": 'المركبة المخصصة',
       "Email Address": 'البريد الإلكتروني',
       'totalTrips': 'رحلة',
-      "trips":'رحلة',
+      'trips': 'رحلة',
+      'Failed to pick image': 'فشل في اختيار الصورة',
 
       //Passenger
-      "Passenger List":"قائمة الركاب",
-      "Passengers":"الركاب",
-      "ROUTE":"المسار",
-      "DEPARTURE":"وقت الانطلاق",
-      "Search by name or seat...":"ابحث بالاسم أو رقم المقعد...",
-      "TOTAL":"الإجمالي",
-      "PAID":"مدفوع",
-      "UNPAID":"غير مدفوع",
-      "Scan Ticket":"مسح التذكرة",
+      "Passenger List": "قائمة الركاب",
+      "Passengers": "الركاب",
+      "ROUTE": "المسار",
+      "DEPARTURE": "وقت الانطلاق",
+      "Search by name or seat...": "ابحث بالاسم أو رقم المقعد...",
+      "TOTAL": "الإجمالي",
+      "PAID": "مدفوع",
+      "UNPAID": "غير مدفوع",
+      "Scan Ticket": "مسح التذكرة",
 
       //ticket
       'ticketVerified': 'تم التحقق من التذكرة',
@@ -229,8 +255,7 @@ class AppTranslations extends Translations {
       'nextScan': 'المسح التالي',
       'details': 'التفاصيل',
       'scanPassengerTicket': 'مسح تذكرة الراكب',
-       'status':'الحالة',
-
+      'status': 'الحالة',
 
       // Notifications Screen
       'notifications': 'الإشعارات',
@@ -238,18 +263,15 @@ class AppTranslations extends Translations {
       'clearAll': 'مسح الكل',
       'newMessage': 'رسالة جديدة',
 
-
-
-
       //TripDetails
-      "tripDetails":"تفاصيل الرحلة",
-      "scheduledDeparture":"المغادرة المقررة",
-      "passengers":"الركاب",
-      "distance":"المسافة",
-      "busStatus":"حالة الحافلة",
-      "startTrip":"بدء الرحلة",
-      'tripStatus':'حالة الرحلة',
-      'Start':'بدء الرحلة',
+      "tripDetails": "تفاصيل الرحلة",
+      "scheduledDeparture": "المغادرة المقررة",
+      "passengers": "الركاب",
+      "distance": "المسافة",
+      "busStatus": "حالة الحافلة",
+      "startTrip": "بدء الرحلة",
+      'tripStatus': 'حالة الرحلة',
+      'Start': 'بدء الرحلة',
       'Arrived': 'وصلت الرحلة',
       'Ready': 'جاهز',
       'Needs Maintenance': 'يحتاج إلى صيانة',
@@ -266,22 +288,47 @@ class AppTranslations extends Translations {
       'pleaseWriteSomething': 'الرجاء كتابة الشكوى أولاً',
       'complaintSentSuccess': 'تم إرسال شكواك بنجاح للشركة',
       'send': 'إرسال الآن',
+      'Cancel': 'الغاء',
 
+      'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.':
+          'نصيحة: استخدم "الملفات والمستندات" لملفات PDF و DOC. واستخدم "المعرض" للصور.',
+      'Tap above to attach files': 'اضغط أعلاه لإرفاق الملفات',
+      'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)':
+          'الصيغ المدعومة: JPG, PNG, PDF, DOC, DOCX, TXT (الحد الأقصى 10 ميجابايت للملف)',
+      'Delete Attachment': 'حذف المرفق',
+      'Are you sure you want to delete $fileName?':
+          'هل أنت متأكد من رغبتك في حذف $fileName؟',
+      'Delete': 'حذف',
+      'Images attached': 'رفع الصور المرفقة',
+      'Success': 'تم بنجاح',
+      'Limit Reached': 'تم الوصول للحد الأقصى',
+      'Max $maxFiles files': 'الحد الأقصى هو $maxFiles ملفات فقط',
+      'Open Settings': 'فتح الإعدادات',
+      'Camera Permission Required': 'مطلوب إذن الكاميرا',
+      'Camera permission is required':
+          'يرجى منح إذن الوصول إلى الكاميرا للمتابعة',
+      'Enable in Settings': 'تفعيل من الإعدادات',
+      'Removed': 'تم الحذف',
+      'File removed': 'تم حذف الملف بنجاح',
+      'Error': 'خطأ',
+      'Failed to attach file': 'فشل إرفاق الملف',
       "attachments": "المرفقات",
       "Attachments (Images / Documents)": "المرفقات (صور / وثائق)",
       "Attach File or Image": "إرفاق ملف أو صورة",
       "No attachments yet": "لا توجد مرفقات حالياً",
-      "Choose from Gallery":"اختر من المعرض",
-      "Take Photo":"التقط صورة",
-      "Files & Documents":"ملفات & مستندات",
+      "Choose from Gallery": "اختر من المعرض",
+      "Take Photo": "التقط صورة",
+      "Files & Documents": "ملفات & مستندات",
+      'Files attached': 'تم إرفاق الملفات',
+      'File Too Large': 'حجم الملف كبير جداً',
+      'Max size: 10MB': 'الحد الأقصى للحجم: 10 ميجابايت',
+
       //Settings
-      "settings":"الاعدادات",
-      "language":'اللغة',
-      "darkMode":'الوضع الداكن',
-      "العربية":"العربية",
-      "English":'الانكليزية'
-
-
+      "settings": "الاعدادات",
+      "language": 'اللغة',
+      "darkMode": 'الوضع الداكن',
+      "العربية": "العربية",
+      "English": 'الانكليزية',
     },
   };
 }

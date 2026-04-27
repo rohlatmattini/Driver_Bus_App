@@ -1,11 +1,11 @@
 import 'dart:io';
+
 import 'package:driver_bus_app/core/constants/app_color.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 
 enum FileSource { gallery, camera, documents, none }
 
@@ -68,10 +68,9 @@ class ComplaintAttachmentController extends GetxController {
 
   // Private methods
   Widget _buildSourceSelector() {
-
     return Container(
       decoration: BoxDecoration(
-        color:AppColor.primaryGreen,
+        color: AppColor.primaryGreen,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
@@ -171,7 +170,15 @@ class ComplaintAttachmentController extends GetxController {
 
   bool _isFileTypeAllowed(File file) {
     final fileName = file.path.toLowerCase();
-    final allowedExtensions = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.txt'];
+    final allowedExtensions = [
+      '.pdf',
+      '.doc',
+      '.docx',
+      '.jpg',
+      '.jpeg',
+      '.png',
+      '.txt',
+    ];
     return allowedExtensions.any((ext) => fileName.endsWith(ext));
   }
 
@@ -194,7 +201,8 @@ class ComplaintAttachmentController extends GetxController {
     if (lowerCaseName.endsWith('.pdf')) return 'PDF';
     if (lowerCaseName.endsWith('.doc')) return 'DOC';
     if (lowerCaseName.endsWith('.docx')) return 'DOCX';
-    if (lowerCaseName.endsWith('.jpg') || lowerCaseName.endsWith('.jpeg')) return 'JPEG';
+    if (lowerCaseName.endsWith('.jpg') || lowerCaseName.endsWith('.jpeg'))
+      return 'JPEG';
     if (lowerCaseName.endsWith('.png')) return 'PNG';
     if (lowerCaseName.endsWith('.txt')) return 'TXT';
     return 'File';
@@ -243,7 +251,10 @@ class ComplaintAttachmentController extends GetxController {
         actions: [
           TextButton(onPressed: () => Get.back(), child: Text('Cancel'.tr)),
           TextButton(
-            onPressed: () { Get.back(); openAppSettings(); },
+            onPressed: () {
+              Get.back();
+              openAppSettings();
+            },
             child: Text('Open Settings'.tr),
           ),
         ],
@@ -259,7 +270,10 @@ class ComplaintAttachmentController extends GetxController {
         actions: [
           TextButton(onPressed: () => Get.back(), child: Text('Cancel'.tr)),
           TextButton(
-            onPressed: () { Get.back(); openAppSettings(); },
+            onPressed: () {
+              Get.back();
+              openAppSettings();
+            },
             child: Text('Enable in Settings'.tr),
           ),
         ],

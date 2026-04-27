@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../controllers/complaint_attachment_controller.dart';
-
 
 class AttachmentsSection extends StatelessWidget {
   @override
@@ -27,24 +25,27 @@ class AttachmentsSection extends StatelessWidget {
               ),
             ),
             SizedBox(width: 8.w),
-            Obx(() => Text(
-              '(${attachmentController.attachedFiles.length}/${attachmentController.maxFiles})',
-              style: TextStyle(
-                color: attachmentController.attachedFiles.length >=
-                    attachmentController.maxFiles
-                    ? AppColor.error
-                    : AppColor.primaryGreen,
-                fontSize: 12.sp,
-                fontWeight:FontWeight.bold
+            Obx(
+              () => Text(
+                '(${attachmentController.attachedFiles.length}/${attachmentController.maxFiles})',
+                style: TextStyle(
+                  color:
+                      attachmentController.attachedFiles.length >=
+                          attachmentController.maxFiles
+                      ? AppColor.error
+                      : AppColor.primaryGreen,
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            )),
+            ),
           ],
         ),
         SizedBox(height: 10.h),
 
         ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
-            backgroundColor:AppColor.primaryGreen,
+            backgroundColor: AppColor.primaryGreen,
             minimumSize: Size(double.infinity, 45.h),
           ),
           onPressed: attachmentController.attachFile,
@@ -62,24 +63,19 @@ class AttachmentsSection extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color:AppColor.primaryGreen,
+            color: AppColor.primaryGreen,
             borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: AppColor.primaryGreen
-            ),
+            border: Border.all(color: AppColor.primaryGreen),
           ),
           child: Row(
             children: [
-              Icon(Icons.info_outline,
-                  color: AppColor.white, size: 16),
+              Icon(Icons.info_outline, color: AppColor.white, size: 16),
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
-                  'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.'.tr,
-                  style: TextStyle(
-                    color:AppColor.white,
-                    fontSize: 10.sp,
-                  ),
+                  'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.'
+                      .tr,
+                  style: TextStyle(color: AppColor.white, fontSize: 10.sp),
                 ),
               ),
             ],
@@ -96,19 +92,20 @@ class AttachmentsSection extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColor.cardColor,
                 borderRadius: BorderRadius.circular(8),
-
               ),
               child: Center(
                 child: Column(
                   children: [
-                    Icon(Icons.attach_file,
-                        color: AppColor.grey.withOpacity(0.5),
-                        size: 40),
+                    Icon(
+                      Icons.attach_file,
+                      color: AppColor.grey.withOpacity(0.5),
+                      size: 40,
+                    ),
                     SizedBox(height: 8.h),
                     Text(
                       'No attachments yet'.tr,
                       style: TextStyle(
-                        color:AppColor.grey.withOpacity(0.5),
+                        color: AppColor.grey.withOpacity(0.5),
                         fontStyle: FontStyle.italic,
                       ),
                     ),
@@ -116,7 +113,7 @@ class AttachmentsSection extends StatelessWidget {
                     Text(
                       'Tap above to attach files'.tr,
                       style: TextStyle(
-                      color: AppColor.grey.withOpacity(0.5),
+                        color: AppColor.grey.withOpacity(0.5),
                         fontSize: 10.sp,
                       ),
                     ),
@@ -127,10 +124,9 @@ class AttachmentsSection extends StatelessWidget {
           }
 
           return Column(
-            children: attachmentController.attachedFiles
-                .asMap()
-                .entries
-                .map((entry) {
+            children: attachmentController.attachedFiles.asMap().entries.map((
+              entry,
+            ) {
               final index = entry.key;
               final file = entry.value;
               final fileName = file.path.split('/').last;
@@ -149,10 +145,9 @@ class AttachmentsSection extends StatelessWidget {
                 confirmDismiss: (_) async {
                   return await _showDeleteConfirmation(fileName);
                 },
-                onDismissed: (_) =>
-                    attachmentController.removeFile(index),
+                onDismissed: (_) => attachmentController.removeFile(index),
                 child: Card(
-                  color: AppColor.primaryGreen, // نفس لون الكارد
+                  color: AppColor.primaryGreen,
                   margin: EdgeInsets.symmetric(vertical: 4.h),
                   child: ListTile(
                     leading: _getFileIcon(fileName),
@@ -170,7 +165,8 @@ class AttachmentsSection extends StatelessWidget {
                         Text(
                           '${(fileSize / 1024).toStringAsFixed(1)} KB',
                           style: TextStyle(
-                              color: isDark ? Colors.white70 : Colors.black54),
+                            color: isDark ? Colors.white70 : Colors.black54,
+                          ),
                         ),
                         Text(
                           'Type: $fileType',
@@ -182,10 +178,8 @@ class AttachmentsSection extends StatelessWidget {
                       ],
                     ),
                     trailing: IconButton(
-                      icon: Icon(Icons.delete,
-                          color: AppColor.error, size: 20),
-                      onPressed: () =>
-                          attachmentController.removeFile(index),
+                      icon: Icon(Icons.delete, color: AppColor.error, size: 20),
+                      onPressed: () => attachmentController.removeFile(index),
                     ),
                   ),
                 ),
@@ -196,7 +190,8 @@ class AttachmentsSection extends StatelessWidget {
 
         SizedBox(height: 8.h),
         Text(
-          'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)'.tr,
+          'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)'
+              .tr,
           style: TextStyle(
             color: isDark ? Colors.white70 : Colors.grey[600],
             fontSize: 10.sp,
@@ -231,8 +226,8 @@ class AttachmentsSection extends StatelessWidget {
     if (lowerCaseName.endsWith('.pdf')) return 'PDF';
     if (lowerCaseName.endsWith('.doc')) return 'DOC';
     if (lowerCaseName.endsWith('.docx')) return 'DOCX';
-    if (lowerCaseName.endsWith('.jpg') ||
-        lowerCaseName.endsWith('.jpeg')) return 'JPEG';
+    if (lowerCaseName.endsWith('.jpg') || lowerCaseName.endsWith('.jpeg'))
+      return 'JPEG';
     if (lowerCaseName.endsWith('.png')) return 'PNG';
     if (lowerCaseName.endsWith('.txt')) return 'TXT';
 
@@ -251,8 +246,7 @@ class AttachmentsSection extends StatelessWidget {
           ),
           TextButton(
             onPressed: () => Get.back(result: true),
-            child: Text('Delete'.tr,
-                style: TextStyle(color: AppColor.error)),
+            child: Text('Delete'.tr, style: TextStyle(color: AppColor.error)),
           ),
         ],
       ),

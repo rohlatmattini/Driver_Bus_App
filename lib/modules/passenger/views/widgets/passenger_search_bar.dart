@@ -3,6 +3,7 @@ import 'package:driver_bus_app/core/constants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/passenger_controller.dart';
 
 class PassengerSearchBar extends StatelessWidget {
@@ -13,19 +14,29 @@ class PassengerSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-      child: TextField(
-        cursorColor: AppColor.primaryGreen,
-        onChanged: (val) => controller.searchQuery.value = val,
-        style: TextStyle(color: AppColor.black),
-        decoration: InputDecoration(
-          hintText: "Search by name or seat...".tr,
-          hintStyle: TextStyle(color: AppColor.grey),
-          prefixIcon: Icon(Icons.search, color: AppColor.grey),
-          filled: true,
-          fillColor: AppColor.fillColor,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide.none,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          textSelectionTheme: TextSelectionThemeData(
+            selectionHandleColor: AppColor.primaryGreen,
+            selectionColor: AppColor.primaryGreen.withOpacity(0.3),
+            cursorColor: AppColor.primaryGreen,
+          ),
+        ),
+        child: TextField(
+          cursorColor: AppColor.primaryGreen,
+          onChanged: (val) => controller.searchQuery.value = val,
+          style: TextStyle(color: AppColor.black),
+          decoration: InputDecoration(
+            hintText: "Search by name or seat...".tr,
+            hintStyle: TextStyle(color: AppColor.grey),
+            prefixIcon: Icon(Icons.search, color: AppColor.grey),
+
+            filled: true,
+            fillColor: AppColor.fillColor,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide.none,
+            ),
           ),
         ),
       ),

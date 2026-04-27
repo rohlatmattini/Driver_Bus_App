@@ -94,9 +94,15 @@ class PassengerListView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          onPressed: () => Get.back(),
+        leading: Padding(
+          padding: EdgeInsets.all(8.w),
+          child: CircleAvatar(
+            backgroundColor: AppColor.cardColor,
+            child: IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+              onPressed: () => Get.back(),
+            ),
+          ),
         ),
         title: Text(
           "Passenger List".tr,

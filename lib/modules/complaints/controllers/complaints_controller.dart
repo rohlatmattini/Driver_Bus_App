@@ -7,16 +7,14 @@ class ComplaintsController extends GetxController {
   final formKey = GlobalKey<FormState>();
   var isLoading = false.obs;
 
-  // دالة إرسال الشكوى
   void sendComplaint() async {
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
 
       try {
-        // محاكاة إرسال البيانات للسيرفر (2 ثانية)
         await Future.delayed(const Duration(seconds: 2));
 
-        Get.back(); // العودة لصفحة الإعدادات
+        Get.back();
         Get.snackbar(
           "success".tr,
           "complaintSentSuccess".tr,
