@@ -1,7 +1,8 @@
-// lib/modules/passenger/views/widgets/ticket_details_dialog.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/constants/app_color.dart';
 import '../../../../routes/app_routes/app_routes.dart';
 import '../../controllers/passenger_controller.dart';
@@ -17,18 +18,26 @@ class TicketDetailsDialog extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: AppColor.white,
+        color: context.white,
         borderRadius: BorderRadius.circular(28.r),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildHeader(passenger?.id ?? "N/A"),
+          _buildHeader(context, passenger?.id ?? "N/A"),
           SizedBox(height: 24.h),
-          _buildInfoRow("passenger".tr, passenger?.name ?? "Unknown"),
-          _buildInfoRow("route".tr, passenger?.route ?? "Not Specified"),
-          _buildInfoRow("seat".tr, passenger?.seatNumber ?? "--"),
-          _buildInfoRow("status".tr, passenger!.isPaid ? "Paid" : "Unpaid"),
+          _buildInfoRow(context, "passenger".tr, passenger?.name ?? "Unknown"),
+          _buildInfoRow(
+            context,
+            "route".tr,
+            passenger?.route ?? "Not Specified",
+          ),
+          _buildInfoRow(context, "seat".tr, passenger?.seatNumber ?? "--"),
+          _buildInfoRow(
+            context,
+            "status".tr,
+            passenger?.isPaid == true ? "Paid" : "Unpaid",
+          ),
           SizedBox(height: 30.h),
           _buildActions(),
         ],
@@ -36,8 +45,7 @@ class TicketDetailsDialog extends StatelessWidget {
     );
   }
 
-
-  Widget _buildHeader(String ticketId) {
+  Widget _buildHeader(BuildContext context, String ticketId) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -54,8 +62,18 @@ class TicketDetailsDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("ticketVerified".tr, style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
-              Text("ID: $ticketId", style: TextStyle(fontSize: 12.sp, color: AppColor.grey)),
+              Text(
+                "ticketVerified".tr,
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.bold,
+                  color: context.black,
+                ),
+              ),
+              Text(
+                "ID: $ticketId",
+                style: TextStyle(fontSize: 12.sp, color: context.grey),
+              ),
             ],
           ),
         ),
@@ -71,19 +89,35 @@ class TicketDetailsDialog extends StatelessWidget {
         color: AppColor.primaryGreen,
         borderRadius: BorderRadius.circular(8.r),
       ),
-      child: Text("VERIFIED",
-          style: TextStyle(color: Colors.white, fontSize: 10.sp, fontWeight: FontWeight.bold)),
+      child: Text(
+        "VERIFIED",
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: 10.sp,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 
-  Widget _buildInfoRow(String label, String value) {
+  Widget _buildInfoRow(BuildContext context, String label, String value) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(color: AppColor.grey, fontSize: 14.sp)),
-          Text(value, style: TextStyle(color: AppColor.black, fontSize: 14.sp, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: TextStyle(color: context.grey, fontSize: 14.sp),
+          ),
+          Text(
+            value,
+            style: TextStyle(
+              color: context.black,
+              fontSize: 14.sp,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );
@@ -101,11 +135,20 @@ class TicketDetailsDialog extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColor.primaryGreen,
               padding: EdgeInsets.symmetric(vertical: 15.h),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12.r),
+              ),
             ),
-            child: Text("nextScan".tr, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            child: Text(
+              "nextScan".tr,
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
         ),
       ],
     );
-  }}
+  }
+}

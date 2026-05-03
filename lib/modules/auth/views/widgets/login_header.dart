@@ -1,7 +1,8 @@
-// lib/modules/auth/login/views/widgets/login_header.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../../../core/constants/app_color.dart';
 
 class LoginHeader extends StatelessWidget {
@@ -19,11 +20,7 @@ class LoginHeader extends StatelessWidget {
               color: AppColor.primaryGreen,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Icon(
-              Icons.directions_bus,
-              color: Colors.white,
-              size: 50.sp,
-            ),
+            child: Icon(Icons.directions_bus, color: Colors.white, size: 50.sp),
           ),
         ),
         SizedBox(height: 32.h),
@@ -41,10 +38,7 @@ class LoginHeader extends StatelessWidget {
               SizedBox(height: 8.h),
               Text(
                 'loginToStart'.tr,
-                style: TextStyle(
-                  fontSize: 16.sp,
-                  color: AppColor.grey,
-                ),
+                style: TextStyle(fontSize: 16.sp, color: context.grey),
               ),
             ],
           ),

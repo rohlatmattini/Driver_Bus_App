@@ -1,8 +1,7 @@
-// lib/modules/complaints/views/widgets/complaints_header.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import '../../../../core/constants/app_color.dart';
 
 class ComplaintsHeader extends StatelessWidget {
   const ComplaintsHeader({super.key});
@@ -15,15 +14,15 @@ class ComplaintsHeader extends StatelessWidget {
         Text(
           "howCanWeHelp".tr,
           style: TextStyle(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.bold,
-              color: AppColor.black
+            fontSize: 18.sp,
+            fontWeight: FontWeight.bold,
+            color: context.black,
           ),
         ),
         SizedBox(height: 10.h),
         Text(
           "complaintDesc".tr,
-          style: TextStyle(fontSize: 14.sp, color: AppColor.grey),
+          style: TextStyle(fontSize: 14.sp, color: context.grey),
         ),
       ],
     );

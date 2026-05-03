@@ -1,16 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../../data/models/trip_model.dart';
+
 import '../../../../data/models/driver_model.dart';
+import '../../../../data/models/trip_model.dart';
 
 class ScheduleController extends GetxController {
   var driver = DriverModel(id: '1', name: 'Ahmed', isOnline: true).obs;
   var trips = <TripModel>[].obs;
   var selectedStatus = 'ongoing'.obs;
 
-  var currentIndex = 0.obs;
+  var currentIndex = 2.obs;
 
-  final List<String> statusOptions = ['ongoing', 'upcoming', 'completed', 'cancelled'];
+  final List<String> statusOptions = [
+    'ongoing',
+    'upcoming',
+    'completed',
+    'cancelled',
+  ];
 
   @override
   void onInit() {
@@ -40,14 +45,20 @@ class ScheduleController extends GetxController {
         passengerCount: "30/50",
         distance: "450 km",
       ),
-      TripModel(id: '3', pickupLocation: 'Sharm El Sheikh', destination: 'Suez Terminal', time: 'May 26, 02:30 PM', status: 'upcoming',
+      TripModel(
+        id: '3',
+        pickupLocation: 'Sharm El Sheikh',
+        destination: 'Suez Terminal',
+        time: 'May 26, 02:30 PM',
+        status: 'upcoming',
         passengerCount: "30/50",
         distance: "450 km",
       ),
     ];
   }
 
-  List<TripModel> get filteredTrips => trips.where((trip) => trip.status == selectedStatus.value).toList();
+  List<TripModel> get filteredTrips =>
+      trips.where((trip) => trip.status == selectedStatus.value).toList();
 
   void changeStatus(String status) => selectedStatus.value = status;
 
@@ -55,12 +66,16 @@ class ScheduleController extends GetxController {
 
   void toggleDriverStatus() {
     driver.update((val) {
-   //   if (val != null) val.isOnline = !val.isOnline;
+      //   if (val != null) val.isOnline = !val.isOnline;
     });
   }
 
   void viewMap(TripModel trip) {
-    Get.snackbar('Map', 'Opening map for ${trip.pickupLocation}', snackPosition: SnackPosition.BOTTOM);
+    Get.snackbar(
+      'Map',
+      'Opening map for ${trip.pickupLocation}',
+      snackPosition: SnackPosition.BOTTOM,
+    );
   }
 
   String getStatusText(String status) => status.tr;

@@ -7,39 +7,35 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en': {
-      // Common & Login
+      // Login
       'appName': 'Driver Bus App',
       'welcome': 'Welcome',
       'loginToStart': 'Log in to start your shift',
-      'usernameOrEmployeeId': 'Username/Employee ID',
-      'password': 'Password',
-      'forgotPassword': 'Forgot Password?',
-      'login': 'Login',
+      'enterPhoneNumber': 'Enter Phone Number',
+      'weWillSendVerificationCode':
+          'We will send a verification code to your phone number',
+      'phoneNumber': 'Phone Number',
+      'sendCode': 'Send Code',
       'accountManagedBy': 'Account managed by',
       'admin': 'Administrator',
-      'pleaseEnterUsername': 'Please enter username',
-      'pleaseEnterPassword': 'Please enter password',
-      'loginSuccess': 'Login successful',
+      //validate login
+      'enterPhone': 'Please enter your phone number',
+      'onlyNumbersAllowed': 'Only numbers are allowed',
+      'phoneMustBe10Digits': 'Phone number must be exactly 10 digits',
+      "sendFailed": "Failed to send code, try again",
+      "otpSent": "OTP sent successfully",
+      "otpResent": "OTP has been resent successfully",
+      "resendFailed": "Failed to resend code, please try again later",
+      "loginSuccess": "Login successful",
+      "invalidCode": "Invalid verification code",
       'loginFailed': 'Login failed',
-      "Welcome back,": "Welcome back,",
-      "Captain ": 'Captain',
-
-      //forget&&resetPage
-      'forgotPasswordTitle': 'Forgot Password?',
-      'forgotPasswordDesc': 'Enter your email to receive reset code.',
-      'emailOrUser': 'Email',
-      'pleaseEnterEmail': 'Please enter email first',
-      'pleaseEnterValidEmail': 'Please enter a valid email',
-      'sendCode': 'Send Code',
-      'resetCodeSent': 'Reset code sent successfully to your email',
-      'resetPassword': 'Reset Password',
-      'enterCodeSent': 'Enter the 6-digit code sent to your email',
-      'newPassword': 'New Password',
-      'confirmPassword': 'Confirm Password',
-      'passwordTooShort': 'Password too short',
-      'passwordsNotMatch': 'Passwords don\'t match',
-      'resendCode': 'Resend Code',
-      'resetPasswordButton': 'Reset Password',
+      //sendcode&&verify
+      "Verify Phone": "Verify Phone",
+      "We've sent a 6-digit code to your phone number":
+          "We've sent a 6-digit code to your phone number",
+      "Didn't receive the code?": "Didn't receive the code?",
+      "Resend": "Resend",
+      "Edit Phone Number": "Edit Phone Number",
 
       // Schedule & Trips
       'schedule': 'Schedule',
@@ -160,40 +156,34 @@ class AppTranslations extends Translations {
       "English": "English",
     },
     'ar': {
-      // Common & Login
+      // Login
       'appName': 'تطبيق سائق الحافلة',
       'welcome': 'مرحباً',
       'loginToStart': 'تسجيل الدخول لبدء الوردية',
-      'usernameOrEmployeeId': 'اسم المستخدم/رقم الموظف',
-      'password': 'كلمة المرور',
-      'forgotPassword': 'نسيت كلمة المرور؟',
-      'login': 'تسجيل الدخول',
+      'enterPhoneNumber': 'أدخل رقم الموبايل',
+      'weWillSendVerificationCode': 'سنرسل رمز التحقق إلى رقم موبايلك',
+      'phoneNumber': 'رقم الموبايل',
+      'sendCode': 'أرسل الكود',
       'accountManagedBy': 'الحساب مدار بواسطة',
       'admin': 'المدير',
-      'pleaseEnterUsername': 'الرجاء إدخال اسم المستخدم',
-      'pleaseEnterPassword': 'الرجاء إدخال كلمة المرور',
-      'loginSuccess': 'تم تسجيل الدخول بنجاح',
+      //validate login
+      'enterPhone': 'الرجاء إدخال رقم الهاتف',
+      'onlyNumbersAllowed': 'يجب إدخال أرقام فقط',
+      'phoneMustBe10Digits': 'رقم الهاتف يجب أن يتكون من 10 خانات',
+      "sendFailed": "فشل إرسال الرمز، حاول مجدداً",
+      "otpSent": "تم إرسال رمز التحقق بنجاح",
+      "otpResent": "تم إعادة إرسال رمز التحقق بنجاح",
+      "resendFailed": "فشل إعادة إرسال الرمز، يرجى المحاولة لاحقاً",
+      "invalidCode": "الرمز المدخل غير صحيح",
+      "loginSuccess": "تم تسجيل الدخول بنجاح",
       'loginFailed': 'فشل تسجيل الدخول',
-      "Welcome back,": "أهلاً بعودتك،",
-      "Captain ": 'الكابتن ',
-      //forget&&resetPage
-      'forgotPasswordTitle': 'نسيت كلمة المرور؟',
-      'forgotPasswordDesc':
-          'يرجى كتابة البريد الإلكتروني لتلقي رمز استعادة كلمة المرور الخاص بك.',
-      'emailOrUser': 'البريد الإلكتروني ',
-      'pleaseEnterEmail': 'الرجاء إدخال البريد الإلكتروني أولاً',
-      'pleaseEnterValidEmail': 'الرجاء إدخال بريد إلكتروني صالح',
-      'sendCode': 'إرسال الرمز',
-      'resetCodeSent': 'تم إرسال رمز الاستعادة لبريدك بنجاح',
-      'resetPassword': 'إعادة تعيين كلمة المرور',
-      'enterCodeSent':
-          'أدخل الرمز المكون من 6 أرقام المرسل إلى بريدك الإلكتروني',
-      'newPassword': 'كلمة المرور الجديدة',
-      'confirmPassword': 'تأكيد كلمة المرور',
-      'passwordTooShort': 'كلمة المرور قصيرة جداً',
-      'passwordsNotMatch': 'كلمات المرور غير متطابقة',
-      'resendCode': 'إعادة إرسال الرمز',
-      'resetPasswordButton': 'إعادة تعيين',
+      //sendcode&&verify
+      "Verify Phone": "التحقق من الهاتف",
+      "We've sent a 6-digit code to your phone number":
+          "لقد أرسلنا رمزاً مؤلفاً من 6 أرقام إلى رقم هاتفك",
+      "Didn't receive the code?": "لم يصلك الرمز؟",
+      "Resend": "إعادة إرسال",
+      "Edit Phone Number": "تعديل رقم الهاتف",
 
       // Schedule & Trips
       'schedule': 'الجدول',
@@ -221,6 +211,7 @@ class AppTranslations extends Translations {
       "Messages": 'الرسائل',
       "Notifications": "الاشعارات",
       "Profile": 'الملف الشخصي',
+      "Complaints": "الشكاوي",
 
       // Profile Page Specific
       "Driver Profile": 'ملف السائق',
@@ -325,6 +316,7 @@ class AppTranslations extends Translations {
 
       //Settings
       "settings": "الاعدادات",
+      "Settings": "الاعدادات",
       "language": 'اللغة',
       "darkMode": 'الوضع الداكن',
       "العربية": "العربية",

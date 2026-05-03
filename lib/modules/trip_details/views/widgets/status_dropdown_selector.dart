@@ -1,7 +1,8 @@
-// lib/modules/trip_details/views/widgets/status_dropdown_selector.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
 import '../../../../core/constants/app_color.dart';
 
 class StatusDropdownSelector extends StatelessWidget {
@@ -20,40 +21,45 @@ class StatusDropdownSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() => Container(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      decoration: BoxDecoration(
-        color: AppColor.cardColor,
-        borderRadius: BorderRadius.circular(15.r),
-        border: Border.all(color: AppColor.grey.withOpacity(0.2)),
-      ),
-      child: DropdownButtonHideUnderline(
-        child: DropdownButton<String>(
-          value: value.value,
-          isExpanded: true,
-          icon: Icon(Icons.keyboard_arrow_down, color: AppColor.grey),
-          items: options.map((String option) {
-            return DropdownMenuItem<String>(
-              value: option,
-              child: Row(
-                children: [
-                  Icon(icon, color: AppColor.primaryGreen, size: 20.sp),
-                  SizedBox(width: 10.w),
-                  Text(
-                    option.tr,
-                    style: TextStyle(
+    return Obx(
+      () => Container(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        decoration: BoxDecoration(
+          color: context.cardColor,
+          borderRadius: BorderRadius.circular(15.r),
+          border: Border.all(color: context.textTertiaryColor.withOpacity(0.2)),
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: value.value,
+            isExpanded: true,
+            icon: Icon(
+              Icons.keyboard_arrow_down,
+              color: context.textTertiaryColor,
+            ),
+            items: options.map((String option) {
+              return DropdownMenuItem<String>(
+                value: option,
+                child: Row(
+                  children: [
+                    Icon(icon, color: AppColor.primaryGreen, size: 20.sp),
+                    SizedBox(width: 10.w),
+                    Text(
+                      option.tr,
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        color: AppColor.black,
-                        fontSize: 14.sp
+                        color: context.textPrimaryColor,
+                        fontSize: 14.sp,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-          onChanged: onChanged,
+                  ],
+                ),
+              );
+            }).toList(),
+            onChanged: onChanged,
+          ),
         ),
       ),
-    ));
+    );
   }
 }

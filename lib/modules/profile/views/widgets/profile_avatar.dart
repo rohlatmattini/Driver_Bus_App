@@ -1,7 +1,7 @@
-// lib/modules/profile/views/widgets/profile_avatar.dart
 import 'dart:io';
 
 import 'package:driver_bus_app/core/constants/app_color.dart';
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -24,11 +24,11 @@ class ProfileAvatar extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(4.w),
               decoration: BoxDecoration(
-                color: AppColor.cardColor,
+                color: context.cardColor,
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: AppColor.black.withOpacity(0.1),
+                    color: context.cardColor.withOpacity(0.1),
                     blurRadius: 10,
                   ),
                 ],
@@ -58,7 +58,10 @@ class ProfileAvatar extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColor.primaryGreen,
                 shape: BoxShape.circle,
-                border: Border.all(color: AppColor.white, width: 2),
+                border: Border.all(
+                  color: Theme.of(context).cardColor,
+                  width: 2,
+                ),
               ),
               child: Icon(Icons.edit, color: Colors.white, size: 14.sp),
             ),

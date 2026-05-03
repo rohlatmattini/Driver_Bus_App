@@ -1,4 +1,3 @@
-// lib/data/models/notification_model.dart
 enum NotificationType { trip, alert, message }
 
 class NotificationModel {

@@ -1,12 +1,11 @@
-// lib/modules/trip_details/views/screen/trip_details_view.dart
-
 import 'package:driver_bus_app/core/constants/app_color.dart';
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:driver_bus_app/routes/app_routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../../core/shared/custom_button.dart';
+import '../../../../core/shared/custom_app_button.dart';
 import '../../controllers/trip_details_controller.dart';
 import '../widgets/status_dropdown_selector.dart';
 import '../widgets/trip_info_stat_card.dart';
@@ -21,14 +20,14 @@ class TripDetailsView extends StatelessWidget {
     final controller = Get.put(TripDetailsController());
 
     return Scaffold(
-      backgroundColor: AppColor.scaffoldBackground,
+      backgroundColor: context.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: Padding(
           padding: EdgeInsets.all(8.w),
           child: CircleAvatar(
-            backgroundColor: AppColor.cardColor,
+            backgroundColor: context.cardColor,
             child: IconButton(
               icon: const Icon(Icons.arrow_back_ios_new, size: 18),
               onPressed: () => Get.back(),
@@ -37,7 +36,10 @@ class TripDetailsView extends StatelessWidget {
         ),
         title: Text(
           "tripDetails".tr,
-          style: TextStyle(color: AppColor.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: context.textPrimaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
@@ -49,14 +51,13 @@ class TripDetailsView extends StatelessWidget {
             const TripMapPreview(),
             SizedBox(height: 24.h),
 
-            // معلومات الرحلة الأساسية
             Obx(
               () => Text(
                 "${"route".tr} ${controller.routeId.value}",
                 style: TextStyle(
                   fontSize: 22.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColor.black,
+                  color: context.textPrimaryColor,
                 ),
               ),
             ),
@@ -89,7 +90,10 @@ class TripDetailsView extends StatelessWidget {
             Obx(
               () => Text(
                 "${"scheduledDeparture".tr}: ${controller.departureTime.value}",
-                style: TextStyle(color: AppColor.grey, fontSize: 14.sp),
+                style: TextStyle(
+                  color: context.textTertiaryColor,
+                  fontSize: 14.sp,
+                ),
               ),
             ),
 

@@ -1,39 +1,17 @@
-import 'package:get/get.dart';
-import '../../data/providers/auth_provider.dart';
-import '../../data/models/login_model.dart';
+import 'package:dio/dio.dart';
+
+import '../providers/auth_provider.dart';
 
 class AuthRepository {
-  final AuthProvider _authProvider = Get.find<AuthProvider>();
+  final AuthProvider _provider;
 
-  Future<LoginResponseModel> login(LoginModel loginModel) async {
-    try {
-      final response = await _authProvider.login(loginModel.toJson());
+  AuthRepository(this._provider);
 
-      if (response.statusCode == 200) {
-        if (response.body['success'] == true) {
-          _authProvider.saveToken(response.body['token']);
-          return LoginResponseModel.fromJson(response.body);
-        } else {
-          return LoginResponseModel(
-            success: false,
-            message: response.body['message'] ?? 'Login failed',
-          );
-        }
-      } else {
-        return LoginResponseModel(
-          success: false,
-          message: 'Server error: ${response.statusCode}',
-        );
-      }
-    } catch (e) {
-      return LoginResponseModel(
-        success: false,
-        message: 'Network error: $e',
-      );
-    }
+  Future<Response> sendOtp(String phone) async {
+    return await _provider.sendOtp(phone);
   }
 
-  void logout() {
-    _authProvider.clearToken();
+  Future<Response> login(String phone, String code) async {
+    return await _provider.loginWithOtp(phone, code);
   }
 }

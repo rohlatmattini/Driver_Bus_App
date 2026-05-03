@@ -1,3 +1,4 @@
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -9,7 +10,6 @@ class AttachmentsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final attachmentController = Get.put(ComplaintAttachmentController());
-    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -20,7 +20,7 @@ class AttachmentsSection extends StatelessWidget {
               'Attachments (Images / Documents)'.tr,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                color: AppColor.black,
+                color: context.black,
                 fontSize: 16.sp,
               ),
             ),
@@ -49,10 +49,10 @@ class AttachmentsSection extends StatelessWidget {
             minimumSize: Size(double.infinity, 45.h),
           ),
           onPressed: attachmentController.attachFile,
-          icon: Icon(Icons.attach_file, color: AppColor.white),
+          icon: Icon(Icons.attach_file, color: context.white),
           label: Text(
             'Attach File or Image'.tr,
-            style: TextStyle(color: AppColor.white),
+            style: TextStyle(color: context.white),
           ),
         ),
 
@@ -69,13 +69,13 @@ class AttachmentsSection extends StatelessWidget {
           ),
           child: Row(
             children: [
-              Icon(Icons.info_outline, color: AppColor.white, size: 16),
+              Icon(Icons.info_outline, color: context.white, size: 16),
               SizedBox(width: 8.w),
               Expanded(
                 child: Text(
                   'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.'
                       .tr,
-                  style: TextStyle(color: AppColor.white, fontSize: 10.sp),
+                  style: TextStyle(color: context.white, fontSize: 10.sp),
                 ),
               ),
             ],
@@ -90,7 +90,7 @@ class AttachmentsSection extends StatelessWidget {
             return Container(
               padding: EdgeInsets.all(16.w),
               decoration: BoxDecoration(
-                color: AppColor.cardColor,
+                color: context.cardColor,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Center(
@@ -98,14 +98,14 @@ class AttachmentsSection extends StatelessWidget {
                   children: [
                     Icon(
                       Icons.attach_file,
-                      color: AppColor.grey.withOpacity(0.5),
+                      color: context.grey.withOpacity(0.5),
                       size: 40,
                     ),
                     SizedBox(height: 8.h),
                     Text(
                       'No attachments yet'.tr,
                       style: TextStyle(
-                        color: AppColor.grey.withOpacity(0.5),
+                        color: context.grey.withOpacity(0.5),
                         fontStyle: FontStyle.italic,
                       ),
                     ),
@@ -113,7 +113,7 @@ class AttachmentsSection extends StatelessWidget {
                     Text(
                       'Tap above to attach files'.tr,
                       style: TextStyle(
-                        color: AppColor.grey.withOpacity(0.5),
+                        color: context.grey.withOpacity(0.5),
                         fontSize: 10.sp,
                       ),
                     ),
@@ -140,24 +140,21 @@ class AttachmentsSection extends StatelessWidget {
                   color: AppColor.error,
                   alignment: Alignment.centerRight,
                   padding: EdgeInsets.only(right: 20.w),
-                  child: Icon(Icons.delete, color: AppColor.white),
+                  child: Icon(Icons.delete, color: context.white),
                 ),
                 confirmDismiss: (_) async {
-                  return await _showDeleteConfirmation(fileName);
+                  return await _showDeleteConfirmation(context, fileName);
                 },
                 onDismissed: (_) => attachmentController.removeFile(index),
                 child: Card(
                   color: AppColor.primaryGreen,
                   margin: EdgeInsets.symmetric(vertical: 4.h),
                   child: ListTile(
-                    leading: _getFileIcon(fileName),
+                    leading: _getFileIcon(context, fileName),
                     title: Text(
                       fileName,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        color: isDark ? Colors.white : Colors.black87,
-                      ),
+                      style: TextStyle(fontSize: 14.sp, color: context.white),
                     ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,14 +162,14 @@ class AttachmentsSection extends StatelessWidget {
                         Text(
                           '${(fileSize / 1024).toStringAsFixed(1)} KB',
                           style: TextStyle(
-                            color: isDark ? Colors.white70 : Colors.black54,
+                            color: context.white.withOpacity(0.7),
                           ),
                         ),
                         Text(
                           'Type: $fileType',
                           style: TextStyle(
                             fontSize: 10.sp,
-                            color: isDark ? Colors.white70 : Colors.grey,
+                            color: context.white.withOpacity(0.7),
                           ),
                         ),
                       ],
@@ -192,16 +189,13 @@ class AttachmentsSection extends StatelessWidget {
         Text(
           'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)'
               .tr,
-          style: TextStyle(
-            color: isDark ? Colors.white70 : Colors.grey[600],
-            fontSize: 10.sp,
-          ),
+          style: TextStyle(color: context.textTertiaryColor, fontSize: 10.sp),
         ),
       ],
     );
   }
 
-  Widget _getFileIcon(String fileName) {
+  Widget _getFileIcon(BuildContext context, String fileName) {
     final lowerCaseName = fileName.toLowerCase();
 
     if (lowerCaseName.endsWith('.jpg') ||
@@ -216,7 +210,7 @@ class AttachmentsSection extends StatelessWidget {
     } else if (lowerCaseName.endsWith('.txt')) {
       return Icon(Icons.text_fields, color: AppColor.orange);
     } else {
-      return Icon(Icons.insert_drive_file, color: AppColor.grey);
+      return Icon(Icons.insert_drive_file, color: context.grey);
     }
   }
 
@@ -234,7 +228,10 @@ class AttachmentsSection extends StatelessWidget {
     return 'File';
   }
 
-  Future<bool> _showDeleteConfirmation(String fileName) async {
+  Future<bool> _showDeleteConfirmation(
+    BuildContext context,
+    String fileName,
+  ) async {
     final result = await Get.dialog(
       AlertDialog(
         title: Text('Delete Attachment'.tr),

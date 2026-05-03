@@ -1,7 +1,9 @@
-// lib/modules/auth/login/views/widgets/custom_text_field.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants/app_color.dart';
+
+import '../../../../core/constants/app_color.dart';
 
 class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -13,7 +15,8 @@ class CustomTextField extends StatelessWidget {
   final VoidCallback? onIconTap;
   final String? Function(String?)? validator;
   final TextInputType? keyboardType;
-
+  final int? maxLength;
+  final List<TextInputFormatter>? inputFormatters;
   const CustomTextField({
     super.key,
     required this.controller,
@@ -25,6 +28,8 @@ class CustomTextField extends StatelessWidget {
     this.onIconTap,
     this.validator,
     this.keyboardType,
+    this.maxLength,
+    this.inputFormatters,
   });
 
   @override
@@ -42,41 +47,48 @@ class CustomTextField extends StatelessWidget {
         obscureText: obscure,
         validator: validator,
         keyboardType: keyboardType,
+        maxLength: maxLength,
+        inputFormatters: inputFormatters,
         cursorColor: AppColor.primaryGreen,
-        style: TextStyle(color: AppColor.black),
+        style: TextStyle(color: context.black, fontSize: 16.sp),
         decoration: InputDecoration(
+          counterText: "",
           labelText: label,
-          labelStyle: TextStyle(color: AppColor.grey),
+          labelStyle: TextStyle(color: context.grey, fontSize: 14.sp),
           floatingLabelStyle: const TextStyle(color: AppColor.primaryGreen),
           hintText: hint,
-          hintStyle: TextStyle(color: AppColor.grey),
-          prefixIcon: Icon(icon, color: AppColor.greyText, size: 22.sp),
+          hintStyle: TextStyle(color: context.grey, fontSize: 13.sp),
+          prefixIcon: Icon(icon, color: context.grey, size: 22.sp),
           suffixIcon: isPassword
               ? IconButton(
-            icon: Icon(
-              obscure ? Icons.visibility : Icons.visibility_off,
-              size: 20.sp,
-              color: obscure ? AppColor.greyText : AppColor.primaryGreen,
-            ),
-            onPressed: onIconTap,
-          )
+                  icon: Icon(
+                    obscure ? Icons.visibility : Icons.visibility_off,
+                    size: 20.sp,
+                    color: obscure ? context.grey : AppColor.primaryGreen,
+                  ),
+                  onPressed: onIconTap,
+                )
               : null,
           filled: true,
-          fillColor: AppColor.fillColor,
+          fillColor: context.cardColor,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide.none,
+            borderSide: BorderSide(color: Colors.grey.shade200),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
             borderSide: const BorderSide(
               color: AppColor.primaryGreen,
-              width: 2.0,
+              width: 1.5,
             ),
           ),
-          border: OutlineInputBorder(
+          errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12.r),
-            borderSide: BorderSide.none,
+            borderSide: const BorderSide(color: Colors.red, width: 1.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: const BorderSide(color: Colors.red, width: 1.5),
           ),
         ),
       ),

@@ -1,9 +1,7 @@
-// lib/modules/complaints/views/widgets/complaints_app_bar.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import '../../../../core/constants/app_color.dart';
 
 class ComplaintsAppBar extends StatelessWidget implements PreferredSizeWidget {
   const ComplaintsAppBar({super.key});
@@ -13,7 +11,7 @@ class ComplaintsAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(
         "sendComplaint".tr,
-        style: TextStyle(color: AppColor.black, fontWeight: FontWeight.bold),
+        style: TextStyle(color: context.black, fontWeight: FontWeight.bold),
       ),
       centerTitle: true,
       elevation: 0,
@@ -21,7 +19,7 @@ class ComplaintsAppBar extends StatelessWidget implements PreferredSizeWidget {
       leading: Padding(
         padding: EdgeInsets.all(8.w),
         child: CircleAvatar(
-          backgroundColor: AppColor.cardColor,
+          backgroundColor: context.cardColor,
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new, size: 18),
             onPressed: () => Get.back(),

@@ -1,5 +1,5 @@
-// lib/modules/passenger/views/widgets/passenger_search_bar.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -25,14 +25,14 @@ class PassengerSearchBar extends StatelessWidget {
         child: TextField(
           cursorColor: AppColor.primaryGreen,
           onChanged: (val) => controller.searchQuery.value = val,
-          style: TextStyle(color: AppColor.black),
+          style: TextStyle(color: context.textPrimaryColor),
           decoration: InputDecoration(
             hintText: "Search by name or seat...".tr,
-            hintStyle: TextStyle(color: AppColor.grey),
-            prefixIcon: Icon(Icons.search, color: AppColor.grey),
+            hintStyle: TextStyle(color: context.textTertiaryColor),
+            prefixIcon: Icon(Icons.search, color: context.textTertiaryColor),
 
             filled: true,
-            fillColor: AppColor.fillColor,
+            fillColor: context.fillColor,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide.none,

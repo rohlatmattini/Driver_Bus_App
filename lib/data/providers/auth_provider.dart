@@ -1,33 +1,23 @@
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide Response;
 
-class AuthProvider extends GetConnect {
-  final GetStorage _storage = GetStorage();
+import '../../../core/constants/app_link.dart';
+import '../../core/services/api_service.dart';
 
-  @override
-  void onInit() {
-    httpClient.baseUrl = 'YOUR_BASE_URL';
+class AuthProvider {
+  final Dio _dio = Get.find<ApiService>().dio;
 
-    httpClient.addRequestModifier<dynamic>((request) {
-      String? token = _storage.read('token');
-      if (token != null) {
-        request.headers['Authorization'] = 'Bearer $token';
-      }
-      return request;
-    });
-
-    super.onInit();
+  Future<Response> sendOtp(String phone) async {
+    return await _dio.post(
+      AppLink.sendOtp,
+      data: {"phone_number": phone, "intent": "passenger"},
+    );
   }
 
-  Future<Response> login(Map<String, dynamic> data) async {
-    return await post('/login', data);
-  }
-
-  void saveToken(String token) {
-    _storage.write('token', token);
-  }
-
-  void clearToken() {
-    _storage.remove('token');
+  Future<Response> loginWithOtp(String phone, String code) async {
+    return await _dio.post(
+      AppLink.loginOtp,
+      data: {"phone_number": phone, "code": code, "intent": "passenger"},
+    );
   }
 }

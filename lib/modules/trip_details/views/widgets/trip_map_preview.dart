@@ -1,9 +1,8 @@
-// lib/modules/trip_details/views/widgets/trip_map_preview.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 import '../../controllers/trip_details_controller.dart';
 
@@ -18,7 +17,7 @@ class TripMapPreview extends StatelessWidget {
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        color: AppColor.grey.withOpacity(0.2),
+        color: context.textTertiaryColor.withOpacity(0.2),
         image: const DecorationImage(
           image: AssetImage('assets/images/map_placeholder.png'),
           fit: BoxFit.cover,
@@ -36,7 +35,13 @@ class TripMapPreview extends StatelessWidget {
             children: [
               const Icon(Icons.sync, color: Colors.white, size: 16),
               SizedBox(width: 8.w),
-              Text(controller.pickupLocation.value, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+              Text(
+                controller.pickupLocation.value,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ),

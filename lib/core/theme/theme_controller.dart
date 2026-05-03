@@ -14,6 +14,7 @@ class ThemeController extends GetxController {
   void onInit() {
     super.onInit();
     isDarkMode.value = _loadTheme();
+    Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
   }
 
   bool _loadTheme() {
@@ -24,12 +25,9 @@ class ThemeController extends GetxController {
     return Get.isPlatformDarkMode;
   }
 
-  ThemeMode get theme => isDarkMode.value ? ThemeMode.dark : ThemeMode.light;
-
   void toggleTheme() {
     isDarkMode.value = !isDarkMode.value;
     _box.write(_key, isDarkMode.value);
-
     Get.changeThemeMode(isDarkMode.value ? ThemeMode.dark : ThemeMode.light);
     update();
   }

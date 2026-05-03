@@ -1,10 +1,8 @@
-// lib/modules/passenger/views/screen/qr_scanner_view.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:get/get.dart';
+import 'package:mobile_scanner/mobile_scanner.dart';
+
 import '../../controllers/passenger_controller.dart';
-import '../../../../core/constants/app_color.dart';
 
 class QrScannerView extends StatefulWidget {
   const QrScannerView({super.key});

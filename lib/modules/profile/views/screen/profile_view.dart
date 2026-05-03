@@ -1,5 +1,5 @@
-// lib/modules/profile/views/screen/profile_view.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -20,7 +20,7 @@ class ProfileView extends GetView<ProfileController> {
         ? Get.find<ProfileController>()
         : Get.put(ProfileController());
     return Scaffold(
-      backgroundColor: AppColor.scaffoldBackground,
+      backgroundColor: context.scaffoldBackgroundColor,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -30,7 +30,10 @@ class ProfileView extends GetView<ProfileController> {
         ),
         title: Text(
           "Driver Profile".tr,
-          style: TextStyle(color: AppColor.black, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            color: context.textPrimaryColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         centerTitle: true,
       ),
@@ -47,7 +50,7 @@ class ProfileView extends GetView<ProfileController> {
                 style: TextStyle(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.bold,
-                  color: AppColor.black,
+                  color: context.textPrimaryColor,
                 ),
               ),
             ),
@@ -66,7 +69,10 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   Text(
                     "(${controller.totalTrips.value} ${'trips'.tr})",
-                    style: TextStyle(color: AppColor.grey, fontSize: 12.sp),
+                    style: TextStyle(
+                      color: context.textTertiaryColor,
+                      fontSize: 12.sp,
+                    ),
                   ),
                 ],
               ),

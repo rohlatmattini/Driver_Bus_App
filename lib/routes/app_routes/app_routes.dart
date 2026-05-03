@@ -1,5 +1,3 @@
-// lib/core/routes/app_routes.dart
-
 abstract class AppRoutes {
   static const String login = '/login';
   static const String passengerList = '/passenger-list';

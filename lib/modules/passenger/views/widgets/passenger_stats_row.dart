@@ -1,4 +1,4 @@
-// lib/modules/passenger/views/widgets/passenger_stats_row.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,14 +19,16 @@ class PassengerStatsRow extends StatelessWidget {
         () => Row(
           children: [
             _buildStatItem(
+              context,
               "TOTAL".tr,
               "${controller.passengers.length}/50",
-              AppColor.black,
+              context.textPrimaryColor,
               isActive: controller.selectedFilter.value == 'ALL',
               onTap: () => controller.setFilter('ALL'),
             ),
             SizedBox(width: 10.w),
             _buildStatItem(
+              context,
               "PAID".tr,
               "${controller.passengers.where((p) => p.isPaid).length}",
               AppColor.success,
@@ -35,6 +37,7 @@ class PassengerStatsRow extends StatelessWidget {
             ),
             SizedBox(width: 10.w),
             _buildStatItem(
+              context,
               "UNPAID".tr,
               "${controller.passengers.where((p) => !p.isPaid).length}",
               AppColor.error,
@@ -48,6 +51,7 @@ class PassengerStatsRow extends StatelessWidget {
   }
 
   Widget _buildStatItem(
+    BuildContext context,
     String label,
     String value,
     Color color, {
@@ -60,14 +64,14 @@ class PassengerStatsRow extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.all(12.w),
           decoration: BoxDecoration(
-            color: AppColor.cardColor,
+            color: context.cardColor,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
               color: isActive ? color.withOpacity(0.5) : Colors.transparent,
               width: 1.5,
             ),
             boxShadow: [
-              BoxShadow(color: AppColor.black.withOpacity(0.02), blurRadius: 5),
+              BoxShadow(color: context.black.withOpacity(0.02), blurRadius: 5),
             ],
           ),
           child: Column(
@@ -77,7 +81,7 @@ class PassengerStatsRow extends StatelessWidget {
                 label,
                 style: TextStyle(
                   fontSize: 9.sp,
-                  color: AppColor.grey,
+                  color: context.textTertiaryColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),

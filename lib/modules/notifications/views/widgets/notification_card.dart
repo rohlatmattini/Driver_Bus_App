@@ -1,13 +1,9 @@
-// lib/modules/notifications/views/widgets/notification_card.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timeago/timeago.dart' as timeago;
-import '../../../../core/constants/app_color.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:timeago/timeago.dart' as timeago;
+
 import '../../../../core/constants/app_color.dart';
 import '../../../../data/models/notification_model.dart';
 
@@ -15,15 +11,19 @@ class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
   final VoidCallback onTap;
 
-  const NotificationCard({super.key, required this.notification, required this.onTap});
+  const NotificationCard({
+    super.key,
+    required this.notification,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     bool isDark = Get.isDarkMode;
 
     String timeStr = timeago.format(
-        notification.timestamp,
-        locale: Get.locale?.languageCode == 'ar' ? 'ar' : 'en_short'
+      notification.timestamp,
+      locale: Get.locale?.languageCode == 'ar' ? 'ar' : 'en_short',
     );
 
     return InkWell(
@@ -33,11 +33,13 @@ class NotificationCard extends StatelessWidget {
         padding: EdgeInsets.all(16.w),
         decoration: BoxDecoration(
           color: notification.isRead
-              ? (isDark ? AppColor.cardColor.withOpacity(0.5) : AppColor.white)
+              ? (isDark ? context.cardColor.withOpacity(0.5) : context.white)
               : (AppColor.primaryGreen.withOpacity(0.05)),
           borderRadius: BorderRadius.circular(16.r),
           border: Border.all(
-              color: notification.isRead ? Colors.transparent : AppColor.primaryGreen.withOpacity(0.2)
+            color: notification.isRead
+                ? Colors.transparent
+                : AppColor.primaryGreen.withOpacity(0.2),
           ),
         ),
         child: Row(
@@ -52,19 +54,30 @@ class NotificationCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(notification.title,
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp)),
                       Text(
-                          timeStr,
-                          style: TextStyle(color: AppColor.grey, fontSize: 11.sp)
+                        notification.title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      Text(
+                        timeStr,
+                        style: TextStyle(color: context.grey, fontSize: 11.sp),
                       ),
                     ],
                   ),
                   SizedBox(height: 5.h),
-                  Text(notification.body,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: AppColor.grey, fontSize: 13.sp, height: 1.4)),
+                  Text(
+                    notification.body,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: context.grey,
+                      fontSize: 13.sp,
+                      height: 1.4,
+                    ),
+                  ),
                 ],
               ),
             ),

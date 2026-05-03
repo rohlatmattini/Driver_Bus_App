@@ -4,7 +4,6 @@ import 'package:get_storage/get_storage.dart';
 
 class LocaleController extends GetxController {
   final GetStorage _storage = GetStorage();
-
   Locale? initialLocale;
 
   @override
@@ -15,10 +14,19 @@ class LocaleController extends GetxController {
 
   void getSavedLocale() {
     String? savedLocale = _storage.read('lang');
-    if (savedLocale == 'ar') {
-      initialLocale = const Locale('ar');
+
+    if (savedLocale != null) {
+      initialLocale = Locale(savedLocale);
     } else {
-      initialLocale = const Locale('en');
+      Locale? deviceLocale = Get.deviceLocale;
+
+      if (deviceLocale != null && deviceLocale.languageCode == 'ar') {
+        initialLocale = const Locale('ar');
+      } else {
+        initialLocale = const Locale('en');
+      }
+
+      _storage.write('lang', initialLocale?.languageCode);
     }
   }
 

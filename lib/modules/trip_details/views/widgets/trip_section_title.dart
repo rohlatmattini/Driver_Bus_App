@@ -1,7 +1,6 @@
-// lib/modules/trip_details/views/widgets/trip_section_title.dart
+import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/constants/app_color.dart';
 
 class TripSectionTitle extends StatelessWidget {
   final String title;
@@ -15,9 +14,9 @@ class TripSectionTitle extends StatelessWidget {
       child: Text(
         title.toUpperCase(),
         style: TextStyle(
-            fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
-            color: AppColor.grey
+          fontSize: 12.sp,
+          fontWeight: FontWeight.bold,
+          color: context.textTertiaryColor,
         ),
       ),
     );
