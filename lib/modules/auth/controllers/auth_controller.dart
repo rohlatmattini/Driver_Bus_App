@@ -68,7 +68,8 @@ class AuthController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        String token = response.data['token'] ?? "user_logged_in";
+        //  String token = response.data['token'] ?? "user_logged_in";
+        String token = response.data['access_token'];
         _box.write("token", token);
         _box.write("step", "2");
         CustomSnackBar.showSuccess("loginSuccess");

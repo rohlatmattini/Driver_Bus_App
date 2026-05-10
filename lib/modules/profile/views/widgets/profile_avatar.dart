@@ -28,33 +28,65 @@ class ProfileAvatar extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: context.cardColor.withOpacity(0.1),
+                    color: Colors.black.withOpacity(0.05),
                     blurRadius: 10,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
-              child: Obx(
-                () => CircleAvatar(
+              child: Obx(() {
+                ImageProvider? backgroundImage;
+
+                if (controller.profileImagePath.value.isNotEmpty) {
+                  backgroundImage = FileImage(
+                    File(controller.profileImagePath.value),
+                  );
+                } else if (controller.driverData.value?.avatar != null &&
+                    controller.driverData.value!.avatar!.isNotEmpty) {
+                  backgroundImage = NetworkImage(
+                    controller.driverData.value!.avatar!,
+                  );
+                }
+
+                return CircleAvatar(
                   radius: 55.r,
                   backgroundColor: AppColor.primaryGreen.withOpacity(0.1),
-                  backgroundImage: controller.profileImagePath.value.isNotEmpty
-                      ? FileImage(File(controller.profileImagePath.value))
-                      : null,
-                  child: controller.profileImagePath.value.isEmpty
-                      ? Icon(
+                  backgroundImage: backgroundImage,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (backgroundImage == null &&
+                          !controller.isUpdating.value)
+                        Icon(
                           Icons.person,
                           size: 60.sp,
                           color: AppColor.primaryGreen,
-                        )
-                      : null,
-                ),
-              ),
+                        ),
+
+                      if (controller.isUpdating.value)
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.3),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 3,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                );
+              }),
             ),
           ),
+
           GestureDetector(
             onTap: () => controller.pickImage(),
             child: Container(
-              padding: EdgeInsets.all(6.w),
+              padding: EdgeInsets.all(8.w),
               decoration: BoxDecoration(
                 color: AppColor.primaryGreen,
                 shape: BoxShape.circle,
@@ -63,7 +95,7 @@ class ProfileAvatar extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: Icon(Icons.edit, color: Colors.white, size: 14.sp),
+              child: Icon(Icons.camera_alt, color: Colors.white, size: 16.sp),
             ),
           ),
         ],

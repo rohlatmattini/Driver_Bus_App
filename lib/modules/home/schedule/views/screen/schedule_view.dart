@@ -39,9 +39,7 @@ class ScheduleView extends StatelessWidget {
           ],
         ),
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
       floatingActionButton: Container(
         margin: EdgeInsets.only(top: 35.h),
         height: 60.r,
@@ -76,35 +74,48 @@ class ScheduleView extends StatelessWidget {
 
   Widget _buildScheduleContent(ScheduleController controller) {
     return SafeArea(
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
-            child: DriverInfoCard(controller: controller),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: StatusTabs(controller: controller),
-          ),
-          Expanded(
-            child: Obx(
-              () => controller.filteredTrips.isEmpty
-                  ? const ScheduleEmptyState()
-                  : ListView.builder(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 20.w,
-                        vertical: 10.h,
-                      ),
-                      itemCount: controller.filteredTrips.length,
-                      physics: const BouncingScrollPhysics(),
-                      itemBuilder: (context, index) => TripCard(
-                        trip: controller.filteredTrips[index],
-                        controller: controller,
-                      ),
-                    ),
+      child: RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: AppColor.primaryGreen,
+        onRefresh: () async {
+          //          await controller.fetchTrips();
+        },
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
+              child: DriverInfoCard(controller: controller),
             ),
-          ),
-        ],
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: StatusTabs(controller: controller),
+            ),
+            Expanded(
+              child: Obx(
+                () => controller.filteredTrips.isEmpty
+                    ? SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        child: SizedBox(
+                          height: 0.6.sh,
+                          child: const ScheduleEmptyState(),
+                        ),
+                      )
+                    : ListView.builder(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20.w,
+                          vertical: 10.h,
+                        ),
+                        itemCount: controller.filteredTrips.length,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemBuilder: (context, index) => TripCard(
+                          trip: controller.filteredTrips[index],
+                          controller: controller,
+                        ),
+                      ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

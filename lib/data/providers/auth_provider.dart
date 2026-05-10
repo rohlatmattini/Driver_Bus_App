@@ -10,14 +10,14 @@ class AuthProvider {
   Future<Response> sendOtp(String phone) async {
     return await _dio.post(
       AppLink.sendOtp,
-      data: {"phone_number": phone, "intent": "passenger"},
+      data: {"phone_number": phone, "intent": "driver"},
     );
   }
 
   Future<Response> loginWithOtp(String phone, String code) async {
     return await _dio.post(
       AppLink.loginOtp,
-      data: {"phone_number": phone, "code": code, "intent": "passenger"},
+      data: {"phone_number": phone, "code": code, "intent": "driver"},
     );
   }
 }

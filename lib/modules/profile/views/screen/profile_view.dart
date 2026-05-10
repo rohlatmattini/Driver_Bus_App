@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../../home/schedule/controllers/schedule_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../widgets/detail_info_tile.dart';
+import '../widgets/edit_profile_sheet.dart';
 import '../widgets/info_grid_cards.dart';
 import '../widgets/profile_avatar.dart';
 
@@ -15,113 +15,122 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    final ProfileController profileController =
-        Get.isRegistered<ProfileController>()
-        ? Get.find<ProfileController>()
-        : Get.put(ProfileController());
     return Scaffold(
-      backgroundColor: context.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Get.find<ScheduleController>().changePage(0),
-        ),
-        title: Text(
-          "Driver Profile".tr,
-          style: TextStyle(
-            color: context.textPrimaryColor,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        title: Text("driver_profile_title".tr),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.edit_note, size: 28.sp),
+            onPressed: () {
+              Get.bottomSheet(
+                EditProfileSheet(controller: controller),
+                isScrollControlled: true,
+                ignoreSafeArea: false,
+              );
+            },
+          ),
+        ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: Column(
-          children: [
-            SizedBox(height: 20.h),
-            const ProfileAvatar(),
-            SizedBox(height: 16.h),
-            Obx(
-              () => Text(
-                controller.name.value,
-                style: TextStyle(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.bold,
-                  color: context.textPrimaryColor,
-                ),
-              ),
-            ),
-            SizedBox(height: 4.h),
-            Obx(
-              () => Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.star, color: AppColor.primaryGreen, size: 16.sp),
-                  Text(
-                    " ${controller.rating.value} ",
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColor.primaryGreen,
-                    ),
-                  ),
-                  Text(
-                    "(${controller.totalTrips.value} ${'trips'.tr})",
-                    style: TextStyle(
-                      color: context.textTertiaryColor,
-                      fontSize: 12.sp,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 24.h),
-            Row(
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(
+            child: CircularProgressIndicator(color: AppColor.primaryGreen),
+          );
+        }
+
+        final driver = controller.driverData.value;
+        if (driver == null) {
+          return Center(child: Text("no_data_found".tr));
+        }
+
+        return RefreshIndicator(
+          color: Colors.white,
+          backgroundColor: AppColor.primaryGreen,
+          onRefresh: () => controller.fetchProfile(),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(
               children: [
-                Obx(
-                  () => InfoGridCards(
-                    title: "Experience".tr,
-                    value: controller.experience.value,
+                SizedBox(height: 20.h),
+                const ProfileAvatar(),
+                SizedBox(height: 16.h),
+                Text(
+                  driver.name,
+                  style: TextStyle(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 12.w),
-                Obx(
-                  () => InfoGridCards(
-                    title: "Status".tr,
-                    value: controller.status.value,
-                    isStatus: true,
-                  ),
+                SizedBox(height: 4.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.star, color: AppColor.primaryGreen, size: 16.sp),
+                    Text(
+                      " ${driver.rating} ",
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColor.primaryGreen,
+                      ),
+                    ),
+                    Text(
+                      "(${driver.totalTrips} ${'trips'.tr})",
+                      style: TextStyle(
+                        color: context.textTertiaryColor,
+                        fontSize: 12.sp,
+                      ),
+                    ),
+                  ],
                 ),
+                SizedBox(height: 24.h),
+                Row(
+                  children: [
+                    InfoGridCards(
+                      title: "Status".tr,
+                      value: (driver.status == "active")
+                          ? "online".tr
+                          : "offline".tr,
+                      isStatus: true,
+                      dotColor: (driver.status == "active")
+                          ? AppColor.green
+                          : AppColor.error,
+                    ),
+                    SizedBox(width: 12.w),
+                    InfoGridCards(
+                      title: "license_number".tr,
+                      value: driver.licenseNumber ?? "---",
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24.h),
+                DetailInfoTile(
+                  title: "username".tr,
+                  value: "@${driver.username}",
+                  icon: Icons.alternate_email,
+                ),
+                DetailInfoTile(
+                  title: "address".tr,
+                  value: driver.address ?? "no_address_set".tr,
+                  icon: Icons.location_on_outlined,
+                ),
+                DetailInfoTile(
+                  title: "email_address".tr,
+                  value: driver.email,
+                  icon: Icons.mail_outline,
+                ),
+                DetailInfoTile(
+                  title: "phone".tr,
+                  value: driver.phone ?? "---",
+                  icon: Icons.phone_android,
+                ),
+                SizedBox(height: 20.h),
               ],
             ),
-            SizedBox(height: 24.h),
-            Obx(
-              () => DetailInfoTile(
-                title: "License Number".tr,
-                value: controller.licenseNumber.value,
-                icon: Icons.badge_outlined,
-              ),
-            ),
-            Obx(
-              () => DetailInfoTile(
-                title: "Assigned Vehicle".tr,
-                value: controller.vehicle.value,
-                icon: Icons.directions_bus_outlined,
-                hasArrow: true,
-              ),
-            ),
-            Obx(
-              () => DetailInfoTile(
-                title: "Email Address".tr,
-                value: controller.email.value,
-                icon: Icons.mail_outline,
-              ),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      }),
     );
   }
 }

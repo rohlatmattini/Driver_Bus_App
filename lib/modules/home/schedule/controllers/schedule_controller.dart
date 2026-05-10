@@ -2,13 +2,38 @@ import 'package:get/get.dart';
 
 import '../../../../data/models/driver_model.dart';
 import '../../../../data/models/trip_model.dart';
+import '../../../../data/providers/profile_provider.dart';
+import '../../../profile/controllers/profile_controller.dart';
 
 class ScheduleController extends GetxController {
-  var driver = DriverModel(id: '1', name: 'Ahmed', isOnline: true).obs;
+  final ProfileProvider _profileProvider = ProfileProvider();
+  final ProfileController _profileController = Get.find<ProfileController>();
+  Rxn<DriverModel> get driver => _profileController.driverData;
+  var isLoading = true.obs;
   var trips = <TripModel>[].obs;
   var selectedStatus = 'ongoing'.obs;
-
   var currentIndex = 2.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchDriverProfile();
+    loadMockData();
+  }
+
+  Future<void> fetchDriverProfile() async {
+    try {
+      isLoading.value = true;
+      final response = await _profileProvider.getProfile();
+      if (response.statusCode == 200) {
+        driver.value = DriverModel.fromJson(response.data['data']);
+      }
+    } catch (e) {
+      print("Error: $e");
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   final List<String> statusOptions = [
     'ongoing',
@@ -16,12 +41,6 @@ class ScheduleController extends GetxController {
     'completed',
     'cancelled',
   ];
-
-  @override
-  void onInit() {
-    super.onInit();
-    loadMockData();
-  }
 
   void loadMockData() {
     trips.value = [
@@ -65,9 +84,14 @@ class ScheduleController extends GetxController {
   void changePage(int index) => currentIndex.value = index;
 
   void toggleDriverStatus() {
-    driver.update((val) {
-      //   if (val != null) val.isOnline = !val.isOnline;
-    });
+    if (driver.value != null) {
+      String newStatus = driver.value!.status == "active"
+          ? "offline"
+          : "active";
+      driver.value = driver.value!.copyWith(status: newStatus);
+
+      // _authProvider.updateStatus(newStatus);
+    }
   }
 
   void viewMap(TripModel trip) {

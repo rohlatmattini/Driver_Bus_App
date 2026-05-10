@@ -12,39 +12,43 @@ class DriverInfoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Welcome back,".tr,
-                  style: TextStyle(
-                    color: context.textTertiaryColor,
-                    fontSize: 14.sp,
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const Center(child: LinearProgressIndicator());
+      }
+
+      final driver = controller.driver.value;
+      final bool isOnline = driver?.status == "active";
+
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "welcome_back".tr,
+                    style: TextStyle(
+                      color: context.textTertiaryColor,
+                      fontSize: 14.sp,
+                    ),
                   ),
-                ),
-                Obx(
-                  () => Text(
-                    "Captain ".tr + controller.driver.value.name,
+                  Text(
+                    "${"captain ".tr}${driver?.name ?? ''}",
                     style: TextStyle(
                       color: context.textPrimaryColor,
                       fontSize: 22.sp,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        SizedBox(height: 16.h),
-        Obx(
-          () => Container(
+                ],
+              ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+          Container(
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
             decoration: BoxDecoration(
               color: AppColor.primaryGreen,
@@ -57,23 +61,14 @@ class DriverInfoCard extends StatelessWidget {
                   height: 8.w,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: controller.driver.value.isOnline
-                        ? AppColor.green
-                        : AppColor.error,
+                    color: isOnline ? Colors.greenAccent : Colors.redAccent,
                   ),
                 ),
                 SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
-                    "Active Status: ".tr +
-                        (controller.driver.value.isOnline
-                            ? "Online".tr
-                            : "Offline".tr),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    "${"Status: ".tr}${isOnline ? "Online".tr : "Offline".tr}",
+                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
                   ),
                 ),
                 GestureDetector(
@@ -84,13 +79,11 @@ class DriverInfoCard extends StatelessWidget {
                       vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.15),
+                      color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
-                      controller.driver.value.isOnline
-                          ? "Go Offline".tr
-                          : "Go Online".tr,
+                      isOnline ? "Go Offline".tr : "Go Online".tr,
                       style: TextStyle(color: Colors.white, fontSize: 12.sp),
                     ),
                   ),
@@ -98,8 +91,8 @@ class DriverInfoCard extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }
