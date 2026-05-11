@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../core/services/api_service.dart';
 import '../../../core/shared/custom_snackbar.dart';
 import '../../../data/models/driver_model.dart';
 import '../../../data/repositories/profile_repository.dart';
@@ -121,6 +122,10 @@ class ProfileController extends GetxController {
     } finally {
       isUpdating.value = false;
     }
+  }
+
+  void logout() {
+    Get.find<ApiService>().logout(isAutomatic: false);
   }
 
   void back() {

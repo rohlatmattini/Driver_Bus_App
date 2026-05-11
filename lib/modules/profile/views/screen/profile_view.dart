@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../core/shared/custom_app_button.dart';
 import '../../controllers/profile_controller.dart';
+import '../widgets/custom_dialogs.dart';
 import '../widgets/detail_info_tile.dart';
 import '../widgets/edit_profile_sheet.dart';
 import '../widgets/info_grid_cards.dart';
@@ -125,7 +127,18 @@ class ProfileView extends GetView<ProfileController> {
                   value: driver.phone ?? "---",
                   icon: Icons.phone_android,
                 ),
-                SizedBox(height: 20.h),
+                SizedBox(height: 32.h),
+                CustomAppButton(
+                  text: "logout".tr,
+                  icon: Icons.logout_rounded,
+                  isOutlined: true,
+                  onPressed: () {
+                    CustomDialogs.showLogoutDialog(
+                      onConfirm: () => controller.logout(),
+                    );
+                  },
+                ),
+                SizedBox(height: 40.h),
               ],
             ),
           ),
