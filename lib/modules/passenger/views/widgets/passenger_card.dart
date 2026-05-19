@@ -30,7 +30,7 @@ class PassengerCard extends StatelessWidget {
           CircleAvatar(
             backgroundColor: AppColor.primaryGreen.withOpacity(0.1),
             child: Text(
-              passenger.seatNumber,
+              "Seat: ${passenger.seatNumbersFormatted}",
               style: TextStyle(
                 color: AppColor.primaryGreen,
                 fontWeight: FontWeight.bold,
@@ -51,7 +51,7 @@ class PassengerCard extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "ID: ${passenger.id}",
+                  "ID: ",
                   style: TextStyle(
                     color: context.textTertiaryColor,
                     fontSize: 11.sp,

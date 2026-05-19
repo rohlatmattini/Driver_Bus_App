@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
 
+import '../../../../core/shared/custom_snackbar.dart';
 import '../../../../data/models/driver_model.dart';
 import '../../../../data/models/trip_model.dart';
 import '../../../../data/providers/profile_provider.dart';
+import '../../../../data/repositories/trip_repository.dart';
 import '../../../profile/controllers/profile_controller.dart';
 
 class ScheduleController extends GetxController {
   final ProfileProvider _profileProvider = ProfileProvider();
+  final TripRepository _tripRepository;
   final ProfileController _profileController = Get.find<ProfileController>();
   Rxn<DriverModel> get driver => _profileController.driverData;
   var isLoading = true.obs;
@@ -14,22 +17,37 @@ class ScheduleController extends GetxController {
   var selectedStatus = 'ongoing'.obs;
   var currentIndex = 2.obs;
 
+  ScheduleController({required TripRepository tripRepository})
+    : _tripRepository = tripRepository;
+
   @override
   void onInit() {
     super.onInit();
     fetchDriverProfile();
-    loadMockData();
+    fetchTrips();
   }
 
   Future<void> fetchDriverProfile() async {
     try {
-      isLoading.value = true;
       final response = await _profileProvider.getProfile();
       if (response.statusCode == 200) {
-        driver.value = DriverModel.fromJson(response.data['data']);
+        _profileController.driverData.value = DriverModel.fromJson(
+          response.data['data'],
+        );
       }
     } catch (e) {
-      print("Error: $e");
+      print("Error fetching profile: \$e");
+    }
+  }
+
+  Future<void> fetchTrips({int page = 1}) async {
+    try {
+      isLoading.value = true;
+      final fetchedTrips = await _tripRepository.getDriverTrips(page: page);
+      trips.value = fetchedTrips;
+    } catch (e) {
+      print("Error fetching trips: $e");
+      CustomSnackBar.showError('Failed to load trips');
     } finally {
       isLoading.value = false;
     }
@@ -42,64 +60,32 @@ class ScheduleController extends GetxController {
     'cancelled',
   ];
 
-  void loadMockData() {
-    trips.value = [
-      TripModel(
-        id: '1',
-        pickupLocation: 'Cairo, Tahrir Sq.',
-        destination: 'Alexandria, Station',
-        time: '08:30 AM',
-        status: 'ongoing',
-        hasMap: true,
-        passengerCount: "42/50",
-        distance: "218 km",
-      ),
-      TripModel(
-        id: '2',
-        pickupLocation: 'Hurghada, Marina',
-        destination: 'Cairo, Giza',
-        time: '06:00 AM',
-        status: 'upcoming',
-        busNumber: '4442',
-        passengerCount: "30/50",
-        distance: "450 km",
-      ),
-      TripModel(
-        id: '3',
-        pickupLocation: 'Sharm El Sheikh',
-        destination: 'Suez Terminal',
-        time: 'May 26, 02:30 PM',
-        status: 'upcoming',
-        passengerCount: "30/50",
-        distance: "450 km",
-      ),
-    ];
-  }
-
   List<TripModel> get filteredTrips =>
-      trips.where((trip) => trip.status == selectedStatus.value).toList();
+      trips.where((trip) => trip.mappedStatus == selectedStatus.value).toList();
 
   void changeStatus(String status) => selectedStatus.value = status;
 
   void changePage(int index) => currentIndex.value = index;
 
   void toggleDriverStatus() {
-    if (driver.value != null) {
-      String newStatus = driver.value!.status == "active"
+    if (_profileController.driverData.value != null) {
+      String newStatus = _profileController.driverData.value!.status == "active"
           ? "offline"
           : "active";
-      driver.value = driver.value!.copyWith(status: newStatus);
 
-      // _authProvider.updateStatus(newStatus);
+      _profileController.driverData.value = _profileController.driverData.value!
+          .copyWith(status: newStatus);
+
+      CustomSnackBar.showSuccess(
+        newStatus == "active"
+            ? "You are now Online".tr
+            : "You are now Offline".tr,
+      );
     }
   }
 
   void viewMap(TripModel trip) {
-    Get.snackbar(
-      'Map',
-      'Opening map for ${trip.pickupLocation}',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    CustomSnackBar.showSuccess('Opening map for ${trip.pickupLocation}');
   }
 
   String getStatusText(String status) => status.tr;

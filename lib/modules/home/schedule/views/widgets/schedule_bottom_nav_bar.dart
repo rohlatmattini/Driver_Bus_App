@@ -36,7 +36,6 @@ class ScheduleBottomNavBar extends StatelessWidget {
             ),
             label: "Complaints".tr,
           ),
-          // العنصر الفارغ للمنتصف
           const BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.transparent),
             label: "",

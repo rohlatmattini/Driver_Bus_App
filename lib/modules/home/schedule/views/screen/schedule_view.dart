@@ -75,10 +75,10 @@ class ScheduleView extends StatelessWidget {
   Widget _buildScheduleContent(ScheduleController controller) {
     return SafeArea(
       child: RefreshIndicator(
-        color: Colors.white,
+        color: AppColor.white,
         backgroundColor: AppColor.primaryGreen,
         onRefresh: () async {
-          //          await controller.fetchTrips();
+          await controller.fetchTrips();
         },
         child: Column(
           children: [

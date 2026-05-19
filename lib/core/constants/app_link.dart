@@ -8,4 +8,11 @@ class AppLink {
 
   //Profile
   static const String driverProfile = "$baseUrl/driver/profile";
+
+  // Trips
+  static const String driverTrips = "$baseUrl/driver/trips";
+
+  // Update Trip Status
+  static String updateTripStatus(int tripId) =>
+      "$baseUrl/driver/trips/$tripId/status";
 }

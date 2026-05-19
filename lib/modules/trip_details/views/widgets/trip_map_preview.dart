@@ -1,5 +1,5 @@
+// lib/modules/trip_details/views/widgets/trip_map_preview.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
-import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -11,40 +11,141 @@ class TripMapPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(TripDetailsController());
+    // Use Get.find inside build method to ensure controller exists
+    final controller = Get.find<TripDetailsController>();
+
     return Container(
       height: 200.h,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
-        color: context.textTertiaryColor.withOpacity(0.2),
-        image: const DecorationImage(
-          image: AssetImage('assets/images/map_placeholder.png'),
-          fit: BoxFit.cover,
+        gradient: LinearGradient(
+          colors: [
+            AppColor.primaryGreen.withOpacity(0.8),
+            AppColor.primaryGreen.withOpacity(0.4),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
       ),
-      child: Center(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-          decoration: BoxDecoration(
-            color: AppColor.primaryGreen,
-            borderRadius: BorderRadius.circular(25.r),
+      child: Stack(
+        children: [
+          Center(
+            child: Icon(
+              Icons.map_outlined,
+              size: 80.sp,
+              color: Colors.white.withOpacity(0.3),
+            ),
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const Icon(Icons.sync, color: Colors.white, size: 16),
-              SizedBox(width: 8.w),
-              Text(
-                controller.pickupLocation.value,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+          Positioned(
+            top: 16.h,
+            left: 16.w,
+            right: 16.w,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.9),
+                borderRadius: BorderRadius.circular(12.r),
+              ),
+              child: Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.trip_origin,
+                          color: AppColor.primaryGreen,
+                          size: 16.sp,
+                        ),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            controller.pickupLocation.value,
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    Row(
+                      children: [
+                        SizedBox(width: 7.w),
+                        Container(
+                          height: 20.h,
+                          width: 2.w,
+                          color: AppColor.primaryGreen.withOpacity(0.5),
+                        ),
+                        SizedBox(width: 15.w),
+                        Obx(
+                          () => Text(
+                            controller.duration.value,
+                            style: TextStyle(
+                              color: AppColor.primaryGreen,
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 8.h),
+                    Row(
+                      children: [
+                        Icon(Icons.location_on, color: Colors.red, size: 16.sp),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            controller.destination.value,
+                            style: const TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 13,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            bottom: 16.h,
+            right: 16.w,
+            child: Obx(
+              () => Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20.r),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.1),
+                      blurRadius: 4,
+                    ),
+                  ],
+                ),
+                child: Text(
+                  controller.distance.value,
+                  style: TextStyle(
+                    color: AppColor.primaryGreen,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

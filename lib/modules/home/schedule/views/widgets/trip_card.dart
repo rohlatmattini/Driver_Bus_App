@@ -37,6 +37,7 @@ class TripCard extends StatelessWidget {
         ),
         child: Column(
           children: [
+            // Header Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -46,17 +47,13 @@ class TripCard extends StatelessWidget {
                     vertical: 4.h,
                   ),
                   decoration: BoxDecoration(
-                    color: trip.status == 'ongoing'
-                        ? AppColor.green.withOpacity(0.1)
-                        : AppColor.blue.withOpacity(0.1),
+                    color: AppColor.primaryGreen.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8.r),
                   ),
                   child: Text(
-                    trip.status.toUpperCase().tr,
+                    trip.statusDisplayName,
                     style: TextStyle(
-                      color: trip.status == 'ongoing'
-                          ? AppColor.green
-                          : AppColor.blue,
+                      color: AppColor.primaryGreen,
                       fontSize: 10.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -69,6 +66,8 @@ class TripCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 20.h),
+
+            // Route Locations
             _buildLocationRow(
               Icons.radio_button_off,
               "ORIGIN".tr,
@@ -86,33 +85,48 @@ class TripCard extends StatelessWidget {
             SizedBox(height: 12.h),
             Divider(color: context.grey.withOpacity(0.2)),
             SizedBox(height: 8.h),
+
+            // Bottom Info Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                // Time & Duration
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(
-                      Icons.access_time_filled,
-                      size: 16.sp,
-                      color: context.grey,
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.access_time_filled,
+                          size: 16.sp,
+                          color: context.grey,
+                        ),
+                        SizedBox(width: 6.w),
+                        Text(
+                          trip.departureTimeFormatted,
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600,
+                            color: context.black,
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 6.w),
+                    SizedBox(height: 4.h),
                     Text(
-                      trip.time,
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600,
-                        color: context.black,
-                      ),
+                      trip.tripDuration,
+                      style: TextStyle(fontSize: 12.sp, color: context.grey),
                     ),
                   ],
                 ),
+
+                // View Map or Bus Info
                 if (trip.hasMap)
                   ElevatedButton(
                     onPressed: () => controller.viewMap(trip),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColor.primaryGreen,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColor.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.r),
@@ -123,13 +137,24 @@ class TripCard extends StatelessWidget {
                       style: TextStyle(fontSize: 12.sp),
                     ),
                   )
-                else if (trip.busNumber != null)
-                  Text(
-                    "Bus #${trip.busNumber}",
-                    style: TextStyle(
-                      color: context.grey,
-                      fontWeight: FontWeight.bold,
-                    ),
+                else
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        "${trip.passengerCount} ${"passengers".tr}",
+                        style: TextStyle(color: context.grey, fontSize: 12.sp),
+                      ),
+                      SizedBox(height: 4.h),
+                      Text(
+                        "${trip.fareFormatted} / ${"seat".tr}",
+                        style: TextStyle(
+                          color: AppColor.primaryGreen,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
               ],
             ),
@@ -180,6 +205,8 @@ class TripCard extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: context.black,
               ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             if (!isLast) SizedBox(height: 15.h),
           ],

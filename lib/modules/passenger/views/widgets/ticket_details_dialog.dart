@@ -1,9 +1,10 @@
-import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/app_color.dart';
+import '../../../../core/extensions/context_extensions.dart';
+import '../../../../data/models/passenger_model.dart';
 import '../../../../routes/app_routes/app_routes.dart';
 import '../../controllers/passenger_controller.dart';
 
@@ -15,6 +16,8 @@ class TicketDetailsDialog extends StatelessWidget {
     final controller = Get.find<PassengerController>();
     final passenger = controller.currentScannedPassenger.value;
 
+    if (passenger == null) return const SizedBox.shrink();
+
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
@@ -24,19 +27,16 @@ class TicketDetailsDialog extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _buildHeader(context, passenger?.id ?? "N/A"),
+          _buildHeader(context, passenger),
           SizedBox(height: 24.h),
-          _buildInfoRow(context, "passenger".tr, passenger?.name ?? "Unknown"),
-          _buildInfoRow(
-            context,
-            "route".tr,
-            passenger?.route ?? "Not Specified",
-          ),
-          _buildInfoRow(context, "seat".tr, passenger?.seatNumber ?? "--"),
+          _buildInfoRow(context, "passenger".tr, passenger.name),
+          _buildInfoRow(context, "phone".tr, passenger.phoneNumber),
+          _buildInfoRow(context, "seat".tr, passenger.seatNumbersFormatted),
           _buildInfoRow(
             context,
             "status".tr,
-            passenger?.isPaid == true ? "Paid" : "Unpaid",
+            passenger.status.tr.toUpperCase(),
+            isPaid: passenger.isPaid,
           ),
           SizedBox(height: 30.h),
           _buildActions(),
@@ -45,17 +45,25 @@ class TicketDetailsDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader(BuildContext context, String ticketId) {
+  Widget _buildHeader(BuildContext context, PassengerModel passenger) {
+    final isVerified = passenger.isPaid;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           padding: EdgeInsets.all(8.w),
           decoration: BoxDecoration(
-            color: AppColor.success.withOpacity(0.1),
+            color: isVerified
+                ? AppColor.success.withOpacity(0.1)
+                : Colors.orange.withOpacity(0.1),
             shape: BoxShape.circle,
           ),
-          child: Icon(Icons.check_circle, color: AppColor.success, size: 40.sp),
+          child: Icon(
+            isVerified ? Icons.check_circle : Icons.warning_amber_rounded,
+            color: isVerified ? AppColor.success : Colors.orange,
+            size: 40.sp,
+          ),
         ),
         SizedBox(width: 15.w),
         Expanded(
@@ -63,36 +71,32 @@ class TicketDetailsDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "ticketVerified".tr,
+                isVerified ? "ticketVerified".tr : "ticketStatus".tr,
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                   color: context.black,
                 ),
               ),
-              Text(
-                "ID: $ticketId",
-                style: TextStyle(fontSize: 12.sp, color: context.grey),
-              ),
             ],
           ),
         ),
-        _buildStatusBadge(),
+        _buildStatusBadge(isVerified, passenger),
       ],
     );
   }
 
-  Widget _buildStatusBadge() {
+  Widget _buildStatusBadge(bool isVerified, PassengerModel passenger) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: AppColor.primaryGreen,
+        color: isVerified ? AppColor.primaryGreen : Colors.orange,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Text(
-        "VERIFIED",
+        isVerified ? "VERIFIED".tr : passenger.status.tr.toUpperCase(),
         style: TextStyle(
-          color: Colors.white,
+          color: AppColor.white,
           fontSize: 10.sp,
           fontWeight: FontWeight.bold,
         ),
@@ -100,7 +104,12 @@ class TicketDetailsDialog extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, String label, String value) {
+  Widget _buildInfoRow(
+    BuildContext context,
+    String label,
+    String value, {
+    bool isPaid = false,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: 8.h),
       child: Row(
@@ -113,7 +122,7 @@ class TicketDetailsDialog extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              color: context.black,
+              color: isPaid ? AppColor.success : context.black,
               fontSize: 14.sp,
               fontWeight: FontWeight.bold,
             ),
@@ -141,7 +150,7 @@ class TicketDetailsDialog extends StatelessWidget {
             ),
             child: Text(
               "nextScan".tr,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

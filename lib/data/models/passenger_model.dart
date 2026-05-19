@@ -1,19 +1,33 @@
 class PassengerModel {
-  final String id;
   final String name;
-  final String seatNumber;
-  final bool isPaid;
-  final String? route;
+  final String phoneNumber;
+  final List<int> seatNumbers;
+  final String status;
 
-  PassengerModel({required this.id, required this.name, required this.seatNumber, required this.isPaid, this.route});
+  PassengerModel({
+    required this.name,
+    required this.phoneNumber,
+    required this.seatNumbers,
+    required this.status,
+  });
+
+  PassengerModel.old({
+    required this.name,
+    required this.phoneNumber,
+    required this.seatNumbers,
+    required this.status,
+  });
 
   factory PassengerModel.fromJson(Map<String, dynamic> json) {
     return PassengerModel(
-      id: json['id'],
       name: json['name'],
-      seatNumber: json['seatNumber'],
-      isPaid: json['isPaid'] ?? false,
-      route: json['route'],
+      phoneNumber: json['phone_number'],
+      seatNumbers: List<int>.from(json['seat_numbers']),
+      status: json['status'],
     );
   }
+
+  String get seatNumbersFormatted => seatNumbers.join(', ');
+
+  bool get isPaid => status.toLowerCase() == 'confirmed';
 }

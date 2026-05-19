@@ -99,6 +99,19 @@ class AppTranslations extends Translations {
       "Profile": "Profile",
       'welcome_back': 'Welcome back,',
       'captain ': 'Captain ',
+
+      "in_progress": "In Progress",
+      "upcoming": "Upcoming",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "on_time": "On Time",
+      "early_by": "Early by",
+      "delayed_by": "Delayed by",
+      "minutes": "min",
+      "started": "Started",
+      "not_started": "Not Started",
+      "arrived": "Arrived",
+
       //Passenger
       "Passenger List": "Passenger List",
       "Passengers": "Passengers",
@@ -182,6 +195,21 @@ class AppTranslations extends Translations {
       "darkMode": "darkMode",
       "العربية": 'Arabic',
       "English": "English",
+
+      "updateTripStatus": "Update Trip Status",
+      "startTrip": "Start Trip",
+      "endTrip": "End Trip",
+      "updateStatus": "Update Status",
+      "Confirm": "Confirm",
+      "Cancel": "Cancel",
+      "Are you sure you want to start this trip?":
+          "Are you sure you want to start this trip?",
+      "Are you sure you want to mark this trip as completed?":
+          "Are you sure you want to mark this trip as completed?",
+      "Trip started successfully": "Trip started successfully",
+      "Trip completed successfully": "Trip completed successfully",
+      "Cannot update trip status from": "Cannot update trip status from",
+      "Failed to update trip status": "Failed to update trip status",
     },
     'ar': {
       // Login
@@ -261,14 +289,7 @@ class AppTranslations extends Translations {
       'beOffline': 'غير متصل',
       "Go Offline": "غير متصل",
       "Go Online": "متصل",
-      'upcoming': 'القادمة',
-      'UPCOMING': 'القادمة',
-      'completed': 'المكتملة',
-      'COMPLETED': 'المكتملة',
-      'cancelled': 'الملغاة',
-      'CANCELLED': 'الملغاة',
       'ongoing': 'الحالية',
-      'ONGOING': 'الحالية',
       'ORIGIN': 'الانطلاق',
       'DESTINATION': 'الوجهة',
       "View Map": 'عرض الخريطة',
@@ -282,6 +303,34 @@ class AppTranslations extends Translations {
       'welcome_back': 'مرحباً بعودتك،',
       'captain ': 'كابتن ',
       "Status: ": "الحالة: ",
+      "in_progress": "قيد التنفيذ",
+      "upcoming": "قادمة",
+      "completed": "مكتملة",
+      "cancelled": "ملغاة",
+      "on_time": "في الوقت المحدد",
+      "early_by": "مبكر بـ",
+      "delayed_by": "متأخر بـ",
+      "minutes": "دقيقة",
+      "started": "بدأت",
+      "not_started": "لم تبدأ بعد",
+      "arrived": "وصلت",
+
+      //TripDetails
+      "tripDetails": "تفاصيل الرحلة",
+      "scheduledDeparture": "المغادرة المقررة",
+      "passengers": "الركاب",
+      "distance": "المسافة",
+
+      "estimatedArrival": "الوصول المتوقع",
+      "tripFare": "تعرفة الرحلة",
+      "tripDuration": "مدة الرحلة",
+      "vehicle": "المركبة",
+
+      'tripStatus': 'حالة الرحلة',
+      'Start': 'بدء الرحلة',
+      'Arrived': 'وصلت الرحلة',
+      'Trip Progress': 'حالة الرحلة',
+
       //Passenger
       "Passenger List": "قائمة الركاب",
       "Passengers": "الركاب",
@@ -309,23 +358,6 @@ class AppTranslations extends Translations {
       'noNotifications': 'لا توجد إشعارات حالياً',
       'clearAll': 'مسح الكل',
       'newMessage': 'رسالة جديدة',
-
-      //TripDetails
-      "tripDetails": "تفاصيل الرحلة",
-      "scheduledDeparture": "المغادرة المقررة",
-      "passengers": "الركاب",
-      "distance": "المسافة",
-      "busStatus": "حالة الحافلة",
-      "startTrip": "بدء الرحلة",
-      'tripStatus': 'حالة الرحلة',
-      'Start': 'بدء الرحلة',
-      'Arrived': 'وصلت الرحلة',
-      'Ready': 'جاهز',
-      'Needs Maintenance': 'يحتاج إلى صيانة',
-      'Breakdown': 'عطل',
-      'Emergency': 'طارئ',
-      'Trip Progress': 'حالة الرحلة',
-      'Bus Condition': 'حالة الباص',
 
       //complaintPage
       'sendComplaint': 'إرسال شكوى للشركة',
@@ -377,6 +409,21 @@ class AppTranslations extends Translations {
       "darkMode": 'الوضع الداكن',
       "العربية": "العربية",
       "English": 'الانكليزية',
+
+      "updateTripStatus": "تحديث حالة الرحلة",
+      "startTrip": "بدء الرحلة",
+      "endTrip": "إنهاء الرحلة",
+      "updateStatus": "تحديث الحالة",
+      "Confirm": "تأكيد",
+      "Cancel": "إلغاء",
+      "Are you sure you want to start this trip?":
+          "هل أنت متأكد من بدء هذه الرحلة؟",
+      "Are you sure you want to mark this trip as completed?":
+          "هل أنت متأكد من إنهاء هذه الرحلة؟",
+      "Trip started successfully": "تم بدء الرحلة بنجاح",
+      "Trip completed successfully": "تم إنهاء الرحلة بنجاح",
+      "Cannot update trip status from": "لا يمكن تحديث حالة الرحلة من",
+      "Failed to update trip status": "فشل تحديث حالة الرحلة",
     },
   };
 }

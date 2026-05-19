@@ -1,3 +1,4 @@
+import 'package:driver_bus_app/core/constants/app_color.dart';
 import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -21,7 +22,11 @@ class ComplaintsAppBar extends StatelessWidget implements PreferredSizeWidget {
         child: CircleAvatar(
           backgroundColor: context.cardColor,
           child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              size: 18,
+              color: AppColor.black,
+            ),
             onPressed: () => Get.back(),
           ),
         ),
