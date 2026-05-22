@@ -21,7 +21,7 @@ class PassengerStatsRow extends StatelessWidget {
             _buildStatItem(
               context,
               "TOTAL".tr,
-              "${controller.passengers.length}/50",
+              "${controller.passengers.length}",
               context.textPrimaryColor,
               isActive: controller.selectedFilter.value == 'ALL',
               onTap: () => controller.setFilter('ALL'),
@@ -30,7 +30,7 @@ class PassengerStatsRow extends StatelessWidget {
             _buildStatItem(
               context,
               "PAID".tr,
-              "${controller.passengers.where((p) => p.isPaid).length}",
+              "${controller.paidCount}",
               AppColor.success,
               isActive: controller.selectedFilter.value == 'PAID',
               onTap: () => controller.setFilter('PAID'),
@@ -39,7 +39,7 @@ class PassengerStatsRow extends StatelessWidget {
             _buildStatItem(
               context,
               "UNPAID".tr,
-              "${controller.passengers.where((p) => !p.isPaid).length}",
+              "${controller.unpaidCount}",
               AppColor.error,
               isActive: controller.selectedFilter.value == 'UNPAID',
               onTap: () => controller.setFilter('UNPAID'),

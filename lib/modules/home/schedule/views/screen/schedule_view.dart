@@ -82,10 +82,58 @@ class ScheduleView extends StatelessWidget {
         },
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
-              child: DriverInfoCard(controller: controller),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(20.w, 15.h, 20.w, 0),
+                  child: DriverInfoCard(controller: controller),
+                ),
+
+                Obx(
+                  () => controller.isOnline.value
+                      ? const SizedBox.shrink()
+                      : Positioned(
+                          left: 35.w,
+                          top: 30.h,
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 8.w,
+                              vertical: 3.h,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(10.r),
+                              border: Border.all(
+                                color: Colors.red.shade200,
+                                width: 0.5,
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.cloud_off_rounded,
+                                  color: Colors.red.shade700,
+                                  size: 11.r,
+                                ),
+                                SizedBox(width: 4.w),
+                                Text(
+                                  'offline_mode'.tr,
+                                  style: TextStyle(
+                                    color: Colors.red.shade800,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                ),
+              ],
             ),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w),
               child: StatusTabs(controller: controller),

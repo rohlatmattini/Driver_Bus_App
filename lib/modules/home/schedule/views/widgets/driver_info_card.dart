@@ -14,8 +14,16 @@ class DriverInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() {
       if (controller.isLoading.value) {
-        return const Center(
-          child: LinearProgressIndicator(color: AppColor.primaryGreen),
+        return Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.h),
+            child: LinearProgressIndicator(
+              valueColor: const AlwaysStoppedAnimation<Color>(
+                AppColor.primaryGreen,
+              ),
+              backgroundColor: AppColor.primaryGreen.withOpacity(0.1),
+            ),
+          ),
         );
       }
 

@@ -20,9 +20,11 @@ class AppValidator {
       return 'enterEmail'.tr;
     }
 
-    final emailRegExp = RegExp(r'^[a-zA-Z0-9.]+@[a-zA-Z0-9]+\.[a-zA-Z]+');
+    final emailRegExp = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
 
-    if (!emailRegExp.hasMatch(value)) {
+    if (!emailRegExp.hasMatch(value.trim())) {
       return 'invalidEmail'.tr;
     }
     return null;

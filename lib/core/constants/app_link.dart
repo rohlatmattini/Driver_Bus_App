@@ -15,4 +15,10 @@ class AppLink {
   // Update Trip Status
   static String updateTripStatus(int tripId) =>
       "$baseUrl/driver/trips/$tripId/status";
+
+  static String tripPassengers(int tripId) =>
+      "/driver/trips/$tripId/passengers";
+
+  // Bookings
+  static const String verifyTicket = "/driver/bookings/verify";
 }

@@ -19,7 +19,18 @@ class TripStatsGrid extends StatelessWidget {
           children: [
             Expanded(
               child: InkWell(
-                onTap: () => Get.toNamed(AppRoutes.passengerList),
+                onTap: () {
+                  // Use currentTrip?.id instead of tripId
+                  if (controller.currentTrip != null) {
+                    Get.toNamed(
+                      AppRoutes.passengerList,
+                      arguments: {'trip_id': controller.currentTrip!.id},
+                    );
+                  } else {
+                    // Fallback if trip data isn't loaded
+                    Get.toNamed(AppRoutes.passengerList);
+                  }
+                },
                 borderRadius: BorderRadius.circular(12.r),
                 child: Obx(
                   () => TripInfoStatCard(

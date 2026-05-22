@@ -1,3 +1,4 @@
+import 'package:driver_bus_app/core/constants/app_color.dart';
 import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,7 +29,11 @@ class PassengerListView extends StatelessWidget {
           child: CircleAvatar(
             backgroundColor: context.cardColor,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                size: 18,
+                color: AppColor.black,
+              ),
               onPressed: () => Get.back(),
             ),
           ),
@@ -41,12 +46,6 @@ class PassengerListView extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.more_horiz, color: context.textPrimaryColor),
-            onPressed: () {},
-          ),
-        ],
       ),
       body: Column(
         children: [
@@ -54,15 +53,72 @@ class PassengerListView extends StatelessWidget {
           PassengerSearchBar(controller: controller),
           const PassengerStatsRow(),
           Expanded(
-            child: Obx(
-              () => ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 20.w),
-                itemCount: controller.filteredPassengers.length,
-                itemBuilder: (context, index) => PassengerCard(
-                  passenger: controller.filteredPassengers[index],
+            child: Obx(() {
+              if (controller.isLoading.value && controller.passengers.isEmpty) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: AppColor.primaryGreen,
+                  ),
+                );
+              }
+
+              if (controller.passengers.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.people_outline,
+                        size: 64.sp,
+                        color: Colors.grey,
+                      ),
+                      SizedBox(height: 16.h),
+                      Text(
+                        "No passengers found".tr,
+                        style: TextStyle(
+                          color: context.textTertiaryColor,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return RefreshIndicator(
+                color: AppColor.primaryGreen,
+                onRefresh: () => controller.loadPassengersFromApi(),
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (scrollInfo) {
+                    if (scrollInfo.metrics.pixels ==
+                            scrollInfo.metrics.maxScrollExtent &&
+                        !controller.isLoading.value) {
+                      controller.loadMorePassengers();
+                    }
+                    return false;
+                  },
+                  child: ListView.builder(
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    itemCount: controller.filteredPassengers.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index == controller.filteredPassengers.length) {
+                        return controller.isLoading.value
+                            ? Padding(
+                                padding: EdgeInsets.all(20.h),
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              )
+                            : SizedBox.shrink();
+                      }
+                      return PassengerCard(
+                        passenger: controller.filteredPassengers[index],
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ),
           _buildScanButton(),
         ],

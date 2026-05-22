@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' hide Response;
 
+import '../../core/constants/app_link.dart';
 import '../../core/services/api_service.dart';
 
 class BookingProvider extends GetxService {
@@ -9,8 +10,22 @@ class BookingProvider extends GetxService {
   Future<Response> verifyTicket(String pnrCode) async {
     try {
       final response = await _apiService.dio.post(
-        '/driver/bookings/verify',
+        AppLink.verifyTicket,
         data: {"pnr_code": pnrCode},
+      );
+      return response;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? e.message;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  Future<Response> getTripPassengers(int tripId, {int page = 1}) async {
+    try {
+      final response = await _apiService.dio.get(
+        AppLink.tripPassengers(tripId),
+        queryParameters: {'page': page},
       );
       return response;
     } on DioException catch (e) {

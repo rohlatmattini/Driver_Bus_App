@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,17 +12,90 @@ import '../views/widgets/ticket_details_dialog.dart';
 
 class PassengerController extends GetxController {
   final BookingRepository _bookingRepository = Get.find<BookingRepository>();
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription? _connectivitySubscription;
 
   var passengers = <PassengerModel>[].obs;
   var searchQuery = ''.obs;
   var currentScannedPassenger = Rxn<PassengerModel>();
   var selectedFilter = 'ALL'.obs;
   var isLoading = false.obs;
+  var totalPassengers = 0.obs;
+  var currentPage = 1.obs;
+  var lastPage = 1.obs;
+
+  var isOnline = true.obs;
+
+  final int tripId = Get.arguments?['trip_id'] ?? 0;
 
   @override
   void onInit() {
     super.onInit();
-    loadPassengers();
+    _checkInitialConnectivity();
+    _listenToConnectivityChanges();
+  }
+
+  Future<void> _checkInitialConnectivity() async {
+    final List<ConnectivityResult> result = await _connectivity
+        .checkConnectivity();
+    if (result.isNotEmpty) {
+      _updateConnectionStatus(result.first);
+    } else {
+      _updateConnectionStatus(ConnectivityResult.none);
+    }
+    loadPassengersFromApi();
+  }
+
+  void _listenToConnectivityChanges() {
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((
+      List<ConnectivityResult> results,
+    ) {
+      if (results.isNotEmpty) {
+        _updateConnectionStatus(results.first);
+      }
+    });
+  }
+
+  void _updateConnectionStatus(ConnectivityResult result) {
+    if (result == ConnectivityResult.none) {
+      isOnline.value = false;
+      CustomSnackBar.showError("working_offline_mode".tr);
+    } else {
+      if (!isOnline.value) {
+        isOnline.value = true;
+        CustomSnackBar.showSuccess("back_online_syncing".tr);
+        syncPendingTicketsToServer();
+      }
+    }
+  }
+
+  Future<void> loadPassengersFromApi() async {
+    if (tripId == 0) {
+      CustomSnackBar.showError("Invalid trip ID".tr);
+      return;
+    }
+
+    isLoading.value = true;
+    try {
+      final passengerList = await _bookingRepository.getTripPassengers(
+        tripId,
+        page: currentPage.value,
+        isOnline: isOnline.value,
+      );
+
+      if (currentPage.value == 1) {
+        passengers.value = passengerList;
+      } else {
+        passengers.addAll(passengerList);
+      }
+
+      totalPassengers.value = passengers.length;
+      lastPage.value = (totalPassengers.value / 15).ceil();
+    } catch (error) {
+      CustomSnackBar.showError(error.toString());
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   Future<void> processQrCode(String? pnrCode) async {
@@ -27,13 +104,57 @@ class PassengerController extends GetxController {
       return;
     }
 
+    String cleanPnrCode = pnrCode.trim();
+
+    if (cleanPnrCode.contains('{') && cleanPnrCode.contains('pnr_code')) {
+      try {
+        final Map<String, dynamic> parsedJson = jsonDecode(cleanPnrCode);
+        if (parsedJson.containsKey('pnr_code')) {
+          cleanPnrCode = parsedJson['pnr_code'].toString().trim();
+        }
+      } catch (e) {
+        final regExp = RegExp(r'"pnr_code"\s*:\s*"([^"]+)"');
+        final match = regExp.firstMatch(cleanPnrCode);
+        if (match != null && match.groupCount >= 1) {
+          cleanPnrCode = match.group(1)!;
+        }
+      }
+    }
+
+    if (!isOnline.value) {
+      final bool isTicketInCache = passengers.any(
+        (p) => p.pnrCode == cleanPnrCode,
+      );
+
+      if (!isTicketInCache) {
+        CustomSnackBar.showError("ticket_not_cached_internet_required".tr);
+        return;
+      }
+    }
+
     isLoading.value = true;
 
     try {
-      final passenger = await _bookingRepository.verifyTicket(pnrCode);
-      currentScannedPassenger.value = passenger;
+      final verifiedPassenger = await _bookingRepository.verifyTicket(
+        pnrCode: cleanPnrCode,
+        tripId: tripId,
+        isOnline: isOnline.value,
+      );
 
-      Get.back();
+      currentScannedPassenger.value = verifiedPassenger;
+
+      final index = passengers.indexWhere((p) => p.pnrCode == cleanPnrCode);
+      if (index != -1) {
+        passengers[index] = passengers[index].copyWith(
+          status: verifiedPassenger.status,
+        );
+        passengers.refresh();
+      }
+
+      if (Get.currentRoute == '/qr-scanner') {
+        Get.back();
+      }
+
       showTicketResult();
     } catch (error) {
       CustomSnackBar.showError(error.toString());
@@ -42,55 +163,70 @@ class PassengerController extends GetxController {
     }
   }
 
-  void showTicketResult() {
-    if (currentScannedPassenger.value == null) return;
+  Future<void> syncPendingTicketsToServer() async {
+    final pendingPnrList = _bookingRepository.getPendingTickets();
+    if (pendingPnrList.isEmpty) return;
 
-    Get.dialog(
-      Dialog(
-        backgroundColor: Colors.transparent,
-        child: const TicketDetailsDialog(),
-      ),
-    );
-  }
+    for (String pnr in pendingPnrList) {
+      try {
+        final verifiedPassenger = await _bookingRepository.verifyTicket(
+          pnrCode: pnr,
+          tripId: tripId,
+          isOnline: true,
+        );
 
-  void loadPassengers() {
-    passengers.value = [
-      PassengerModel(
-        name: 'Ahmed Mansour',
-        phoneNumber: '1234567890',
-        seatNumbers: [1],
-        status: 'confirmed',
-      ),
-      PassengerModel(
-        name: 'Sarah Wilson',
-        phoneNumber: '0987654321',
-        seatNumbers: [2],
-        status: 'pending',
-      ),
-    ];
-  }
-
-  List<PassengerModel> get filteredPassengers => passengers.where((p) {
-    final query = searchQuery.value.toLowerCase();
-    final matchesSearch =
-        p.name.toLowerCase().contains(query) ||
-        p.seatNumbersFormatted.toLowerCase().contains(query);
-
-    bool matchesFilter = true;
-    if (selectedFilter.value == 'PAID') {
-      matchesFilter = p.status.toLowerCase() == 'confirmed';
-    } else if (selectedFilter.value == 'UNPAID') {
-      matchesFilter = p.status.toLowerCase() != 'confirmed';
+        _bookingRepository.removeTicketFromPending(pnr);
+      } catch (e) {
+        print("Failed to sync ticket $pnr: $e");
+      }
     }
-
-    return matchesSearch && matchesFilter;
-  }).toList();
-
-  void setFilter(String filter) {
-    selectedFilter.value = filter;
+    loadPassengersFromApi();
   }
 
-  void openTicketScanner() {
-    Get.toNamed('/qr-scanner');
+  List<PassengerModel> get filteredPassengers {
+    final query = searchQuery.value.trim().toLowerCase();
+    if (query.isEmpty) {
+      return passengers.where((p) => _matchesFilter(p)).toList();
+    }
+    final isNumeric = RegExp(r'^\d+$').hasMatch(query);
+    return passengers.where((p) {
+      bool matchesSearch = isNumeric
+          ? p.seatNumbers.any((seat) => seat.toString() == query)
+          : (p.name.toLowerCase().contains(query) ||
+                (p.pnrCode?.toLowerCase().contains(query) ?? false));
+      return matchesSearch && _matchesFilter(p);
+    }).toList();
+  }
+
+  bool _matchesFilter(PassengerModel p) => selectedFilter.value == 'PAID'
+      ? p.isPaid
+      : (selectedFilter.value == 'UNPAID' ? !p.isPaid : true);
+  void setFilter(String filter) => selectedFilter.value = filter;
+  void openTicketScanner() => Get.toNamed('/qr-scanner');
+  void showTicketResult() {
+    if (currentScannedPassenger.value != null)
+      Get.dialog(
+        Dialog(
+          backgroundColor: Colors.transparent,
+          child: const TicketDetailsDialog(),
+        ),
+      );
+  }
+
+  void loadPassengers() => loadPassengersFromApi();
+  void loadMorePassengers() {
+    if (currentPage.value < lastPage.value) {
+      currentPage.value++;
+      loadPassengersFromApi();
+    }
+  }
+
+  int get paidCount => passengers.where((p) => p.isPaid).length;
+  int get unpaidCount => passengers.where((p) => !p.isPaid).length;
+
+  @override
+  void onClose() {
+    _connectivitySubscription?.cancel();
+    super.onClose();
   }
 }

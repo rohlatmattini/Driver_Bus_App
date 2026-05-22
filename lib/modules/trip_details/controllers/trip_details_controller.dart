@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +11,8 @@ import '../../../data/repositories/trip_repository.dart';
 
 class TripDetailsController extends GetxController {
   final TripRepository _tripRepository = Get.find<TripRepository>();
+  final Connectivity _connectivity = Connectivity();
+  StreamSubscription? _connectivitySubscription;
 
   var routeId = "".obs;
   var pickupLocation = "".obs;
@@ -24,6 +29,9 @@ class TripDetailsController extends GetxController {
   var tripStatusDisplay = "".obs;
   var statusColor = Colors.grey.obs;
   var isUpdating = false.obs;
+
+  var isOnline = true.obs;
+
   final List<String> tripStatusOptions = [
     'scheduled',
     'in_progress',
@@ -36,10 +44,31 @@ class TripDetailsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _checkInitialConnectivity();
+    _listenToConnectivityChanges();
+
     if (Get.arguments != null) {
       currentTrip = Get.arguments as TripModel;
       _loadTripData();
     }
+  }
+
+  Future<void> _checkInitialConnectivity() async {
+    final List<ConnectivityResult> result = await _connectivity
+        .checkConnectivity();
+    if (result.isNotEmpty) {
+      isOnline.value = result.first != ConnectivityResult.none;
+    }
+  }
+
+  void _listenToConnectivityChanges() {
+    _connectivitySubscription = _connectivity.onConnectivityChanged.listen((
+      List<ConnectivityResult> results,
+    ) {
+      if (results.isNotEmpty) {
+        isOnline.value = results.first != ConnectivityResult.none;
+      }
+    });
   }
 
   void _loadTripData() {
@@ -51,13 +80,12 @@ class TripDetailsController extends GetxController {
     destination.value = trip.destination;
     departureTime.value = trip.departureTimeFormatted;
     arrivalTime.value = trip.arrivalTimeFormatted;
-    passengerCount.value = trip.passengerCount;
+    passengerCount.value = trip.availableSeats.toString();
     distance.value = trip.distanceFormatted;
     fare.value = trip.fareFormatted;
     duration.value = trip.tripDuration;
     vehicleNumber.value = trip.vehicleNumber;
     tripStatusDisplay.value = trip.statusDisplayName;
-
     tripStatus.value = trip.status;
   }
 
@@ -76,17 +104,23 @@ class TripDetailsController extends GetxController {
       case 'scheduled':
         newStatus = 'in_progress';
         confirmMessage = 'Are you sure you want to start this trip?';
-        successMessage = 'Trip started successfully';
+        successMessage = isOnline.value
+            ? 'Trip started successfully'
+            : 'Trip started locally (will sync later)';
         break;
       case 'in_progress':
         newStatus = 'completed';
         confirmMessage =
             'Are you sure you want to mark this trip as completed?';
-        successMessage = 'Trip completed successfully';
+        successMessage = isOnline.value
+            ? 'Trip completed successfully'
+            : 'Trip completed locally (will sync later)';
         break;
       default:
         CustomSnackBar.showError(
-          'Cannot update trip status from ${tripStatusDisplay.value}',
+          'cannot_update_status_from'.trParams({
+            'status': tripStatusDisplay.value,
+          }),
         );
         return;
     }
@@ -119,12 +153,13 @@ class TripDetailsController extends GetxController {
       final updatedTrip = await _tripRepository.updateTripStatus(
         tripId: currentTrip!.id,
         status: newStatus,
+        isOnline: isOnline.value,
       );
 
       currentTrip = updatedTrip;
       _loadTripData();
 
-      CustomSnackBar.showSuccess(successMessage);
+      CustomSnackBar.showSuccess(successMessage.tr);
     } catch (e) {
       CustomSnackBar.showError('Failed to update trip status: $e');
     } finally {
@@ -149,5 +184,11 @@ class TripDetailsController extends GetxController {
 
   bool get canUpdateStatus {
     return tripStatus.value == 'scheduled' || tripStatus.value == 'in_progress';
+  }
+
+  @override
+  void onClose() {
+    _connectivitySubscription?.cancel();
+    super.onClose();
   }
 }

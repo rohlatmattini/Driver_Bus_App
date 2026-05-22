@@ -67,7 +67,75 @@ class TripModel {
     );
   }
 
-  // Getter methods for UI
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'status': status,
+      'departure_time': departureTime.toIso8601String(),
+      'estimated_arrival_time': estimatedArrivalTime.toIso8601String(),
+      'base_fare': baseFare,
+      'available_seats': availableSeats,
+      'route_id': routeId,
+      'vehicle_id': vehicleId,
+      'driver_id': driverId,
+      'origin_station_id': originStationId,
+      'destination_station_id': destinationStationId,
+      'origin_city_id': originCityId,
+      'destination_city_id': destinationCityId,
+      'origin_city': originCity.toJson(),
+      'destination_city': destinationCity.toJson(),
+      'origin_station': originStation.toJson(),
+      'destination_station': destinationStation.toJson(),
+      'created_at': createdAt.toIso8601String(),
+      'updated_at': updatedAt.toIso8601String(),
+    };
+  }
+
+  TripModel copyWith({
+    int? id,
+    String? status,
+    DateTime? departureTime,
+    DateTime? estimatedArrivalTime,
+    int? baseFare,
+    int? availableSeats,
+    int? routeId,
+    int? vehicleId,
+    int? driverId,
+    int? originStationId,
+    int? destinationStationId,
+    int? originCityId,
+    int? destinationCityId,
+    City? originCity,
+    City? destinationCity,
+    Station? originStation,
+    Station? destinationStation,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    String? mappedStatus,
+  }) {
+    return TripModel(
+      id: id ?? this.id,
+      status: mappedStatus ?? status ?? this.status,
+      departureTime: departureTime ?? this.departureTime,
+      estimatedArrivalTime: estimatedArrivalTime ?? this.estimatedArrivalTime,
+      baseFare: baseFare ?? this.baseFare,
+      availableSeats: availableSeats ?? this.availableSeats,
+      routeId: routeId ?? this.routeId,
+      vehicleId: vehicleId ?? this.vehicleId,
+      driverId: driverId ?? this.driverId,
+      originStationId: originStationId ?? this.originStationId,
+      destinationStationId: destinationStationId ?? this.destinationStationId,
+      originCityId: originCityId ?? this.originCityId,
+      destinationCityId: destinationCityId ?? this.destinationCityId,
+      originCity: originCity ?? this.originCity,
+      destinationCity: destinationCity ?? this.destinationCity,
+      originStation: originStation ?? this.originStation,
+      destinationStation: destinationStation ?? this.destinationStation,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   String get pickupLocation => "${originStation.name}, ${originCity.name}";
   String get destination =>
       "${destinationStation.name}, ${destinationCity.name}";
@@ -77,6 +145,8 @@ class TripModel {
 
   String get departureTimeFormatted => _formatDateTime(departureTime);
   String get arrivalTimeFormatted => _formatDateTime(estimatedArrivalTime);
+  String get distanceFormatted =>
+      "${originCity.name} - ${destinationCity.name}";
 
   String get tripDuration {
     final duration = estimatedArrivalTime.difference(departureTime);
@@ -86,12 +156,7 @@ class TripModel {
   }
 
   String get passengerCount => "$availableSeats/45";
-
   String get fareFormatted => "$baseFare SYP";
-
-  String get distanceFormatted =>
-      "${originCity.name} - ${destinationCity.name}";
-
   bool get hasMap => status == 'in_progress';
   String get vehicleNumber => "Bus #$vehicleId";
 
@@ -111,7 +176,6 @@ class TripModel {
     }
   }
 
-  // Status display name with translation support
   String get statusDisplayName {
     switch (status) {
       case 'in_progress':
@@ -161,6 +225,8 @@ class City {
   factory City.fromJson(Map<String, dynamic> json) {
     return City(id: json['id'], name: json['name']);
   }
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }
 
 class Station {
@@ -172,4 +238,6 @@ class Station {
   factory Station.fromJson(Map<String, dynamic> json) {
     return Station(id: json['id'], name: json['name']);
   }
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name};
 }

@@ -30,7 +30,7 @@ class TicketDetailsDialog extends StatelessWidget {
           _buildHeader(context, passenger),
           SizedBox(height: 24.h),
           _buildInfoRow(context, "passenger".tr, passenger.name),
-          _buildInfoRow(context, "phone".tr, passenger.phoneNumber),
+          _buildInfoRow(context, "phone".tr, passenger.phoneNumber ?? 'N/A'),
           _buildInfoRow(context, "seat".tr, passenger.seatNumbersFormatted),
           _buildInfoRow(
             context,
@@ -90,7 +90,7 @@ class TicketDetailsDialog extends StatelessWidget {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
       decoration: BoxDecoration(
-        color: isVerified ? AppColor.primaryGreen : Colors.orange,
+        color: isVerified ? AppColor.primaryGreen : AppColor.orange,
         borderRadius: BorderRadius.circular(8.r),
       ),
       child: Text(
