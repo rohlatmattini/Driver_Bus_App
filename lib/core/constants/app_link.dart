@@ -21,4 +21,14 @@ class AppLink {
 
   // Bookings
   static const String verifyTicket = "/driver/bookings/verify";
+  static const String updateFcmToken = "$baseUrl/auth/fcm-token";
+  //Notifications
+  static const String getNotifications = "$baseUrl/notifications";
+
+  static const String markAllNotifications = "$baseUrl/notifications/mark-all";
+  static const String unreadNotificationsCount =
+      "$baseUrl/notifications/unread-count";
+
+  static String markNotificationAsRead(String id) =>
+      "$baseUrl/notifications/$id/mark";
 }

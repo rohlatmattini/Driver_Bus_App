@@ -28,6 +28,7 @@ class NotificationCard extends StatelessWidget {
 
     return InkWell(
       onTap: onTap,
+      borderRadius: BorderRadius.circular(16.r),
       child: Container(
         margin: EdgeInsets.only(bottom: 12.h),
         padding: EdgeInsets.all(16.w),
@@ -45,7 +46,7 @@ class NotificationCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildIcon(),
+            _buildIconWithBadge(),
             SizedBox(width: 15.w),
             Expanded(
               child: Column(
@@ -87,7 +88,7 @@ class NotificationCard extends StatelessWidget {
     );
   }
 
-  Widget _buildIcon() {
+  Widget _buildIconWithBadge() {
     IconData iconData;
     Color iconColor;
 
@@ -102,17 +103,36 @@ class NotificationCard extends StatelessWidget {
         break;
       case NotificationType.message:
         iconData = Icons.mark_as_unread_sharp;
-        iconColor = AppColor.blue;
+        iconColor = AppColor.primaryGreen;
         break;
     }
 
-    return Container(
-      padding: EdgeInsets.all(10.w),
-      decoration: BoxDecoration(
-        color: iconColor.withOpacity(0.1),
-        shape: BoxShape.circle,
-      ),
-      child: Icon(iconData, color: iconColor, size: 22.sp),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Container(
+          padding: EdgeInsets.all(10.w),
+          decoration: BoxDecoration(
+            color: iconColor.withOpacity(0.1),
+            shape: BoxShape.circle,
+          ),
+          child: Icon(iconData, color: iconColor, size: 22.sp),
+        ),
+        if (!notification.isRead)
+          Positioned(
+            top: 0,
+            right: 0,
+            child: Container(
+              width: 11.w,
+              height: 11.h,
+              decoration: BoxDecoration(
+                color: AppColor.green,
+                shape: BoxShape.circle,
+                border: Border.all(color: AppColor.white, width: 1.5.w),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

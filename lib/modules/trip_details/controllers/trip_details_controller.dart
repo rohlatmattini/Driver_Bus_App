@@ -28,8 +28,9 @@ class TripDetailsController extends GetxController {
   var tripStatus = "Start".obs;
   var tripStatusDisplay = "".obs;
   var statusColor = Colors.grey.obs;
-  var isUpdating = false.obs;
 
+  var isUpdating = false.obs;
+  var isLoadingTrip = false.obs;
   var isOnline = true.obs;
 
   final List<String> tripStatusOptions = [
@@ -46,11 +47,7 @@ class TripDetailsController extends GetxController {
     super.onInit();
     _checkInitialConnectivity();
     _listenToConnectivityChanges();
-
-    if (Get.arguments != null) {
-      currentTrip = Get.arguments as TripModel;
-      _loadTripData();
-    }
+    _handleIncomingArguments();
   }
 
   Future<void> _checkInitialConnectivity() async {
@@ -69,6 +66,43 @@ class TripDetailsController extends GetxController {
         isOnline.value = results.first != ConnectivityResult.none;
       }
     });
+  }
+
+  void _handleIncomingArguments() async {
+    if (Get.arguments == null) return;
+
+    if (Get.arguments is TripModel) {
+      currentTrip = Get.arguments as TripModel;
+      _loadTripData();
+    } else if (Get.arguments is int) {
+      int tripId = Get.arguments as int;
+      await _fetchTripById(tripId);
+    }
+  }
+
+  Future<void> _fetchTripById(int tripId) async {
+    try {
+      isLoadingTrip.value = true;
+
+      final List<TripModel> trips = await _tripRepository.getDriverTrips(
+        page: 1,
+        isOnline: isOnline.value,
+      );
+
+      final foundTrip = trips.firstWhereOrNull((t) => t.id == tripId);
+
+      if (foundTrip != null) {
+        currentTrip = foundTrip;
+        _loadTripData();
+      } else {
+        CustomSnackBar.showError('trip_not_found'.tr);
+      }
+    } catch (e) {
+      print("Error fetching single trip details: $e");
+      CustomSnackBar.showError('Failed to load trip details'.tr);
+    } finally {
+      isLoadingTrip.value = false;
+    }
   }
 
   void _loadTripData() {

@@ -41,49 +41,50 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDq7nfJWv1p69m6ktOtJ_mS65dqVOsN7Os',
-    appId: '1:900435508634:web:42737403e880a48da90e23',
-    messagingSenderId: '900435508634',
-    projectId: 'driver-bus-app',
-    authDomain: 'driver-bus-app.firebaseapp.com',
-    storageBucket: 'driver-bus-app.firebasestorage.app',
-    measurementId: 'G-JGNW8NHWL9',
+    apiKey: 'AIzaSyDmOsKrJ5nNvPAc5Jq1fvrMtg6WGqE6gWc',
+    appId: '1:1096480624317:web:2fa7ccbf3b224a05cdb1d4',
+    messagingSenderId: '1096480624317',
+    projectId: 'musafer-bus-transport',
+    authDomain: 'musafer-bus-transport.firebaseapp.com',
+    storageBucket: 'musafer-bus-transport.firebasestorage.app',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDlJ2dUTrIUqvpLgVuO-4bwoU_srA25fmQ',
-    appId: '1:900435508634:android:5e07973d7fd94944a90e23',
-    messagingSenderId: '900435508634',
-    projectId: 'driver-bus-app',
-    storageBucket: 'driver-bus-app.firebasestorage.app',
+    apiKey: 'AIzaSyCjiPrSnk9vTJxQ_2V7lv7mt7jZ_ib-LVs',
+    appId: '1:1096480624317:android:da4fa5f68a8273efcdb1d4',
+    messagingSenderId: '1096480624317',
+    projectId: 'musafer-bus-transport',
+    storageBucket: 'musafer-bus-transport.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCmsjJqrXakCr0xWGy6X96gOUTVfBLKMUA',
-    appId: '1:900435508634:ios:9d8e19a894ec0679a90e23',
-    messagingSenderId: '900435508634',
-    projectId: 'driver-bus-app',
-    storageBucket: 'driver-bus-app.firebasestorage.app',
+    apiKey: 'AIzaSyB8OgaIhAiT6Wb9llU2ujjO-sgui20Jhw8',
+    appId: '1:1096480624317:ios:f5932bdb988b1987cdb1d4',
+    messagingSenderId: '1096480624317',
+    projectId: 'musafer-bus-transport',
+    storageBucket: 'musafer-bus-transport.firebasestorage.app',
+    androidClientId: '1096480624317-hvdlim3tlcr7a07h4a5jmemrknfr5d2i.apps.googleusercontent.com',
+    iosClientId: '1096480624317-6rrd4at4u81tqaetq05dlrmgm51kvlk2.apps.googleusercontent.com',
     iosBundleId: 'com.example.driverBusApp',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCmsjJqrXakCr0xWGy6X96gOUTVfBLKMUA',
-    appId: '1:900435508634:ios:9d8e19a894ec0679a90e23',
-    messagingSenderId: '900435508634',
-    projectId: 'driver-bus-app',
-    storageBucket: 'driver-bus-app.firebasestorage.app',
+    apiKey: 'AIzaSyB8OgaIhAiT6Wb9llU2ujjO-sgui20Jhw8',
+    appId: '1:1096480624317:ios:f5932bdb988b1987cdb1d4',
+    messagingSenderId: '1096480624317',
+    projectId: 'musafer-bus-transport',
+    storageBucket: 'musafer-bus-transport.firebasestorage.app',
+    androidClientId: '1096480624317-hvdlim3tlcr7a07h4a5jmemrknfr5d2i.apps.googleusercontent.com',
+    iosClientId: '1096480624317-6rrd4at4u81tqaetq05dlrmgm51kvlk2.apps.googleusercontent.com',
     iosBundleId: 'com.example.driverBusApp',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyDq7nfJWv1p69m6ktOtJ_mS65dqVOsN7Os',
-    appId: '1:900435508634:web:2b933cf99e0a04bea90e23',
-    messagingSenderId: '900435508634',
-    projectId: 'driver-bus-app',
-    authDomain: 'driver-bus-app.firebaseapp.com',
-    storageBucket: 'driver-bus-app.firebasestorage.app',
-    measurementId: 'G-EH204F6LB0',
+    apiKey: 'AIzaSyDmOsKrJ5nNvPAc5Jq1fvrMtg6WGqE6gWc',
+    appId: '1:1096480624317:web:81ba38f8eb5a4f4acdb1d4',
+    messagingSenderId: '1096480624317',
+    projectId: 'musafer-bus-transport',
+    authDomain: 'musafer-bus-transport.firebaseapp.com',
+    storageBucket: 'musafer-bus-transport.firebasestorage.app',
   );
-
 }

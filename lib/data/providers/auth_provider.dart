@@ -20,4 +20,11 @@ class AuthProvider {
       data: {"phone_number": phone, "code": code, "intent": "driver"},
     );
   }
+
+  Future<Response> updateFcmToken(String token, String platform) async {
+    return await _dio.post(
+      AppLink.updateFcmToken,
+      data: {"token": token, "platform": platform},
+    );
+  }
 }

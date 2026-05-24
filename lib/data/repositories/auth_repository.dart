@@ -14,4 +14,8 @@ class AuthRepository {
   Future<Response> login(String phone, String code) async {
     return await _provider.loginWithOtp(phone, code);
   }
+
+  Future<Response> updateFcmToken(String token, String platform) async {
+    return await _provider.updateFcmToken(token, platform);
+  }
 }

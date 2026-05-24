@@ -173,7 +173,13 @@ class AppTranslations extends Translations {
       'noNotifications': 'No notifications yet',
       'clearAll': 'Clear All',
       'newMessage': 'New Message',
-
+      "failed_to_update_status": "Failed to update notification status",
+      "all_marked_as_read": "All marked as read",
+      "viewing_cached_notifications":
+          "You are viewing cached notifications due to no internet connection",
+      "offline_mode_cannot_open_trip": "Cannot view trip details while offline",
+      "offline_mode_cannot_update":
+          "Cannot update notification status while offline",
       // Complaint Page & Attachments
       'sendComplaint': 'Send Company Complaint',
       'howCanWeHelp': 'How can we help?',
@@ -405,7 +411,14 @@ class AppTranslations extends Translations {
       'noNotifications': 'لا توجد إشعارات حالياً',
       'clearAll': 'مسح الكل',
       'newMessage': 'رسالة جديدة',
-
+      "failed_to_update_status": "فشل تحديث حالة الإشعار",
+      "all_marked_as_read": "تم تحديد الكل كمقروء",
+      "viewing_cached_notifications":
+          "أنت تتصفح الإشعارات المؤرشفة لعدم توفر إنترنت",
+      "offline_mode_cannot_open_trip":
+          "لا يمكن الانتقال لتفاصيل الرحلة بدون اتصال بالإنترنت",
+      "offline_mode_cannot_update":
+          "لا يمكن تحديث حالة الإشعار وأنت غير متصل بالشبكة",
       // Complaint Page & Attachments
       'sendComplaint': 'إرسال شكوى للشركة',
       'howCanWeHelp': 'كيف يمكننا مساعدتك؟',
