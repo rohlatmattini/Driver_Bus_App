@@ -78,7 +78,7 @@ class DriverInfoCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     "${"Status: ".tr}${isOnline ? "Online".tr : "Offline".tr}",
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    style: TextStyle(color: AppColor.white, fontSize: 14.sp),
                   ),
                 ),
                 GestureDetector(
@@ -89,12 +89,12 @@ class DriverInfoCard extends StatelessWidget {
                       vertical: 6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: AppColor.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       isOnline ? "Go Offline".tr : "Go Online".tr,
-                      style: TextStyle(color: Colors.white, fontSize: 12.sp),
+                      style: TextStyle(color: AppColor.white, fontSize: 12.sp),
                     ),
                   ),
                 ),

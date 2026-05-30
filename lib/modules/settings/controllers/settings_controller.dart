@@ -1,6 +1,5 @@
-// lib/modules/settings/controllers/settings_controller.dart
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../core/localization/locale_controller.dart';
 import '../../../core/theme/theme_controller.dart';
 

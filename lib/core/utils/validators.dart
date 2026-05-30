@@ -16,8 +16,8 @@ class AppValidator {
   }
 
   static String? validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'enterEmail'.tr;
+    if (value == null || value.trim().isEmpty) {
+      return null;
     }
 
     final emailRegExp = RegExp(

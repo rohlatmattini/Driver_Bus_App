@@ -10,17 +10,14 @@ import '../controllers/schedule_controller.dart';
 class ScheduleBinding extends Bindings {
   @override
   void dependencies() {
-    // Providers
     Get.lazyPut<ProfileProvider>(() => ProfileProvider());
     Get.lazyPut<TripProvider>(() => TripProvider());
 
-    // Repositories
     Get.lazyPut<ProfileRepository>(
       () => ProfileRepository(Get.find<ProfileProvider>()),
     );
     Get.lazyPut<TripRepository>(() => TripRepository(Get.find<TripProvider>()));
 
-    // Controllers
     Get.lazyPut<ProfileController>(
       () => ProfileController(Get.find<ProfileRepository>()),
     );

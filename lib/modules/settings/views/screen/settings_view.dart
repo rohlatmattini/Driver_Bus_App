@@ -24,7 +24,10 @@ class SettingsView extends GetView<SettingsController> {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
-            onPressed: () => Get.find<ScheduleController>().changePage(0),
+            onPressed: () {
+              Get.find<ScheduleController>().changePage(2);
+              Get.back();
+            },
           ),
           title: Text(
             "settings".tr,

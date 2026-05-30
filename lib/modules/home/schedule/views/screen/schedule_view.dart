@@ -48,7 +48,7 @@ class ScheduleView extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: AppColor.black.withOpacity(0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -58,7 +58,7 @@ class ScheduleView extends StatelessWidget {
           elevation: 0,
           backgroundColor: context.white,
           shape: CircleBorder(
-            side: BorderSide(color: Colors.grey.withOpacity(0.2), width: 1),
+            side: BorderSide(color: context.grey.withOpacity(0.2), width: 1),
           ),
           onPressed: () => controller.changePage(2),
           child: Icon(

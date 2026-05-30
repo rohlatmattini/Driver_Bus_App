@@ -1,5 +1,6 @@
 import 'package:driver_bus_app/routes/app_routes/app_routes.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../core/shared/custom_snackbar.dart';
 import '../../../../data/models/notification_model.dart';
@@ -126,5 +127,42 @@ class NotificationsController extends GetxController {
     } else {
       CustomSnackBar.showError("failed_to_update_status".tr);
     }
+  }
+
+  void handleIncomingNotification(Map<String, dynamic> payload) {
+    try {
+      final newNotification = NotificationModel.fromJson(payload);
+
+      notifications.insert(0, newNotification);
+
+      if (!newNotification.isRead) {
+        unreadCount.value++;
+      }
+
+      _saveNotificationsToCache();
+    } catch (e) {
+      print("Error handling incoming notification object: $e");
+    }
+  }
+
+  void _saveNotificationsToCache() {
+    final List<Map<String, dynamic>> jsonList = notifications
+        .map(
+          (n) => {
+            'id': n.id,
+            'title': n.title,
+            'body': n.body,
+            'created_at': n.timestamp.toIso8601String(),
+            'read_at': n.isRead ? DateTime.now().toIso8601String() : null,
+            'type': n.type == NotificationType.trip
+                ? 'trip'
+                : (n.type == NotificationType.alert ? 'alert' : 'message'),
+            'reference_type': n.referenceType,
+            'reference_id': n.referenceId,
+          },
+        )
+        .toList();
+
+    GetStorage().write('cached_driver_notifications', jsonList);
   }
 }

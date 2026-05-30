@@ -11,7 +11,7 @@ class SendComplaintButton extends StatelessWidget {
   const SendComplaintButton({
     super.key,
     required this.onPressed,
-    required this.isLoading
+    required this.isLoading,
   });
 
   @override
@@ -21,19 +21,27 @@ class SendComplaintButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColor.primaryGreen,
         minimumSize: Size(double.infinity, 55.h),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.r),
+        ),
         elevation: 0,
       ),
       child: isLoading
           ? SizedBox(
-        height: 20.h,
-        width: 20.h,
-        child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2),
-      )
+              height: 20.h,
+              width: 20.h,
+              child: const CircularProgressIndicator(
+                color: AppColor.white,
+                strokeWidth: 2,
+              ),
+            )
           : Text(
-        "send".tr,
-        style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-      ),
+              "send".tr,
+              style: const TextStyle(
+                color: AppColor.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
     );
   }
 }

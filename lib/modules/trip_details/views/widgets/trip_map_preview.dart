@@ -1,4 +1,3 @@
-// lib/modules/trip_details/views/widgets/trip_map_preview.dart
 import 'package:driver_bus_app/core/constants/app_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,7 +10,6 @@ class TripMapPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Use Get.find inside build method to ensure controller exists
     final controller = Get.find<TripDetailsController>();
 
     return Container(
@@ -34,7 +32,7 @@ class TripMapPreview extends StatelessWidget {
             child: Icon(
               Icons.map_outlined,
               size: 80.sp,
-              color: Colors.white.withOpacity(0.3),
+              color: AppColor.white.withOpacity(0.3),
             ),
           ),
           Positioned(
@@ -44,7 +42,7 @@ class TripMapPreview extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: AppColor.white.withOpacity(0.9),
                 borderRadius: BorderRadius.circular(12.r),
               ),
               child: Obx(
@@ -64,7 +62,7 @@ class TripMapPreview extends StatelessWidget {
                           child: Text(
                             controller.pickupLocation.value,
                             style: const TextStyle(
-                              color: Colors.black87,
+                              color: AppColor.black,
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
                             ),
@@ -98,13 +96,17 @@ class TripMapPreview extends StatelessWidget {
                     SizedBox(height: 8.h),
                     Row(
                       children: [
-                        Icon(Icons.location_on, color: Colors.red, size: 16.sp),
+                        Icon(
+                          Icons.location_on,
+                          color: AppColor.error,
+                          size: 16.sp,
+                        ),
                         SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
                             controller.destination.value,
                             style: const TextStyle(
-                              color: Colors.black87,
+                              color: AppColor.black,
                               fontWeight: FontWeight.w600,
                               fontSize: 13,
                             ),
@@ -125,11 +127,11 @@ class TripMapPreview extends StatelessWidget {
               () => Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColor.white,
                   borderRadius: BorderRadius.circular(20.r),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
+                      color: AppColor.black.withOpacity(0.1),
                       blurRadius: 4,
                     ),
                   ],

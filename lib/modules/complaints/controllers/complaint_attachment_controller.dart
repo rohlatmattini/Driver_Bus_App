@@ -7,6 +7,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../../core/shared/custom_snackbar.dart';
+
 enum FileSource { gallery, camera, documents, none }
 
 class ComplaintAttachmentController extends GetxController {
@@ -40,15 +42,14 @@ class ComplaintAttachmentController extends GetxController {
       }
     } catch (e) {
       print('Error attaching file: $e');
-      Get.snackbar('Error'.tr, 'Failed to attach file'.tr);
+      CustomSnackBar.showError('Failed to attach file');
     }
   }
 
   void removeFile(int index) {
     if (index >= 0 && index < attachedFiles.length) {
-      final removedFile = attachedFiles[index];
       attachedFiles.removeAt(index);
-      Get.snackbar('Removed'.tr, 'File removed'.tr);
+      CustomSnackBar.showSuccess('File removed');
     }
   }
 
@@ -66,12 +67,11 @@ class ComplaintAttachmentController extends GetxController {
     return '$fileName ($fileType) - ${(fileSize / 1024).toStringAsFixed(1)} KB';
   }
 
-  // Private methods
   Widget _buildSourceSelector() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColor.primaryGreen,
-        borderRadius: BorderRadius.only(
+        color: AppColor.white,
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(16),
           topRight: Radius.circular(16),
         ),
@@ -81,23 +81,32 @@ class ComplaintAttachmentController extends GetxController {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.photo_library),
+              leading: const Icon(
+                Icons.photo_library,
+                color: AppColor.primaryGreen,
+              ),
               title: Text('Choose from Gallery'.tr),
               onTap: () => Get.back(result: FileSource.gallery),
             ),
             ListTile(
-              leading: Icon(Icons.camera_alt),
+              leading: const Icon(
+                Icons.camera_alt,
+                color: AppColor.primaryGreen,
+              ),
               title: Text('Take Photo'.tr),
               onTap: () => Get.back(result: FileSource.camera),
             ),
             ListTile(
-              leading: Icon(Icons.description),
+              leading: const Icon(
+                Icons.description,
+                color: AppColor.primaryGreen,
+              ),
               title: Text('Files & Documents'.tr),
               onTap: () => Get.back(result: FileSource.documents),
             ),
-            Divider(),
+            const Divider(),
             ListTile(
-              leading: Icon(Icons.cancel, color: Colors.red),
+              leading: const Icon(Icons.cancel, color: AppColor.error),
               title: Text('Cancel'.tr, style: TextStyle(color: AppColor.error)),
               onTap: () => Get.back(result: FileSource.none),
             ),
@@ -114,7 +123,7 @@ class ComplaintAttachmentController extends GetxController {
         maxHeight: 1080,
         imageQuality: 80,
       );
-      if (images != null) {
+      if (images != null && images.isNotEmpty) {
         for (var image in images) {
           if (attachedFiles.length >= maxFiles) break;
           final file = File(image.path);
@@ -187,7 +196,7 @@ class ComplaintAttachmentController extends GetxController {
     try {
       final fileSize = file.lengthSync();
       if (fileSize > maxSize) {
-        Get.snackbar('File Too Large'.tr, 'Max size: 10MB'.tr);
+        CustomSnackBar.showError('Max size: 10MB');
         return false;
       }
       return true;
@@ -201,14 +210,14 @@ class ComplaintAttachmentController extends GetxController {
     if (lowerCaseName.endsWith('.pdf')) return 'PDF';
     if (lowerCaseName.endsWith('.doc')) return 'DOC';
     if (lowerCaseName.endsWith('.docx')) return 'DOCX';
-    if (lowerCaseName.endsWith('.jpg') || lowerCaseName.endsWith('.jpeg'))
+    if (lowerCaseName.endsWith('.jpg') || lowerCaseName.endsWith('.jpeg')) {
       return 'JPEG';
+    }
     if (lowerCaseName.endsWith('.png')) return 'PNG';
     if (lowerCaseName.endsWith('.txt')) return 'TXT';
     return 'File';
   }
 
-  // Permission methods
   Future<bool> _requestCameraPermission() async {
     try {
       final status = await Permission.camera.request();
@@ -234,13 +243,12 @@ class ComplaintAttachmentController extends GetxController {
     }
   }
 
-  // Dialog methods
   void _showLimitError() {
-    Get.snackbar('Limit Reached'.tr, 'Max $maxFiles files'.tr);
+    CustomSnackBar.showError('Max $maxFiles files');
   }
 
   void _showSuccessMessage(String message) {
-    Get.snackbar('Success'.tr, message.tr, duration: Duration(seconds: 2));
+    CustomSnackBar.showSuccess(message);
   }
 
   void _showPermissionDeniedDialog() {

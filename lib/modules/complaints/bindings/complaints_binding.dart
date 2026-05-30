@@ -1,4 +1,3 @@
-// lib/modules/complaints/bindings/complaints_binding.dart
 import 'package:get/get.dart';
 
 import '../controllers/complaints_controller.dart';

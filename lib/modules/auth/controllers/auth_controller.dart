@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../../../../core/services/notification_service..dart';
 import '../../../../core/shared/custom_snackbar.dart';
 import '../../../../data/repositories/auth_repository.dart';
 import '../../../../routes/app_routes/app_routes.dart';
@@ -68,10 +69,14 @@ class AuthController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        //  String token = response.data['token'] ?? "user_logged_in";
         String token = response.data['access_token'];
         _box.write("token", token);
         _box.write("step", "2");
+
+        if (Get.isRegistered<NotificationService>()) {
+          Get.find<NotificationService>().syncTokenToServer();
+        }
+
         CustomSnackBar.showSuccess("loginSuccess");
         Get.offAllNamed(AppRoutes.schedule);
       }

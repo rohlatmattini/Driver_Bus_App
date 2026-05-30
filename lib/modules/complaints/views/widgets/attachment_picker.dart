@@ -58,7 +58,6 @@ class AttachmentsSection extends StatelessWidget {
 
         SizedBox(height: 10.h),
 
-        // Tip Box
         Container(
           width: double.infinity,
           padding: EdgeInsets.all(12.w),
@@ -84,7 +83,6 @@ class AttachmentsSection extends StatelessWidget {
 
         SizedBox(height: 10.h),
 
-        // Attached Files List
         Obx(() {
           if (attachmentController.attachedFiles.isEmpty) {
             return Container(

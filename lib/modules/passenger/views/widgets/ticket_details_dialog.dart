@@ -61,7 +61,7 @@ class TicketDetailsDialog extends StatelessWidget {
           ),
           child: Icon(
             isVerified ? Icons.check_circle : Icons.warning_amber_rounded,
-            color: isVerified ? AppColor.success : Colors.orange,
+            color: isVerified ? AppColor.success : AppColor.orange,
             size: 40.sp,
           ),
         ),

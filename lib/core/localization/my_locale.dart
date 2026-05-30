@@ -141,6 +141,7 @@ class AppTranslations extends Translations {
       'Start': 'Start Trip',
       'Arrived': 'Arrived',
       'Trip Progress': 'Trip Progress',
+      "trip_duration_format": "@hoursh @minutesm",
 
       // Passenger List
       'Passenger List': 'Passenger List',
@@ -379,6 +380,7 @@ class AppTranslations extends Translations {
       'Start': 'بدء الرحلة',
       'Arrived': 'وصلت الرحلة',
       'Trip Progress': 'حالة الرحلة',
+      "trip_duration_format": "@hours ساعة و @minutes دقيقة",
 
       // Passenger List
       'Passenger List': 'قائمة الركاب',

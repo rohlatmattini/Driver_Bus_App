@@ -28,7 +28,7 @@ class ProfileAvatar extends StatelessWidget {
                 shape: BoxShape.circle,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: AppColor.black.withOpacity(0.05),
                     blurRadius: 10,
                     spreadRadius: 2,
                   ),
@@ -66,12 +66,12 @@ class ProfileAvatar extends StatelessWidget {
                       if (controller.isUpdating.value)
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.3),
+                            color: AppColor.black.withOpacity(0.3),
                             shape: BoxShape.circle,
                           ),
                           child: const Center(
                             child: CircularProgressIndicator(
-                              color: Colors.white,
+                              color: AppColor.white,
                               strokeWidth: 3,
                             ),
                           ),
@@ -95,7 +95,7 @@ class ProfileAvatar extends StatelessWidget {
                   width: 2,
                 ),
               ),
-              child: Icon(Icons.camera_alt, color: Colors.white, size: 16.sp),
+              child: Icon(Icons.camera_alt, color: AppColor.white, size: 16.sp),
             ),
           ),
         ],

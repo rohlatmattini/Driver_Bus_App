@@ -31,11 +31,19 @@ class ApiService extends GetxService {
           if (token != null) {
             options.headers["Authorization"] = "Bearer $token";
           }
+          String currentLang =
+              _box.read('lang') ?? Get.locale?.languageCode ?? 'ar';
+          options.headers["Accept-Language"] = currentLang;
+          options.headers["lang"] = currentLang;
           return handler.next(options);
         },
         onError: (DioException e, handler) {
           if (e.response?.statusCode == 401) {
-            logout(isAutomatic: true);
+            if (_box.read("token") != null &&
+                Get.currentRoute != AppRoutes.login) {
+              logout(isAutomatic: true);
+            }
+            return handler.reject(e);
           }
           return handler.next(e);
         },

@@ -19,11 +19,13 @@ class ScheduleController extends GetxController {
 
   Rxn<DriverModel> get driver => _profileController.driverData;
   var isLoading = true.obs;
+
   var trips = <TripModel>[].obs;
   var selectedStatus = 'ongoing'.obs;
   var currentIndex = 2.obs;
-
   var isOnline = true.obs;
+
+  var currentLanguage = ''.obs;
 
   ScheduleController({required TripRepository tripRepository})
     : _tripRepository = tripRepository;
@@ -31,8 +33,19 @@ class ScheduleController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    currentLanguage.value = Get.locale?.languageCode ?? 'ar';
+
     _checkInitialConnectivity();
     _listenToConnectivityChanges();
+
+    ever(currentLanguage, (_) {
+      trips.refresh();
+    });
+  }
+
+  void updateLanguage(String langCode) {
+    currentLanguage.value = langCode;
   }
 
   Future<void> _checkInitialConnectivity() async {
@@ -100,7 +113,9 @@ class ScheduleController extends GetxController {
 
   Future<void> updateTripStatus(int tripId, String newStatus) async {
     try {
-      final updatedTrip = await _tripRepository.updateTripStatus(
+      isLoading.value = true;
+
+      await _tripRepository.updateTripStatus(
         tripId: tripId,
         status: newStatus,
         isOnline: isOnline.value,
@@ -108,8 +123,10 @@ class ScheduleController extends GetxController {
 
       int index = trips.indexWhere((t) => t.id == tripId);
       if (index != -1) {
-        trips[index] = updatedTrip;
+        trips[index] = trips[index].copyWith(status: newStatus);
         trips.refresh();
+      } else {
+        await fetchTrips();
       }
 
       if (!isOnline.value) {
@@ -117,6 +134,8 @@ class ScheduleController extends GetxController {
       }
     } catch (e) {
       CustomSnackBar.showError('failed_to_update_status'.tr);
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -147,10 +166,23 @@ class ScheduleController extends GetxController {
     'completed',
     'cancelled',
   ];
-  List<TripModel> get filteredTrips =>
-      trips.where((trip) => trip.mappedStatus == selectedStatus.value).toList();
+
+  List<TripModel> get filteredTrips {
+    currentLanguage.value;
+    selectedStatus.value;
+
+    return trips
+        .where((trip) => trip.mappedStatus == selectedStatus.value)
+        .toList();
+  }
+
   void changeStatus(String status) => selectedStatus.value = status;
-  void changePage(int index) => currentIndex.value = index;
+  void changePage(int index) {
+    currentIndex.value = index;
+    if (index == 2) {
+      currentLanguage.value = Get.locale?.languageCode ?? 'ar';
+    }
+  }
 
   void toggleDriverStatus() {
     if (_profileController.driverData.value != null) {

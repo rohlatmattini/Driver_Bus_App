@@ -28,7 +28,6 @@ class NotificationModel {
     }
     if (json['type'] == 'alert') nType = NotificationType.alert;
 
-    // استخراج الـ ID بأمان سواء كان int أو String من الحقول المختلفة
     var rawId = json['reference_id'] ?? json['data']?['trip_id'];
     int? parsedId;
     if (rawId != null) {

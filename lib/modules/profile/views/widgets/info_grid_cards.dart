@@ -31,7 +31,7 @@ class InfoGridCards extends StatelessWidget {
           children: [
             Text(
               title,
-              style: TextStyle(color: Colors.grey, fontSize: 12.sp),
+              style: TextStyle(color: context.grey, fontSize: 12.sp),
             ),
             SizedBox(height: 6.h),
             Row(
@@ -42,7 +42,7 @@ class InfoGridCards extends StatelessWidget {
                     height: 8.w,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: dotColor ?? Colors.grey,
+                      color: dotColor ?? context.grey,
                     ),
                   ),
                   SizedBox(width: 6.w),

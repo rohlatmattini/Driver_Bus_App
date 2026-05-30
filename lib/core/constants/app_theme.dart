@@ -1,5 +1,5 @@
-// lib/core/theme/app_themes.dart
 import 'package:flutter/material.dart';
+
 import '../constants/app_color.dart';
 
 class AppThemes {
@@ -11,7 +11,11 @@ class AppThemes {
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.black),
-      titleTextStyle: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+      titleTextStyle: TextStyle(
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
     ),
     cardColor: Colors.white,
     textTheme: const TextTheme(
@@ -52,7 +56,11 @@ class AppThemes {
       backgroundColor: Colors.transparent,
       elevation: 0,
       iconTheme: IconThemeData(color: Colors.white),
-      titleTextStyle: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+      titleTextStyle: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
     ),
     cardColor: const Color(0xFF1E1E1E),
     textTheme: const TextTheme(

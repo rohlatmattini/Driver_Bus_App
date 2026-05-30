@@ -94,10 +94,10 @@ class EditProfileSheet extends StatelessWidget {
                             }
                           },
                     child: controller.isUpdating.value
-                        ? const CircularProgressIndicator(color: Colors.white)
+                        ? const CircularProgressIndicator(color: AppColor.white)
                         : Text(
                             "save_changes".tr,
-                            style: const TextStyle(color: Colors.white),
+                            style: const TextStyle(color: AppColor.white),
                           ),
                   ),
                 ),

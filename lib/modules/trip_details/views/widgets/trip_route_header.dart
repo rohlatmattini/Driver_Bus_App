@@ -17,14 +17,6 @@ class TripRouteHeader extends StatelessWidget {
       () => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${"route".tr} ${controller.routeId.value}",
-            style: TextStyle(
-              fontSize: 22.sp,
-              fontWeight: FontWeight.bold,
-              color: context.textPrimaryColor,
-            ),
-          ),
           SizedBox(height: 8.h),
           Row(
             children: [
@@ -36,7 +28,7 @@ class TripRouteHeader extends StatelessWidget {
               SizedBox(width: 5.w),
               Expanded(
                 child: Text(
-                  "${controller.pickupLocation.value} ➔ ${controller.destination.value}",
+                  "${controller.pickupLocation.value} ${Get.locale?.languageCode == 'ar' ? '←' : '➔'} ${controller.destination.value}",
                   style: TextStyle(
                     fontSize: 15.sp,
                     color: AppColor.primaryGreen,
@@ -52,6 +44,7 @@ class TripRouteHeader extends StatelessWidget {
             "${"scheduledDeparture".tr}: ${controller.departureTime.value}",
             style: TextStyle(color: context.textTertiaryColor, fontSize: 14.sp),
           ),
+
           SizedBox(height: 2.h),
           Text(
             "${"estimatedArrival".tr}: ${controller.arrivalTime.value}",

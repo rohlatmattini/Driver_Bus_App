@@ -20,7 +20,11 @@ class LoginHeader extends StatelessWidget {
               color: AppColor.primaryGreen,
               borderRadius: BorderRadius.circular(20.r),
             ),
-            child: Icon(Icons.directions_bus, color: Colors.white, size: 50.sp),
+            child: Icon(
+              Icons.directions_bus,
+              color: AppColor.white,
+              size: 50.sp,
+            ),
           ),
         ),
         SizedBox(height: 32.h),

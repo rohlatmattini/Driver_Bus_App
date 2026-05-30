@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/shared/custom_app_button.dart';
+import '../../../home/schedule/controllers/schedule_controller.dart';
 import '../../controllers/profile_controller.dart';
 import '../widgets/custom_dialogs.dart';
 import '../widgets/detail_info_tile.dart';
@@ -21,6 +22,13 @@ class ProfileView extends GetView<ProfileController> {
       appBar: AppBar(
         title: Text("driver_profile_title".tr),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 18, color: AppColor.black),
+          onPressed: () {
+            Get.find<ScheduleController>().changePage(2);
+            Get.back();
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.edit_note, size: 28.sp),

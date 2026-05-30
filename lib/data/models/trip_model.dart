@@ -152,21 +152,28 @@ class TripModel {
     final duration = estimatedArrivalTime.difference(departureTime);
     final hours = duration.inHours;
     final minutes = duration.inMinutes.remainder(60);
-    return '${hours}h ${minutes}m';
+
+    return 'trip_duration_format'.trParams({
+      'hours': hours.toString(),
+      'minutes': minutes.toString(),
+    });
   }
 
   String get passengerCount => "$availableSeats/45";
   String get fareFormatted => "$baseFare SYP";
-  bool get hasMap => status == 'in_progress';
+  bool get hasMap => status == 'in_progress' || status == 'ongoing';
   String get vehicleNumber => "Bus #$vehicleId";
 
   String get mappedStatus {
     switch (status) {
       case 'in_progress':
+      case 'ongoing':
         return 'ongoing';
       case 'scheduled':
         final now = DateTime.now();
         return departureTime.isAfter(now) ? 'upcoming' : 'completed';
+      case 'upcoming':
+        return 'upcoming';
       case 'completed':
         return 'completed';
       case 'cancelled':
@@ -179,10 +186,13 @@ class TripModel {
   String get statusDisplayName {
     switch (status) {
       case 'in_progress':
+      case 'ongoing':
         return 'in_progress'.tr;
       case 'scheduled':
         final now = DateTime.now();
         return departureTime.isAfter(now) ? 'upcoming'.tr : 'completed'.tr;
+      case 'upcoming':
+        return 'upcoming'.tr;
       case 'completed':
         return 'completed'.tr;
       case 'cancelled':
@@ -196,9 +206,14 @@ class TripModel {
     final hour = dateTime.hour > 12 ? dateTime.hour - 12 : dateTime.hour;
     final displayHour = hour == 0 ? 12 : hour;
     final minute = dateTime.minute.toString().padLeft(2, '0');
-    final period = dateTime.hour >= 12 ? 'PM' : 'AM';
 
-    final months = [
+    final bool isArabic = Get.locale?.languageCode == 'ar';
+
+    final period = dateTime.hour >= 12
+        ? (isArabic ? 'م' : 'PM')
+        : (isArabic ? 'ص' : 'AM');
+
+    final monthsEn = [
       'Jan',
       'Feb',
       'Mar',
@@ -212,7 +227,31 @@ class TripModel {
       'Nov',
       'Dec',
     ];
-    return '${months[dateTime.month - 1]} ${dateTime.day}, $displayHour:$minute $period';
+
+    final monthsAr = [
+      'كانون الثاني',
+      'شباط',
+      'آذار',
+      'نيسان',
+      'أيار',
+      'حزيران',
+      'تموز',
+      'آب',
+      'أيلول',
+      'تشرين الأول',
+      'تشرين الثاني',
+      'كانون الأول',
+    ];
+
+    final monthStr = isArabic
+        ? monthsAr[dateTime.month - 1]
+        : monthsEn[dateTime.month - 1];
+
+    if (isArabic) {
+      return '$monthStr ${dateTime.day}، الساعة $displayHour:$minute $period';
+    } else {
+      return '$monthStr ${dateTime.day}, $displayHour:$minute $period';
+    }
   }
 }
 

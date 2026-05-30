@@ -1,4 +1,3 @@
-// lib/modules/trip_details/views/widgets/trip_info_stat_card.dart
 import 'package:driver_bus_app/core/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -1,6 +1,8 @@
-// lib/modules/complaints/controllers/complaints_controller.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+// 🔥 استيراد السناك بار المخصص الخاص بك
+import '../../../core/shared/custom_snackbar.dart';
 
 class ComplaintsController extends GetxController {
   final complaintController = TextEditingController();
@@ -15,14 +17,10 @@ class ComplaintsController extends GetxController {
         await Future.delayed(const Duration(seconds: 2));
 
         Get.back();
-        Get.snackbar(
-          "success".tr,
-          "complaintSentSuccess".tr,
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-          margin: const EdgeInsets.all(15),
-        );
+
+        CustomSnackBar.showSuccess("complaintSentSuccess");
+      } catch (e) {
+        CustomSnackBar.showError("Failed to send complaint");
       } finally {
         isLoading.value = false;
       }

@@ -14,7 +14,7 @@ class TripDetailsAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColor.transparent,
       elevation: 0,
       leading: Padding(
         padding: EdgeInsets.all(8.w),

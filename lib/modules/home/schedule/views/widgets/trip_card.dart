@@ -37,7 +37,6 @@ class TripCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            // Header Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -67,7 +66,6 @@ class TripCard extends StatelessWidget {
             ),
             SizedBox(height: 20.h),
 
-            // Route Locations
             _buildLocationRow(
               Icons.radio_button_off,
               "ORIGIN".tr,
@@ -86,11 +84,9 @@ class TripCard extends StatelessWidget {
             Divider(color: context.grey.withOpacity(0.2)),
             SizedBox(height: 8.h),
 
-            // Bottom Info Row
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Time & Duration
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -120,7 +116,6 @@ class TripCard extends StatelessWidget {
                   ],
                 ),
 
-                // View Map or Bus Info
                 if (trip.hasMap)
                   ElevatedButton(
                     onPressed: () => controller.viewMap(trip),
