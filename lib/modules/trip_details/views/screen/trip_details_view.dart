@@ -36,7 +36,7 @@ class TripDetailsView extends StatelessWidget {
 
             Center(
               child: Obx(
-                () => CustomAppButton(
+                    () => CustomAppButton(
                   text: controller.actionButtonText,
                   isLoading: controller.isUpdating.value,
                   onPressed: controller.canUpdateStatus

@@ -22,11 +22,13 @@ class ScheduleController extends GetxController {
 
   var trips = <TripModel>[].obs;
   var selectedStatus = 'ongoing'.obs;
-  var currentIndex = 2.obs;
+  var currentIndex = 1.obs;
   var isOnline = true.obs;
 
   var currentLanguage = ''.obs;
-
+  var currentPage = 1.obs;
+  var hasMorePages = true.obs;
+  var isLoadingMore = false.obs;
   ScheduleController({required TripRepository tripRepository})
     : _tripRepository = tripRepository;
 
@@ -97,18 +99,36 @@ class ScheduleController extends GetxController {
 
   Future<void> fetchTrips({int page = 1}) async {
     try {
-      isLoading.value = true;
+      if (page == 1) {
+        isLoading.value = true;
+      } else {
+        isLoadingMore.value = true;
+      }
+
       final fetchedTrips = await _tripRepository.getDriverTrips(
         page: page,
         isOnline: isOnline.value,
       );
-      trips.value = fetchedTrips;
+
+      if (page == 1) {
+        trips.value = fetchedTrips;
+      } else {
+        trips.addAll(fetchedTrips);
+      }
+
+      hasMorePages.value = fetchedTrips.length >= 15;
+      currentPage.value = page;
     } catch (e) {
-      print("Error fetching trips: $e");
       CustomSnackBar.showError('Failed to load trips');
     } finally {
       isLoading.value = false;
+      isLoadingMore.value = false;
     }
+  }
+
+  void loadMoreTrips() {
+    if (!hasMorePages.value || isLoadingMore.value) return;
+    fetchTrips(page: currentPage.value + 1);
   }
 
   Future<void> updateTripStatus(int tripId, String newStatus) async {
@@ -160,12 +180,7 @@ class ScheduleController extends GetxController {
     fetchTrips();
   }
 
-  final List<String> statusOptions = [
-    'ongoing',
-    'upcoming',
-    'completed',
-    'cancelled',
-  ];
+  final List<String> statusOptions = ['ongoing', 'upcoming', 'completed'];
 
   List<TripModel> get filteredTrips {
     currentLanguage.value;
@@ -200,7 +215,7 @@ class ScheduleController extends GetxController {
   }
 
   void viewMap(TripModel trip) {
-    CustomSnackBar.showSuccess('Opening map for ${trip.pickupLocation}');
+    Get.toNamed('/trip-tracking', arguments: {'tripId': trip.id});
   }
 
   String getStatusText(String status) => status.tr;

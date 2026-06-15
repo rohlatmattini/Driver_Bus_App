@@ -6,7 +6,5 @@ abstract class AppRoutes {
   static const String schedule = '/schedule';
   static const String tripDetails = '/trip-details';
   static const String notifications = '/notifications';
-  static const String complaints = '/complaints';
-  static const String forgetPassword = '/forget_password';
-  static const String resetPassword = '/reset_password';
+  static const String tripTracking = '/trip-tracking';
 }

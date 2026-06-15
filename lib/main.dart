@@ -22,7 +22,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await Get.putAsync(() => NotificationService().init());
-
   final localeController = Get.put(LocaleController());
   final themeController = Get.put(ThemeController());
 

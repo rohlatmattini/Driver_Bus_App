@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../core/theme/theme_controller.dart';
-import '../../../../routes/app_routes/app_routes.dart';
 import '../../../home/schedule/controllers/schedule_controller.dart';
 import '../../controllers/settings_controller.dart';
 
@@ -25,7 +24,7 @@ class SettingsView extends GetView<SettingsController> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             onPressed: () {
-              Get.find<ScheduleController>().changePage(2);
+              Get.find<ScheduleController>().changePage(1);
               Get.back();
             },
           ),
@@ -91,18 +90,6 @@ class SettingsView extends GetView<SettingsController> {
               ),
 
               Divider(color: context.textTertiaryColor.withOpacity(0.2)),
-
-              _buildSettingTile(
-                context,
-                icon: Icons.report_problem_outlined,
-                title: "sendComplaint".tr,
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16.sp,
-                  color: context.textTertiaryColor,
-                ),
-                onTap: () => Get.toNamed(AppRoutes.complaints),
-              ),
             ],
           ),
         ),

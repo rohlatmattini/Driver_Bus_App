@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -9,6 +12,9 @@ import '../shared/custom_snackbar.dart';
 class ApiService extends GetxService {
   late Dio dio;
   final GetStorage _box = GetStorage();
+
+  final Connectivity _connectivity = Connectivity();
+  var isConnected = true.obs;
 
   Future<ApiService> init() async {
     dio = Dio(
@@ -23,6 +29,16 @@ class ApiService extends GetxService {
         },
       ),
     );
+
+    await checkConnection();
+
+    _connectivity.onConnectivityChanged.listen((
+      List<ConnectivityResult> results,
+    ) {
+      if (results.isNotEmpty) {
+        isConnected.value = results.first != ConnectivityResult.none;
+      }
+    });
 
     dio.interceptors.add(
       InterceptorsWrapper(
@@ -52,6 +68,17 @@ class ApiService extends GetxService {
 
     dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
     return this;
+  }
+
+  Future<bool> checkConnection() async {
+    final List<ConnectivityResult> result = await _connectivity
+        .checkConnectivity();
+    if (result.isNotEmpty && result.first != ConnectivityResult.none) {
+      isConnected.value = true;
+    } else {
+      isConnected.value = false;
+    }
+    return isConnected.value;
   }
 
   void logout({bool isAutomatic = false}) {

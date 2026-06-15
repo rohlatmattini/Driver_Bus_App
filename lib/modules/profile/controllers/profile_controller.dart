@@ -24,7 +24,6 @@ class ProfileController extends GetxController {
 
   final ImagePicker _picker = ImagePicker();
 
-  // Controllers for Editing
   late TextEditingController nameController;
   late TextEditingController phoneController;
   late TextEditingController emailController;

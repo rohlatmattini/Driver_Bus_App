@@ -25,7 +25,7 @@ class ProfileView extends GetView<ProfileController> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, size: 18, color: AppColor.black),
           onPressed: () {
-            Get.find<ScheduleController>().changePage(2);
+            Get.find<ScheduleController>().changePage(1);
             Get.back();
           },
         ),
@@ -98,22 +98,12 @@ class ProfileView extends GetView<ProfileController> {
                 Row(
                   children: [
                     InfoGridCards(
-                      title: "Status".tr,
-                      value: (driver.status == "active")
-                          ? "online".tr
-                          : "offline".tr,
-                      isStatus: true,
-                      dotColor: (driver.status == "active")
-                          ? AppColor.green
-                          : AppColor.error,
-                    ),
-                    SizedBox(width: 12.w),
-                    InfoGridCards(
                       title: "license_number".tr,
                       value: driver.licenseNumber ?? "---",
                     ),
                   ],
                 ),
+
                 SizedBox(height: 24.h),
                 DetailInfoTile(
                   title: "username".tr,

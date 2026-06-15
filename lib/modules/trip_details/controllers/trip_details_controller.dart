@@ -190,10 +190,15 @@ class TripDetailsController extends GetxController {
         isOnline: isOnline.value,
       );
 
+      final String oldStatus = tripStatus.value;
       currentTrip = updatedTrip;
       _loadTripData();
 
       CustomSnackBar.showSuccess(successMessage.tr);
+
+      if (oldStatus == 'scheduled' && updatedTrip.status == 'in_progress') {
+        Get.toNamed('/trip-tracking', arguments: {'tripId': updatedTrip.id});
+      }
     } catch (e) {
       CustomSnackBar.showError('Failed to update trip status: $e');
     } finally {

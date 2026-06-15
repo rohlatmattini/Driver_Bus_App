@@ -73,6 +73,7 @@ class AppTranslations extends Translations {
           'Are you sure you want to log out of your account?',
       'logged_out_successfully': 'Logged out successfully.',
       'no_changes_made': 'No changes were made to update.',
+
       // Schedule & Navigation Bottom Bar
       'schedule': 'Schedule',
       'welcome_back': 'Welcome back,',
@@ -181,43 +182,6 @@ class AppTranslations extends Translations {
       "offline_mode_cannot_open_trip": "Cannot view trip details while offline",
       "offline_mode_cannot_update":
           "Cannot update notification status while offline",
-      // Complaint Page & Attachments
-      'sendComplaint': 'Send Company Complaint',
-      'howCanWeHelp': 'How can we help?',
-      'complaintDesc': 'Please write your complaint details for review.',
-      'writeYourComplaint': 'Write complaint details here...',
-      'pleaseWriteSomething': 'Please write something first',
-      'complaintSentSuccess': 'Complaint sent successfully',
-      'send': 'Send Now',
-      'Limit Reached': 'Limit Reached',
-      'Max $maxFiles files': 'Max $maxFiles files',
-      'Open Settings': 'Open Settings',
-      'Removed': 'Removed',
-      'Failed to attach file': 'Failed to attach file',
-      'Photo attached': 'Photo attached',
-      'File removed': 'File removed',
-      'Camera Permission Required': 'Camera Permission Required',
-      'Camera permission is required': 'Camera permission is required',
-      'Enable in Settings': 'Enable in Settings',
-      'Delete Attachment': 'Delete Attachment',
-      'Are you sure you want to delete $fileName?':
-          'Are you sure you want to delete $fileName?',
-      'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)':
-          'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)',
-      'Tap above to attach files': 'Tap above to attach files',
-      'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.':
-          'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.',
-      'Images attached': 'Images attached',
-      'attachments': 'Attachments',
-      'Attachments (Images / Documents)': 'Attachments (Images / Documents)',
-      'Attach File or Image': 'Attach File or Image',
-      'No attachments yet': 'No attachments yet',
-      'Choose from Gallery': 'Choose from Gallery',
-      'Take Photo': 'Take Photo',
-      'Files & Documents': 'Files & Documents',
-      'Files attached': 'Files attached',
-      'File Too Large': 'File Too Large',
-      'Max size: 10MB': 'Max size: 10MB',
 
       // Settings Screen
       'settings': 'Settings',
@@ -227,7 +191,7 @@ class AppTranslations extends Translations {
       'العربية': 'Arabic',
       'English': 'English',
 
-      // Connection & Offline Sync (New)
+      // Connection & Offline Sync
       'trip_started_local': 'Trip started locally (will sync later)',
       'trip_completed_local': 'Trip completed locally (will sync later)',
       'connection_required': 'Connection Required',
@@ -243,6 +207,57 @@ class AppTranslations extends Translations {
       'ticket_not_cached_internet_required':
           'This ticket is not cached locally. Internet connection is required to verify it.',
       'offline_mode': 'Offline mode',
+      'no_internet_error':
+          'No internet connection, please check your network and try again.',
+
+      // Map Page & Tracking
+      'trip_tracking': 'Trip Tracking',
+      'Centering on bus location': 'Centering on bus location',
+      'Waiting for GPS signal...': 'Waiting for GPS signal...',
+      "Location services are disabled.": "Location services are disabled.",
+      "Location permissions are denied": "Location permissions are denied.",
+      "Location permissions are permanently denied":
+          "Location permissions are permanently denied.",
+      "Click to View Live Map": "Click to View Live Map",
+      'search': 'Search',
+      'search_stations_cities': 'Search stations or cities in this trip...',
+      'Origin Station': 'Origin Station',
+      'Origin City': 'Origin City',
+      'Destination Station': 'Destination Station',
+      'Destination City': 'Destination City',
+      'live_status': 'Live',
+      'paused_status': 'Paused',
+      'estimated_arrival_time': 'Estimated Arrival Time',
+      'recenter': 'Recenter',
+      'loading_route': 'Loading route...',
+      'no_internet_title': 'No Internet Connection',
+      'retry': 'Retry',
+      'am_period': 'AM',
+      'pm_period': 'PM',
+      'unit_km': 'km',
+      'unit_m': 'm',
+      'unit_hour': 'h',
+      'unit_minute': 'm',
+      'unit_minutes_only': 'minutes',
+      'gps_disabled_error':
+          'Please enable location services (GPS) on your device to continue the trip.',
+      'location_permission_denied':
+          'Location permission is required to track the bus movement.',
+      'location_permission_permanently_denied':
+          'Location permission is permanently denied. Please enable it from settings.',
+      'gps_turned_off_during_trip':
+          'Location services (GPS) were turned off. Please turn them back on immediately.',
+      "confirm_end_trip_message": "Are you sure you want to end this trip?",
+      "trip_completed_successfully": "Trip completed successfully",
+      "trip_completed_locally": "Trip completed locally (will sync later)",
+      "end_trip_button": "End Trip",
+      //  Snackbars والـ Dialogs
+      'trip_status_updated_locally': 'Trip status updated locally',
+      'Failed to load trips': 'Failed to load trips',
+      'trip_not_found': 'Trip not found',
+      'Failed to load trip details': 'Failed to load trip details',
+      'You are now Online': 'You are now Online',
+      'You are now Offline': 'You are now Offline',
     },
     'ar': {
       // General
@@ -325,15 +340,6 @@ class AppTranslations extends Translations {
       // Trip Status & Management
       'Active Status': 'الحالة النشطة',
       'Active Status: ': 'الحالة ',
-      'Status: ': 'الحالة: ',
-      'status': 'الحالة',
-      'Online': 'متصل',
-      'Offline': 'غير متصل',
-      'online': 'متصل',
-      'offline': 'غير متصل',
-      'beOffline': 'غير متصل',
-      'Go Offline': 'غير متصل',
-      'Go Online': 'متصل',
       'Upcoming': 'قادمة',
       'upcoming': 'قادمة',
       'completed': 'مكتملة',
@@ -421,44 +427,6 @@ class AppTranslations extends Translations {
           "لا يمكن الانتقال لتفاصيل الرحلة بدون اتصال بالإنترنت",
       "offline_mode_cannot_update":
           "لا يمكن تحديث حالة الإشعار وأنت غير متصل بالشبكة",
-      // Complaint Page & Attachments
-      'sendComplaint': 'إرسال شكوى للشركة',
-      'howCanWeHelp': 'كيف يمكننا مساعدتك؟',
-      'complaintDesc': 'يرجى كتابة تفاصيل الشكوى وسنقوم بمراجعتها فوراً.',
-      'writeYourComplaint': 'اكتب تفاصيل الشكوى هنا...',
-      'pleaseWriteSomething': 'الرجاء كتابة الشكوى أولاً',
-      'complaintSentSuccess': 'تم إرسال شكواك بنجاح للشركة',
-      'send': 'إرسال الآن',
-      'Limit Reached': 'تم الوصول للحد الأقصى',
-      'Max $maxFiles files': 'الحد الأقصى هو $maxFiles ملفات فقط',
-      'Open Settings': 'فتح الإعدادات',
-      'Removed': 'تم الحذف',
-      'Failed to attach file': 'فشل إرفاق الملف',
-      'Photo attached': 'تم إرفاق الصورة',
-      'File removed': 'تم حذف الملف بنجاح',
-      'Camera Permission Required': 'مطلوب إذن الكاميرا',
-      'Camera permission is required':
-          'يرجى منح إذن الوصول إلى الكاميرا للمتابعة',
-      'Enable in Settings': 'تفعيل من الإعدادات',
-      'Delete Attachment': 'حذف المرفق',
-      'Are you sure you want to delete $fileName?':
-          'هل أنت متأكد من رغبتك في حذف $fileName؟',
-      'Supported formats: JPG, PNG, PDF, DOC, DOCX, TXT (Max 10MB per file)':
-          'الصيغ المدعومة: JPG, PNG, PDF, DOC, DOCX, TXT (الحد الأقصى 10 ميجابايت للملف)',
-      'Tap above to attach files': 'اضغط أعلاه لإرفاق الملفات',
-      'Tip: Use "Files & Documents" for PDF, DOC files. Use "Gallery" for images.':
-          'نصيحة: استخدم "الملفات والمستندات" لملفات PDF و DOC. واستخدم "المعرض" للصور.',
-      'Images attached': 'رفع الصور المرفقة',
-      'attachments': 'المرفقات',
-      'Attachments (Images / Documents)': 'المرفقات (صور / وثائق)',
-      'Attach File or Image': 'إرفاق ملف أو صورة',
-      'No attachments yet': 'لا توجد مرفقات حالياً',
-      'Choose from Gallery': 'اختر من المعرض',
-      'Take Photo': 'التقط صورة',
-      'Files & Documents': 'ملفات & مستندات',
-      'Files attached': 'تم إرفاق الملفات',
-      'File Too Large': 'حجم الملف كبير جداً',
-      'Max size: 10MB': 'الحد الأقصى للحجم: 10 ميجابايت',
 
       // Settings Screen
       'settings': 'الاعدادات',
@@ -468,7 +436,7 @@ class AppTranslations extends Translations {
       'العربية': 'العربية',
       'English': 'الانكليزية',
 
-      // Connection & Offline Sync (New)
+      // Connection & Offline Sync
       'trip_started_local':
           'تم بدء الرحلة محلياً (سيتم المزامنة عند توفر الإنترنت)',
       'trip_completed_local':
@@ -487,6 +455,57 @@ class AppTranslations extends Translations {
       'ticket_not_cached_internet_required':
           'هذه التذكرة غير مخزنة مؤقتاً، تحتاجين إلى اتصال بالإنترنت للتحقق منها.',
       'offline_mode': 'غير متصل بالانترنت',
+      'no_internet_error':
+          'لا يوجد اتصال بالإنترنت، يرجى التحقق من الشبكة والمحاولة مرة أخرى.',
+
+      // Map Page & Tracking
+      "trip_tracking": "تتبع الرحلة",
+      "Centering on bus location": "التركيز على موقع الحافلة",
+      "Waiting for GPS signal...": "بانتظار إشارة الـ GPS...",
+      "Location services are disabled.": "خدمات الموقع معطلة، يرجى تفعيلها.",
+      "Location permissions are denied": "تم رفض صلاحيات الوصول للموقع.",
+      "Location permissions are permanently denied":
+          "صلاحيات الموقع مرفوضة نهائياً، يرجى تفعيلها من الإعدادات.",
+      "Click to View Live Map": "اضغط لعرض الخريطة المباشرة",
+      'search': 'بحث',
+      'search_stations_cities': 'ابحث عن المحطات أو المدن في هذه الرحلة...',
+      'Origin Station': 'محطة الانطلاق',
+      'Origin City': 'مدينة الانطلاق',
+      'Destination Station': 'محطة الوصول',
+      'Destination City': 'مدينة الوصول',
+      'live_status': 'مباشر',
+      'paused_status': 'متوقف',
+      'estimated_arrival_time': 'وقت الوصول التقديري',
+      'recenter': 'إعادة التمركز',
+      'loading_route': 'جاري تحميل المسار...',
+      'no_internet_title': 'لا يوجد اتصال بالإنترنت',
+      'retry': 'إعادة المحاولة',
+      'am_period': 'ص',
+      'pm_period': 'م',
+      'unit_km': 'كم',
+      'unit_m': 'م',
+      'unit_hour': 'س',
+      'unit_minute': 'د',
+      'unit_minutes_only': 'دقيقة',
+      'gps_disabled_error':
+          'رجاءً قم بتفعيل خدمات الموقع (GPS) في جهازك لمتابعة الرحلة.',
+      'location_permission_denied':
+          'يجب الموافقة على صلاحية الموقع لتتبع حركة الباص.',
+      'location_permission_permanently_denied':
+          'يرجى تفعيل صلاحية الموقع من إعدادات الهاتف لتشغيل الخريطة.',
+      'gps_turned_off_during_trip':
+          'تم إغلاق خدمات الموقع (GPS). يرجى إعادة تفعيلها فوراً لمتابعة الرحلة.',
+      "confirm_end_trip_message": "هل أنت متأكد من إنهاء هذه الرحلة؟",
+      "trip_completed_successfully": "تم إنهاء الرحلة بنجاح",
+      "trip_completed_locally": "تم إنهاء الرحلة محلياً (ستتم المزامنة لاحقاً)",
+      "end_trip_button": "إنهاء الرحلة",
+      //  Snackbars والـ Dialogs
+      'trip_status_updated_locally': 'تم تحديث حالة الرحلة محلياً بنجاح',
+      'Failed to load trips': 'فشل تحميل الرحلات',
+      'trip_not_found': 'الرحلة المطلوبة غير موجودة',
+      'Failed to load trip details': 'فشل تحميل تفاصيل الرحلة',
+      'You are now Online': 'أنت الآن متصل (أونلاين)',
+      'You are now Offline': 'أنت الآن غير متصل (أوفلاين)',
     },
   };
 }

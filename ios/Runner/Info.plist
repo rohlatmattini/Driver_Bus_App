@@ -3,6 +3,11 @@
 <plist version="1.0">
 <dict>
 <key>NSCameraUsageDescription</key>
+
+<key>NSLocationWhenInUseUsageDescription</key>
+<string>نحتاج الوصول إلى موقعك لتتبع مسار الرحلة وتحديث موقك للمسافرين.</string>
+<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+<string>نحتاج الوصول اللحظي لموقع الحافلة حتى أثناء قفل الشاشة.</string>
 <string>This app needs camera access to scan QR codes</string>
 
 	<key>CFBundleDevelopmentRegion</key>

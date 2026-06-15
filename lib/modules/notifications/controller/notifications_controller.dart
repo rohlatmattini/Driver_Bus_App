@@ -15,7 +15,9 @@ class NotificationsController extends GetxController {
   var notifications = <NotificationModel>[].obs;
   var isLoading = false.obs;
   var unreadCount = 0.obs;
-
+  var notifPage = 1.obs;
+  var hasMoreNotifs = true.obs;
+  var isLoadingMoreNotifs = false.obs;
   bool get isOnline => _scheduleController.isOnline.value;
 
   @override
@@ -53,6 +55,23 @@ class NotificationsController extends GetxController {
       print("Error loading notifications: $e");
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  Future<void> loadMoreNotifications() async {
+    if (!hasMoreNotifs.value || isLoadingMoreNotifs.value) return;
+
+    isLoadingMoreNotifs.value = true;
+    try {
+      final more = await _repository.fetchNotifications(
+        page: notifPage.value + 1,
+        isOnline: isOnline,
+      );
+      notifications.addAll(more);
+      hasMoreNotifs.value = more.length >= 15;
+      notifPage.value++;
+    } finally {
+      isLoadingMoreNotifs.value = false;
     }
   }
 

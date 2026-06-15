@@ -7,12 +7,12 @@ import 'package:get_storage/get_storage.dart';
 
 import '../../modules/auth/bindings/auth_binding.dart';
 import '../../modules/auth/views/screen/LoginView.dart';
-import '../../modules/complaints/bindings/complaints_binding.dart';
-import '../../modules/complaints/views/screen/complaints_view.dart';
 import '../../modules/home/schedule/bindings/schedule_binding.dart';
 import '../../modules/passenger/bindings/passenger_binding.dart';
 import '../../modules/passenger/views/screen/passenger_list_view.dart';
 import '../../modules/passenger/views/screen/qr_scanner_view.dart';
+import '../../modules/trip_tracking/binding/trip_tracking_binding.dart';
+import '../../modules/trip_tracking/view/trip_tracking_screen.dart';
 import '../app_routes/app_routes.dart';
 
 class AppPages {
@@ -63,15 +63,15 @@ class AppPages {
     ),
 
     GetPage(
-      name: AppRoutes.complaints,
-      page: () => const ComplaintsView(),
-      binding: ComplaintsBinding(),
+      name: AppRoutes.notifications,
+      page: () => const NotificationsView(),
       transition: Transition.cupertino,
     ),
 
     GetPage(
-      name: AppRoutes.notifications,
-      page: () => const NotificationsView(),
+      name: AppRoutes.tripTracking,
+      page: () => const TripTrackingScreen(),
+      binding: TripTrackingBinding(),
       transition: Transition.cupertino,
     ),
   ];

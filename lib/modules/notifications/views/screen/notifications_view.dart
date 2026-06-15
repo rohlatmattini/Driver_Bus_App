@@ -30,7 +30,6 @@ class NotificationsView extends StatelessWidget {
                   color: context.black,
                 ),
               ),
-
               if (controller.isOnline && controller.unreadCount.value > 0) ...[
                 SizedBox(width: 8.w),
                 Container(
@@ -59,7 +58,7 @@ class NotificationsView extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Get.find<ScheduleController>().changePage(2),
+          onPressed: () => Get.find<ScheduleController>().changePage(1),
         ),
         actions: [
           IconButton(
@@ -97,7 +96,6 @@ class NotificationsView extends StatelessWidget {
               ),
             );
           }),
-
           Expanded(
             child: Obx(() {
               if (controller.isLoading.value) {
@@ -115,16 +113,43 @@ class NotificationsView extends StatelessWidget {
                 },
                 child: controller.notifications.isEmpty
                     ? _buildEmptyState(context)
-                    : ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 20.w,
-                          vertical: 10.h,
-                        ),
-                        itemCount: controller.notifications.length,
-                        itemBuilder: (context, index) => NotificationCard(
-                          notification: controller.notifications[index],
-                          onTap: () => controller.handleNotificationTap(index),
+                    : NotificationListener<ScrollNotification>(
+                        onNotification: (ScrollNotification scrollInfo) {
+                          if (scrollInfo.metrics.pixels >=
+                              scrollInfo.metrics.maxScrollExtent - 200) {
+                            controller.loadMoreNotifications();
+                          }
+                          return false;
+                        },
+                        child: ListView.builder(
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20.w,
+                            vertical: 10.h,
+                          ),
+                          itemCount: controller.notifications.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == controller.notifications.length) {
+                              return Obx(
+                                () => controller.isLoadingMoreNotifs.value
+                                    ? const Padding(
+                                        padding: EdgeInsets.all(16),
+                                        child: Center(
+                                          child: CircularProgressIndicator(
+                                            color: AppColor.primaryGreen,
+                                          ),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              );
+                            }
+
+                            return NotificationCard(
+                              notification: controller.notifications[index],
+                              onTap: () =>
+                                  controller.handleNotificationTap(index),
+                            );
+                          },
                         ),
                       ),
               );

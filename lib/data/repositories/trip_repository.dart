@@ -12,6 +12,9 @@ class TripRepository {
   final String _tripsKey = 'cached_driver_trips';
   final String _pendingTripUpdatesKey = 'pending_trip_status_updates';
 
+  final String _citiesKey = 'cached_cities';
+  final String _stationsKey = 'cached_stations';
+  final String _restAreasKey = 'cached_rest_areas';
   Future<List<TripModel>> getDriverTrips({
     int page = 1,
     required bool isOnline,
@@ -121,5 +124,85 @@ class TripRepository {
         _storage.read<Map<String, dynamic>>(_pendingTripUpdatesKey) ?? {};
     pendingUpdates.remove(tripId.toString());
     _storage.write(_pendingTripUpdatesKey, pendingUpdates);
+  }
+
+  Future<List<dynamic>> getCities({required bool isOnline}) async {
+    if (!isOnline) {
+      final cachedData = _storage.read<List<dynamic>>(_citiesKey);
+      return cachedData ?? [];
+    }
+
+    try {
+      final response = await _provider.getCities();
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data['data'] ?? response.data;
+        _storage.write(_citiesKey, data);
+        return data;
+      } else {
+        throw Exception('Failed to load cities');
+      }
+    } catch (e) {
+      return _storage.read<List<dynamic>>(_citiesKey) ?? [];
+    }
+  }
+
+  Future<List<dynamic>> getStations({required bool isOnline}) async {
+    if (!isOnline) {
+      final cachedData = _storage.read<List<dynamic>>(_stationsKey);
+      return cachedData ?? [];
+    }
+
+    try {
+      final response = await _provider.getStations();
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data['data'] ?? response.data;
+        _storage.write(_stationsKey, data);
+        return data;
+      } else {
+        throw Exception('Failed to load stations');
+      }
+    } catch (e) {
+      return _storage.read<List<dynamic>>(_stationsKey) ?? [];
+    }
+  }
+
+  Future<List<dynamic>> getRestAreas({required bool isOnline}) async {
+    if (!isOnline) {
+      final cachedData = _storage.read<List<dynamic>>(_restAreasKey);
+      return cachedData ?? [];
+    }
+
+    try {
+      final response = await _provider.getRestAreas();
+      if (response.statusCode == 200) {
+        final List<dynamic> data = response.data['data'] ?? response.data;
+        _storage.write(_restAreasKey, data);
+        return data;
+      } else {
+        throw Exception('Failed to load rest areas');
+      }
+    } catch (e) {
+      return _storage.read<List<dynamic>>(_restAreasKey) ?? [];
+    }
+  }
+
+  Future<bool> sendTripLocation({
+    required int tripId,
+    required double lat,
+    required double lng,
+    required bool isOnline,
+  }) async {
+    if (!isOnline) return false;
+
+    try {
+      final response = await _provider.sendTripLocation(
+        tripId: tripId,
+        lat: lat,
+        lng: lng,
+      );
+      return response.statusCode == 200 || response.statusCode == 202;
+    } catch (e) {
+      return false;
+    }
   }
 }

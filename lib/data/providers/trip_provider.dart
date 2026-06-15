@@ -20,4 +20,27 @@ class TripProvider {
       data: {"status": status},
     );
   }
+
+  Future<Response> getCities() async {
+    return await _dio.get(AppLink.cities);
+  }
+
+  Future<Response> getStations() async {
+    return await _dio.get(AppLink.stations);
+  }
+
+  Future<Response> getRestAreas() async {
+    return await _dio.get(AppLink.restAreas);
+  }
+
+  Future<Response> sendTripLocation({
+    required int tripId,
+    required double lat,
+    required double lng,
+  }) async {
+    return await _dio.post(
+      AppLink.trackTripLocation(tripId),
+      data: {"lat": lat, "lng": lng},
+    );
+  }
 }

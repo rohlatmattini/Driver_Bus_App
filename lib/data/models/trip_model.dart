@@ -20,6 +20,7 @@ class TripModel {
   final Station destinationStation;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final List<RestAreaInTrip> restAreas;
 
   TripModel({
     required this.id,
@@ -41,6 +42,7 @@ class TripModel {
     required this.destinationStation,
     required this.createdAt,
     required this.updatedAt,
+    required this.restAreas, // أضفناه هنا في الـ Constructor
   });
 
   factory TripModel.fromJson(Map<String, dynamic> json) {
@@ -64,6 +66,12 @@ class TripModel {
       destinationStation: Station.fromJson(json['destination_station']),
       createdAt: DateTime.parse(json['created_at']),
       updatedAt: DateTime.parse(json['updated_at']),
+
+      restAreas: json['rest_areas'] != null
+          ? List<RestAreaInTrip>.from(
+              json['rest_areas'].map((x) => RestAreaInTrip.fromJson(x)),
+            )
+          : [],
     );
   }
 
@@ -88,6 +96,7 @@ class TripModel {
       'destination_station': destinationStation.toJson(),
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt.toIso8601String(),
+      'rest_areas': restAreas.map((x) => x.toJson()).toList(),
     };
   }
 
@@ -112,6 +121,7 @@ class TripModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     String? mappedStatus,
+    List<RestAreaInTrip>? restAreas,
   }) {
     return TripModel(
       id: id ?? this.id,
@@ -133,8 +143,18 @@ class TripModel {
       destinationStation: destinationStation ?? this.destinationStation,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      restAreas: restAreas ?? this.restAreas, // أضفناه هنا
     );
   }
+
+  double get originLatitude =>
+      originStation.latitude ?? originCity.latitude ?? 0;
+  double get originLongitude =>
+      originStation.longitude ?? originCity.longitude ?? 0;
+  double get destinationLatitude =>
+      destinationStation.latitude ?? destinationCity.latitude ?? 0;
+  double get destinationLongitude =>
+      destinationStation.longitude ?? destinationCity.longitude ?? 0;
 
   String get pickupLocation => "${originStation.name}, ${originCity.name}";
   String get destination =>
@@ -258,25 +278,84 @@ class TripModel {
 class City {
   final int id;
   final String name;
+  final double? latitude;
+  final double? longitude;
 
-  City({required this.id, required this.name});
+  City({required this.id, required this.name, this.latitude, this.longitude});
 
   factory City.fromJson(Map<String, dynamic> json) {
-    return City(id: json['id'], name: json['name']);
+    return City(
+      id: json['id'],
+      name: json['name'],
+      latitude: json['latitude']?.toDouble(),
+      longitude: json['longitude']?.toDouble(),
+    );
   }
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'latitude': latitude,
+    'longitude': longitude,
+  };
 }
 
 class Station {
   final int id;
   final String name;
+  final double? latitude;
+  final double? longitude;
+  final int? cityId;
+  final City? city;
 
-  Station({required this.id, required this.name});
+  Station({
+    required this.id,
+    required this.name,
+    this.latitude,
+    this.longitude,
+    this.cityId,
+    this.city,
+  });
 
   factory Station.fromJson(Map<String, dynamic> json) {
-    return Station(id: json['id'], name: json['name']);
+    return Station(
+      id: json['id'],
+      name: json['name'],
+      latitude: json['latitude']?.toDouble(),
+      longitude: json['longitude']?.toDouble(),
+      cityId: json['city_id'],
+      city: json['city'] != null ? City.fromJson(json['city']) : null,
+    );
   }
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name};
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'latitude': latitude,
+    'longitude': longitude,
+    'city_id': cityId,
+    'city': city?.toJson(),
+  };
+}
+
+class RestAreaInTrip {
+  final int id;
+  final int? tripId;
+  final int? restAreaId;
+
+  RestAreaInTrip({required this.id, this.tripId, this.restAreaId});
+
+  factory RestAreaInTrip.fromJson(Map<String, dynamic> json) {
+    return RestAreaInTrip(
+      id: json['id'] ?? 0,
+      tripId: json['trip_id'],
+      restAreaId: json['rest_area_id'] ?? json['id'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'trip_id': tripId,
+    'rest_area_id': restAreaId,
+  };
 }
