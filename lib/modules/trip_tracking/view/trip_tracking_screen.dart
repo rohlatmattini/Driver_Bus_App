@@ -108,7 +108,7 @@ class TripTrackingScreen extends GetView<TripTrackingController> {
                 child: Row(
                   children: [
                     GestureDetector(
-                      onTap: () => Get.back(),
+                      onTap: () => controller.goBack(),
                       child: Container(
                         width: 36,
                         height: 36,

@@ -14,6 +14,8 @@ import '../../../data/models/rest_area_model.dart';
 import '../../../data/models/station_model.dart';
 import '../../../data/models/trip_model.dart';
 import '../../../data/repositories/trip_repository.dart';
+import '../../../routes/app_routes/app_routes.dart';
+import '../../home/schedule/controllers/schedule_controller.dart';
 
 class TripTrackingController extends GetxController {
   final int tripId;
@@ -558,6 +560,15 @@ class TripTrackingController extends GetxController {
     }
   }
 
+  void goBack() {
+    if (Get.isRegistered<ScheduleController>()) {
+      if (currentTrip != null) {
+        Get.find<ScheduleController>().updateTripInList(currentTrip!);
+      }
+    }
+    Get.until((route) => route.settings.name == AppRoutes.schedule);
+  }
+
   Future<void> endTripAction() async {
     if (currentTrip == null) return;
     if (!isTripInProgress.value) return;
@@ -608,7 +619,11 @@ class TripTrackingController extends GetxController {
             : 'trip_completed_locally'.tr,
       );
 
-      Get.back();
+      // حدّث الـ ScheduleController وارجع للـ schedule مباشرة
+      if (Get.isRegistered<ScheduleController>()) {
+        Get.find<ScheduleController>().updateTripInList(updatedTrip);
+      }
+      Get.until((route) => route.settings.name == AppRoutes.schedule);
     } catch (e) {
       CustomSnackBar.showError(
         'failed_to_update_trip_status'.trParams({'error': e.toString()}),
