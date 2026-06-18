@@ -41,8 +41,8 @@ class ScheduleController extends GetxController {
     _checkInitialConnectivity();
     _listenToConnectivityChanges();
 
-    ever(currentLanguage, (_) {
-      trips.refresh();
+    ever(currentLanguage, (_) async {
+      await fetchTrips();
     });
   }
 

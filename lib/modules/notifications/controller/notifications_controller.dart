@@ -27,9 +27,11 @@ class NotificationsController extends GetxController {
     checkConnectivityAndLoad();
 
     ever(_scheduleController.isOnline, (bool online) {
-      if (online) {
-        checkConnectivityAndLoad();
-      }
+      if (online) checkConnectivityAndLoad();
+    });
+
+    ever(Get.find<ScheduleController>().currentLanguage, (_) {
+      notifications.refresh();
     });
   }
 

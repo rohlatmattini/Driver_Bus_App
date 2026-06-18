@@ -6,6 +6,7 @@ import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../../core/constants/app_color.dart';
 import '../../../../data/models/notification_model.dart';
+import '../../../home/schedule/controllers/schedule_controller.dart';
 
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
@@ -21,71 +22,78 @@ class NotificationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isDark = Get.isDarkMode;
 
-    String timeStr = timeago.format(
-      notification.timestamp,
-      locale: Get.locale?.languageCode == 'ar' ? 'ar' : 'en_short',
-    );
+    return Obx(() {
+      Get.find<ScheduleController>().currentLanguage.value;
 
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(16.r),
-      child: Container(
-        margin: EdgeInsets.only(bottom: 12.h),
-        padding: EdgeInsets.all(16.w),
-        decoration: BoxDecoration(
-          color: notification.isRead
-              ? (isDark ? context.cardColor.withOpacity(0.5) : context.white)
-              : (AppColor.primaryGreen.withOpacity(0.05)),
-          borderRadius: BorderRadius.circular(16.r),
-          border: Border.all(
+      String timeStr = timeago.format(
+        notification.timestamp,
+        locale: Get.locale?.languageCode == 'ar' ? 'ar' : 'en_short',
+      );
+
+      return InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(16.r),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 12.h),
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
             color: notification.isRead
-                ? Colors.transparent
-                : AppColor.primaryGreen.withOpacity(0.2),
+                ? (isDark ? context.cardColor.withOpacity(0.5) : context.white)
+                : (AppColor.primaryGreen.withOpacity(0.05)),
+            borderRadius: BorderRadius.circular(16.r),
+            border: Border.all(
+              color: notification.isRead
+                  ? Colors.transparent
+                  : AppColor.primaryGreen.withOpacity(0.2),
+            ),
+          ),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildIconWithBadge(),
+              SizedBox(width: 15.w),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          notification.title,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14.sp,
+                          ),
+                        ),
+                        Text(
+                          timeStr,
+                          style: TextStyle(
+                            color: context.grey,
+                            fontSize: 11.sp,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5.h),
+                    Text(
+                      notification.body,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: context.grey,
+                        fontSize: 13.sp,
+                        height: 1.4,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildIconWithBadge(),
-            SizedBox(width: 15.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        notification.title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
-                        ),
-                      ),
-                      Text(
-                        timeStr,
-                        style: TextStyle(color: context.grey, fontSize: 11.sp),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5.h),
-                  Text(
-                    notification.body,
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: context.grey,
-                      fontSize: 13.sp,
-                      height: 1.4,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 
   Widget _buildIconWithBadge() {
