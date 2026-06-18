@@ -17,8 +17,15 @@ class TripCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Get.toNamed(AppRoutes.tripDetails, arguments: trip);
+      onTap: () async {
+        final result = await Get.toNamed(
+          AppRoutes.tripDetails,
+          arguments: trip,
+        );
+
+        if (result is TripModel) {
+          controller.updateTripInList(result);
+        }
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 16.h),

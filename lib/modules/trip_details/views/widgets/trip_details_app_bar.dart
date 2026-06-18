@@ -26,7 +26,8 @@ class TripDetailsAppBar extends StatelessWidget implements PreferredSizeWidget {
               size: 18,
               color: AppColor.black,
             ),
-            onPressed: () => Get.back(),
+
+            onPressed: () => Get.back(result: controller.currentTrip),
           ),
         ),
       ),

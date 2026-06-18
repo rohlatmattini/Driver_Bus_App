@@ -159,6 +159,16 @@ class ScheduleController extends GetxController {
     }
   }
 
+  void updateTripInList(TripModel updatedTrip) {
+    final index = trips.indexWhere((t) => t.id == updatedTrip.id);
+    if (index != -1) {
+      trips[index] = updatedTrip;
+      trips.refresh();
+    } else {
+      fetchTrips();
+    }
+  }
+
   Future<void> _syncPendingTripUpdates() async {
     final pendingUpdates = _tripRepository.getPendingTripUpdates();
     if (pendingUpdates.isEmpty) return;

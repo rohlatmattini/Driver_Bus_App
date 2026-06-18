@@ -17,36 +17,43 @@ class TripDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Get.put(TripDetailsController());
 
-    return Scaffold(
-      backgroundColor: context.scaffoldBackgroundColor,
-      appBar: TripDetailsAppBar(controller: controller),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TripMapPreview(),
-            SizedBox(height: 24.h),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) return;
+        Get.back(result: controller.currentTrip);
+      },
+      child: Scaffold(
+        backgroundColor: context.scaffoldBackgroundColor,
+        appBar: TripDetailsAppBar(controller: controller),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TripMapPreview(),
+              SizedBox(height: 24.h),
 
-            TripRouteHeader(controller: controller),
-            SizedBox(height: 24.h),
+              TripRouteHeader(controller: controller),
+              SizedBox(height: 24.h),
 
-            TripStatsGrid(controller: controller),
-            SizedBox(height: 30.h),
+              TripStatsGrid(controller: controller),
+              SizedBox(height: 30.h),
 
-            Center(
-              child: Obx(
-                    () => CustomAppButton(
-                  text: controller.actionButtonText,
-                  isLoading: controller.isUpdating.value,
-                  onPressed: controller.canUpdateStatus
-                      ? () => controller.startTripAction()
-                      : null,
+              Center(
+                child: Obx(
+                  () => CustomAppButton(
+                    text: controller.actionButtonText,
+                    isLoading: controller.isUpdating.value,
+                    onPressed: controller.canUpdateStatus
+                        ? () => controller.startTripAction()
+                        : null,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 20.h),
-          ],
+              SizedBox(height: 20.h),
+            ],
+          ),
         ),
       ),
     );

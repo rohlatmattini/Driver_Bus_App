@@ -440,7 +440,7 @@ class TripTrackingScreen extends GetView<TripTrackingController> {
                             ],
                           ),
                           child: const Icon(
-                            Icons.navigation,
+                            Icons.directions_bus_sharp,
                             color: Colors.white,
                             size: 20,
                           ),
@@ -449,7 +449,6 @@ class TripTrackingScreen extends GetView<TripTrackingController> {
                     ],
                   ),
 
-                  // ✅ زر إنهاء الرحلة - يظهر فقط أثناء in_progress
                   Obx(() {
                     if (!controller.isTripInProgress.value) {
                       return const SizedBox.shrink();
@@ -545,30 +544,14 @@ class _DriverMarker extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: 45,
+            height: 45,
             decoration: const BoxDecoration(
               color: AppColor.primaryGreen,
               shape: BoxShape.circle,
             ),
           ),
-          Container(
-            width: 28,
-            height: 28,
-            decoration: BoxDecoration(
-              color: AppColor.primaryGreen,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 3),
-              boxShadow: const [
-                BoxShadow(color: AppColor.primaryGreen, blurRadius: 8),
-              ],
-            ),
-            child: const Icon(
-              Icons.navigation,
-              color: AppColor.white,
-              size: 16,
-            ),
-          ),
+          Icon(Icons.my_location, color: AppColor.white, size: 25),
         ],
       ),
     );

@@ -150,6 +150,14 @@ class TripDetailsController extends GetxController {
             ? 'Trip completed successfully'
             : 'Trip completed locally (will sync later)';
         break;
+      case 'completed':
+      case 'cancelled':
+        CustomSnackBar.showError(
+          'cannot_update_status_from'.trParams({
+            'status': tripStatusDisplay.value,
+          }),
+        );
+        return;
       default:
         CustomSnackBar.showError(
           'cannot_update_status_from'.trParams({
@@ -184,25 +192,63 @@ class TripDetailsController extends GetxController {
     try {
       isUpdating.value = true;
 
+      if (tripStatus.value == 'scheduled') {
+        final updatedTrip = await _tripRepository.updateTripStatus(
+          tripId: currentTrip!.id,
+          status: newStatus,
+          isOnline: isOnline.value,
+        );
+
+        currentTrip = updatedTrip;
+        _loadTripData();
+
+        CustomSnackBar.showSuccess(successMessage.tr);
+
+        final result = await Get.toNamed(
+          '/trip-tracking',
+          arguments: {'tripId': updatedTrip.id},
+        );
+
+        if (result is TripModel) {
+          currentTrip = result;
+          _loadTripData();
+        } else {
+          await _refreshCurrentTrip();
+        }
+        return;
+      }
+
       final updatedTrip = await _tripRepository.updateTripStatus(
         tripId: currentTrip!.id,
         status: newStatus,
         isOnline: isOnline.value,
       );
 
-      final String oldStatus = tripStatus.value;
       currentTrip = updatedTrip;
       _loadTripData();
 
       CustomSnackBar.showSuccess(successMessage.tr);
-
-      if (oldStatus == 'scheduled' && updatedTrip.status == 'in_progress') {
-        Get.toNamed('/trip-tracking', arguments: {'tripId': updatedTrip.id});
-      }
     } catch (e) {
       CustomSnackBar.showError('Failed to update trip status: $e');
     } finally {
       isUpdating.value = false;
+    }
+  }
+
+  Future<void> _refreshCurrentTrip() async {
+    if (currentTrip == null) return;
+    try {
+      final trips = await _tripRepository.getDriverTrips(
+        page: 1,
+        isOnline: isOnline.value,
+      );
+      final refreshed = trips.firstWhereOrNull((t) => t.id == currentTrip!.id);
+      if (refreshed != null) {
+        currentTrip = refreshed;
+        _loadTripData();
+      }
+    } catch (e) {
+      debugPrint("❌ _refreshCurrentTrip: $e");
     }
   }
 
